@@ -1,0 +1,105 @@
+<div class="panel panel-primary top-50 panel-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_StoresComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <div class="map">
+        <div class="row">
+            <div class="col-md-7">
+                <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="onMapClick($event)">
+                    <sebm-google-map-marker *ngFor="let store of stores; let i = index"
+                        [latitude]="store.storemarker.markerlat"
+                        [longitude]="store.storemarker.markerlng"
+                        [markerDraggable]="draggable"
+                        [iconUrl]="iconUrl"
+                        (markerClick)="onStoreClick(store, i)">
+                    </sebm-google-map-marker>
+                </sebm-google-map>
+            </div>
+            <div class="col-md-5" *ngIf="mode===0">
+                <h3>{{t_StoresComponent_MapTitle}}</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><b>{{t_StoresComponent_Latitude}}: </b>&nbsp;{{selectedStore ? selectedStore.storemarker.markerlat : ''}}</li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Longitude}}: </b>&nbsp;{{selectedStore ? selectedStore.storemarker.markerlng : ''}}</li>
+                    <br>
+                    <br>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Name}}: </b>&nbsp;{{selectedStore ? selectedStore.storename : ''}}</li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Address}}: </b>&nbsp;{{selectedStore ? selectedStore.storeaddress : ''}}</li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_City}}: </b>&nbsp;{{selectedStore ? selectedStore.storecity : ''}}</li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_PostalCode}}: </b>&nbsp;{{selectedStore ? selectedStore.storepostalcode : ''}}</li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Country}}: </b>&nbsp;{{selectedStore ? selectedStore.storecountry : ''}}</li>
+                    <li class="list-group-item" style="height:100px;"><b>{{t_StoresComponent_Comment}}: </b>&nbsp;{{selectedStore ? selectedStore.storecomment : ''}}</li>
+                    <div class="height-210">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary width-160" (click)="onAddClick()">{{t_StoresComponent_AddNewStore}}</button>
+                        <!-- <div class="pull-right" *ngIf="(selectedStore && (selectedStore.storeaddedbyemail === currentUser.email))">
+                            <button class="btn btn-primary width-160" (click)="onEditClick()">{{t_StoresComponent_Edit}}...</button>
+                            <button class="btn btn-danger width-160" (click)="onDeleteClick(selectedStore.key)">{{t_StoresComponent_Delete}}</button>
+                        </div> -->
+                        <div class="pull-right" *ngIf="(selectedStore)">
+                            <button class="btn btn-primary width-160" (click)="onEditClick()">{{t_StoresComponent_Edit}}...</button>
+                            <button class="btn btn-danger width-160" (click)="onDeleteClick(selectedStore.key)">{{t_StoresComponent_Delete}}</button>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            <div class="col-md-5" *ngIf="mode===1">
+                <h3>{{t_StoresComponent_MapTitle}}</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><b>{{t_StoresComponent_Latitude}}: </b><input type="text" class="form-control margin-left-30 width-300" name="newStoreStoreLat" [(ngModel)]="newStoreStoreLat"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Longitude}}: </b><input type="text" class="form-control margin-left-30 width-300" name="newStoreStoreLng" [(ngModel)]="newStoreStoreLng"></li>
+                    <br>
+                    <br>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Name}}: </b><input type="text" class="form-control margin-left-30 width-300" name="newStoreStoreName" [(ngModel)]="newStoreStoreName"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Address}}: </b><input type="text" class="form-control margin-left-30 width-300" name="newStoreStoreAddress" [(ngModel)]="newStoreStoreAddress"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_City}}: </b><input type="text" class="form-control margin-left-30 width-120" name="newStoreStoreCity" [(ngModel)]="newStoreStoreCity"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_PostalCode}}: </b><input type="text" class="form-control margin-left-30 width-120" name="newStoreStorePostalCode" [(ngModel)]="newStoreStorePostalCode"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Country}}: </b><input type="text" class="form-control margin-left-30 width-120" name="newStoreStoreCountry" [(ngModel)]="newStoreStoreCountry"></li>
+                    <li class="list-group-item" style="height:100px;"><b>{{t_StoresComponent_Comment}}: </b><input type="text" class="form-control margin-left-30 width-600 height-70" name="newStoreStoreComment" [(ngModel)]="newStoreStoreComment"></li>
+                    <div class="height-110">
+                        <br>
+                        <div class="alert alert-success" *ngIf="showStoresAddedAlert">
+                            {{t_StoresComponent_AddedAlert}}
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-success width-100" (click)="onSaveNewClick()">{{t_StoresComponent_Save}}</button>
+                        <button class="btn btn-primary width-100" (click)="onCancelSavingNewClick()">{{t_StoresComponent_Cancel}}</button>
+                    </div>
+                </ul>
+            </div>
+            <div class="col-md-5" *ngIf="mode===2">
+                <h3>{{t_StoresComponent_MapTitle}}</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><b>{{t_StoresComponent_Latitude}}: </b><input type="text" class="form-control margin-left-30 width-300" name="updatedStoreStoreLat" [(ngModel)]="updatedStoreStoreLat"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Longitude}}: </b><input type="text" class="form-control margin-left-30 width-300" name="updatedStoreStoreLng" [(ngModel)]="updatedStoreStoreLng"></li>
+                    <br>
+                    <br>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Name}}: </b><input type="text" class="form-control margin-left-30 width-300" name="updatedStoreStoreName" [(ngModel)]="updatedStoreStoreName"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Address}}: </b><input type="text" class="form-control margin-left-30 width-300" name="updatedStoreStoreAddress" [(ngModel)]="updatedStoreStoreAddress"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_City}}: </b><input type="text" class="form-control margin-left-30 width-120" name="updatedStoreStoreCity" [(ngModel)]="updatedStoreStoreCity"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_PostalCode}}: </b><input type="text" class="form-control margin-left-30 width-120" name="updatedStoreStorePostalCode" [(ngModel)]="updatedStoreStorePostalCode"></li>
+                    <li class="list-group-item"><b>{{t_StoresComponent_Country}}: </b><input type="text" class="form-control margin-left-30 width-120" name="updatedStoreStoreCountry" [(ngModel)]="updatedStoreStoreCountry"></li>
+                    <li class="list-group-item" style="height:100px;"><b>{{t_StoresComponent_Comment}}: </b><input type="text" class="form-control margin-left-30 width-600 height-70" name="updatedStoreStoreComment" [(ngModel)]="updatedStoreStoreComment"></li>
+                    <div class="height-110">
+                        <br>
+                        <div class="alert alert-success" *ngIf="showStoresUpdatedAlert">
+                            {{t_StoresComponent_UpdatedAlert}}
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-success width-100" (click)="onUpdateExistingClick(selectedStore.key)">{{t_StoresComponent_Save}}</button>
+                        <button class="btn btn-primary width-100" (click)="onCancelEditingExistingClick()">{{t_StoresComponent_Cancel}}</button>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  </div>
+</div>

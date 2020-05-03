@@ -1,0 +1,93 @@
+.top-50 {
+    margin-top: 50px
+}
+
+.panel-margin {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.current-weather-display-day {
+    background-color: rgba(37, 179, 255, 0.77);
+    padding-left: 2px;
+    padding-top: 1px;
+    width: 270px;
+}
+
+.current-weather-display-night {
+    background-color: rgba(40, 40, 40, 0.77);
+    padding-left: 2px;
+    padding-top: 1px;
+    width: 270px;
+    color: white;
+}
+
+.daily-forecast-display-day {
+    background-color: rgba(37, 179, 255, 0.77);
+    padding-left: 2px;
+    padding-top: 1px;
+    width: 200px;
+}
+
+.daily-forecast-display-night {
+    background-color: rgba(40, 40, 40, 0.77);
+    padding-left: 2px;
+    padding-top: 1px;
+    width: 200px;
+    color: white;
+}
+
+.hourly-forecast-display-day {
+    background-color: rgba(37, 179, 255, 0.77);
+    padding-left: 2px;
+    padding-top: 1px;
+    width: 148px;
+}
+
+.hourly-forecast-display-night {
+    background-color: rgba(40, 40, 40, 0.77);
+    padding-left: 2px;
+    padding-top: 1px;
+    width: 148px;
+    color: white;
+}
+
+.bottom-10 {
+    padding-bottom: 10px;
+}
+
+.top-negative-10 {
+    margin-top: -10px;
+}
+
+.box-shadow {
+    -webkit-box-shadow: 10px 10px 24px 8px rgba(0,0,0,0.37);
+    -moz-box-shadow: 10px 10px 24px 8px rgba(0,0,0,0.37);
+    box-shadow: 10px 10px 24px 8px rgba(0,0,0,0.37);
+}
+
+.inline-block {
+    display: inline-block;
+    padding-right: 4px;
+    /*padding-top: 15px;*/
+}
+
+.color-yellow {
+    color: yellow;
+}
+
+.color-white {
+    color: white;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+.chart {
+    display: block;
+}
+
+.sebm-google-map-container {
+  height: 370px;
+}

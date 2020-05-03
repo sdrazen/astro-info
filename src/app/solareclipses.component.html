@@ -1,0 +1,87 @@
+<div class="containter top-200"  *ngIf="showSpinner">
+    <button class="btn btn-default"><i class="fa fa-spinner fa-spin"></i> {{t_SolarEclipsesComponent_Loading}}</button>
+</div>
+<div class="panel panel-primary top-50 panel-margin" *ngIf="showMain">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_SolarEclipsesComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <div class="row row-padding">
+    <div class="col-lg-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+            <button class="btn btn-default disabled" type="button">{{t_SolarEclipsesComponent_Filter}}: </button>
+            </span>
+            <input type="text" class="form-control" placeholder="{{t_SolarEclipsesComponent_TypeFilterText}}" [(ngModel)]="filterText">
+        </div>
+    </div>
+    <div class="col-lg-4 pull-right">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button class="btn btn-default disabled" type="button">{{t_SolarEclipsesComponent_Search}}: </button>
+          </span>
+          <input type="text" class="form-control" (keyup.enter)="onSearchClick(searchText)" placeholder="{{t_SolarEclipsesComponent_TypeSearchText}}" [(ngModel)]="searchText">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" (click)="onSearchClick(searchText)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <table class="table table-striped table-hover table-condensed">
+        <thead>
+          <tr>
+            <th>{{t_SolarEclipsesComponent_Date}}</th>
+            <th>{{t_SolarEclipsesComponent_GreatestEclipseTd}}</th>
+            <th>{{t_SolarEclipsesComponent_Deltat}}</th>
+            <th>{{t_SolarEclipsesComponent_EclipseType}}</th>
+            <th>{{t_SolarEclipsesComponent_Latitude}}</th>
+            <th>{{t_SolarEclipsesComponent_Longitude}}</th>
+            <th>{{t_SolarEclipsesComponent_SunAltitude}}</th>
+            <th>{{t_SolarEclipsesComponent_PathWidth}}</th>
+            <th>{{t_SolarEclipsesComponent_Duration}}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let solarEclipse of solarEclipses | filter: filterText">
+          <tr>
+            <td>{{solarEclipse.calendardate}}</td>
+            <td>{{solarEclipse.greatesteclipsetd}}</td>
+            <td>{{solarEclipse.deltat}}</td>
+            <td>{{solarEclipse.eclipsetype}}</td>
+            <td>{{solarEclipse.lat}}</td>
+            <td>{{solarEclipse.lng}}</td>
+            <td>{{solarEclipse.sunaltitude}}</td>
+            <td>{{solarEclipse.pathwidth}}</td>
+            <td>{{solarEclipse.duration}}</td>
+            <div class="pull-right">
+                <td><a href="{{solarEclipse.url}}" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></td>
+            </div>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+
+    <div class="row">
+      <div class="col-md-5 margin-top-28 text-align-left">
+        <i>({{t_SolarEclipsesComponent_DisplayingEclipses}} {{((pageIndex - 1) * itemsPerPage) + 1}} - {{(pageIndex * itemsPerPage <= countOfSolarEclipses) ? pageIndex * itemsPerPage : countOfSolarEclipses}} {{t_SolarEclipsesComponent_DisplayingEclipsesOf}} {{ countOfSolarEclipses }})</i>
+      </div>
+      <div class="col-md-7">
+        <nav aria-label="Page navigation">
+            <ul class="pagination pull-right cursor-pointer">
+              <li (click)="onFirstClick()"><span aria-hidden="true">&laquo;&laquo;</span></li>
+              <li (click)="onPreviousClick()"><span aria-hidden="true">&laquo;</span></li>
+              <li  *ngFor="let page of pages; let i = index;" [class]="((pages[i] === pageIndex) ? 'active' : '') + ((pages[i] > (countOfSolarEclipses / pagesPerPageset) + ((countOfSolarEclipses % pagesPerPageset) > 0 ? 1 : 0)) ? 'disabled' : '')" (click)="onPageClick(i + 1)">
+                <span aria-hidden="true">{{pages[i].toString()}}</span>
+              </li>
+              <li (click)="onNextClick()"><span aria-hidden="true">&raquo;</span></li>
+              <li (click)="onLastClick()"><span aria-hidden="true">&raquo;&raquo;</span></li>
+            </ul>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>

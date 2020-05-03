@@ -1,0 +1,53 @@
+<nav class="navbar navbar-default navbar-fixed-top navbar-margin">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand navbar-brand-font" routerLink="welcome"><i class="fa fa-star-o color-yellow" aria-hidden="true"></i><font class="color-yellow"> AstroInfo</font></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right" *ngIf="isUserLoggedIn()">
+      <!-- <ul class="nav navbar-nav navbar-right"> -->
+        <li><a routerLink="welcome">{{t_AppComponent_Home}}</a></li>
+        <!--<li><a routerLink="objects">{{t_AppComponent_Objects}}</a></li>-->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{t_AppComponent_Data}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="objects">{{t_AppComponent_DeepSky}}</a></li>
+            <li><a routerLink="moonfeatures">{{t_AppComponent_Moonfeatures}}</a></li>
+            <li><a routerLink="neo">{{t_AppComponent_Neo}}</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a routerLink="solareclipses">{{t_AppComponent_SolarEclipses}}</a></li>
+            <li><a routerLink="lunareclipses">{{t_AppComponent_LunarEclipses}}</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{t_AppComponent_Others}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="calculator">{{t_AppComponent_Calculator}}</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a routerLink="apod">{{t_AppComponent_Apod}}</a></li>
+            <!--<li><a routerLink="sunmoon">{{t_AppComponent_SunAndMoon}}</a></li>-->
+            <li><a routerLink="iss">{{t_AppComponent_Iss}}</a></li>
+            <!-- <li role="separator" class="divider"></li>
+            <li><a routerLink="weather">{{t_AppComponent_Weather}}</a></li> -->
+            <li role="separator" class="divider"></li>
+            <li><a routerLink="stores">{{t_AppComponent_Stores}}</a></li>
+            <li><a routerLink="locations">{{t_AppComponent_Locations}}</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a routerLink="settings">{{t_AppComponent_Settings}}</a></li>
+          </ul>
+        </li>
+        <li><a routerLink="about">{{t_AppComponent_About}}</a></li>
+        <!-- <li><a routerLink="/" (click)="onLogOff()">{{t_AppComponent_Logout}}</a></li> -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,150 @@
+<div class="panel panel-primary top-50 panel-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_SunMoonComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <!--Sun and Moon data-->
+    <h3>{{t_SunMoonComponent_CurrentDataTitlePart1}} {{lat}}, {{t_SunMoonComponent_CurrentDataTitlePart2}} {{lng}} {{t_SunMoonComponent_CurrentDataTitlePart3}} {{timeZoneRawOffset}}</h3>
+
+    <!--Error message Sun and Moon data-->
+    <div class="alert alert-danger" *ngIf="errorMessageSunMoonData != ''">
+        {{errorMessageSunMoonData}}
+    </div>
+
+    <!--No error, show data-->
+    <div *ngIf="sunMoonData">
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-striped table-hover table-condensed">
+            <thead>
+              <tr>
+                <th>{{t_SunMoonComponent_BeginCivilTwilight}}</th>
+                <th>{{t_SunMoonComponent_Sunrise}}</th>
+                <th>{{t_SunMoonComponent_UpperTransit}}</th>
+                <th>{{t_SunMoonComponent_Sunset}}</th>
+                <th>{{t_SunMoonComponent_EndCivilTwilight}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{sunMoonData.sundata[0].time}}</td>
+                <td>{{sunMoonData.sundata[1].time}}</td>
+                <td>{{sunMoonData.sundata[2].time}}</td>
+                <td>{{sunMoonData.sundata[3].time}}</td>
+                <td>{{sunMoonData.sundata[4].time}}</td>
+              </tr>
+            </tbody>
+          </table> 
+        </div>
+        <div class="col-md-6">
+          <table class="table table-striped table-hover table-condensed">
+            <thead>
+              <tr>
+                <th *ngFor="let sunMoonDataItem of sunMoonData.moondata">{{sunMoonDataItem.phen}}</th>
+                <th>{{t_SunMoonComponent_Fracillum}}</th>
+                <th>{{t_SunMoonComponent_CurrentPhase}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td *ngFor="let sunMoonDataItem of sunMoonData.moondata">{{sunMoonDataItem.time}}</td>
+                <td>{{sunMoonData.fracillum}}</td>
+                <td>{{sunMoonData.curphase}}</td>
+              </tr>
+            </tbody>
+          </table> 
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <!--Solar eclipses for current year-->
+    <h3>{{t_SunMoonComponent_SolarEclipsesTitle}}</h3>
+
+    <!--Error message Solar eclipses-->
+    <div class="alert alert-danger" *ngIf="errorMessageSolarEclipses != ''">
+        {{errorMessageSolarEclipses}}
+    </div>
+
+    <!--No error, show data-->
+    <div *ngIf="solarEclipses">
+      <table class="table table-striped table-hover table-condensed">
+        <thead>
+          <tr>
+            <th>{{t_SunMoonComponent_Date}}</th>
+            <th>{{t_SunMoonComponent_Event}}</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let solarEclipsesItem of solarEclipses.eclipses_in_year">
+          <tr>
+            <td>{{solarEclipsesItem.month}}/{{solarEclipsesItem.day}}/{{solarEclipsesItem.year}}</td>
+            <td>{{solarEclipsesItem.event}}</td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+
+    <br>
+
+    <!--Next Moon phases-->
+    <h3>{{t_SunMoonComponent_NextMoonPhasesTitlePart1}} {{nump}} {{t_SunMoonComponent_NextMoonPhasesTitlePart2}}</h3>
+
+    <!--Error message Next Moon phases-->
+    <div class="alert alert-danger" *ngIf="errorMessageNextMoonPhases != ''">
+        {{errorMessageNextMoonPhases}}
+    </div>
+
+    <!--No error, show data-->
+    <div *ngIf="nextMoonPhases">
+      <table class="table table-striped table-hover table-condensed">
+        <thead>
+          <tr>
+            <th>{{t_SunMoonComponent_Phase}}</th>
+            <th>{{t_SunMoonComponent_Date}}</th>
+            <th>{{t_SunMoonComponent_Time}}</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let phaseDataItem of nextMoonPhases.phasedata">
+          <tr>
+            <td>{{phaseDataItem.phase}}</td>
+            <td>{{phaseDataItem.date}}</td>
+            <td>{{phaseDataItem.time}}</td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+
+    <br>
+
+    <!--All Moon phases for current year-->
+    <h3>{{t_SunMoonComponent_AllMoonPhasesTitle}}</h3>
+
+    <!--Error message All Moon phases-->
+    <div class="alert alert-danger" *ngIf="errorMessageAllMoonPhases != ''">
+        {{errorMessageAllMoonPhases}}
+    </div>
+
+    <!--No error, show data-->
+    <div *ngIf="allMoonPhases">
+      <table class="table table-striped table-hover table-condensed">
+        <thead>
+          <tr>
+            <th>{{t_SunMoonComponent_Phase}}</th>
+            <th>{{t_SunMoonComponent_Date}}</th>
+            <th>{{t_SunMoonComponent_Time}}</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let phaseDataItem of allMoonPhases.phasedata">
+          <tr>
+            <td>{{phaseDataItem.phase}}</td>
+            <td>{{phaseDataItem.date}}</td>
+            <td>{{phaseDataItem.time}}</td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+
+  </div>
+</div>

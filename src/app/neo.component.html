@@ -1,0 +1,74 @@
+<div class="panel panel-primary top-50 panel-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_NeoComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <!--Error message Neo-->
+    <div class="alert alert-danger" *ngIf="errorMessageNeo != ''">
+        {{errorMessageNeo}}
+    </div>
+    <!--No error, show data-->
+    <div>
+      <table class="table table-striped table-hover table-condensed" *ngIf="neos">
+        <thead>
+          <tr>
+            <th>{{t_NeoComponent_ReferenceId}}</th>
+            <th>{{t_NeoComponent_Name}}</th>
+            <th>{{t_NeoComponent_AbsoluteMagnitude}}</th>
+            <th>{{t_NeoComponent_MinEstimatedDiameterM}}</th>
+            <th>{{t_NeoComponent_MaxEstimatedDiameterM}}</th>
+            <th>{{t_NeoComponent_CloseApproachDate}}</th>
+            <th>{{t_NeoComponent_VelocityKms}}</th>
+            <th>{{t_NeoComponent_VelocityKmh}}</th>
+            <th>{{t_NeoComponent_OrbitingBody}}</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let neo of neos[0]">
+          <tr>
+            <td><a class="cursor-pointer" (click)="onSelect(neo)">{{neo.neo_reference_id}}</a></td>
+            <td>{{neo.name}}</td>
+            <td>{{neo.absolute_magnitude_h}}</td>
+            <td>{{neo.estimated_diameter.meters.estimated_diameter_min}}</td>
+            <td>{{neo.estimated_diameter.meters.estimated_diameter_max}}</td>
+            <td>{{neo.close_approach_data[0].close_approach_date}}</td>
+            <td>{{neo.close_approach_data[0].relative_velocity.kilometers_per_second}}</td>
+            <td>{{neo.close_approach_data[0].relative_velocity.kilometers_per_hour}}</td>
+            <td>{{neo.close_approach_data[0].orbiting_body}}</td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+          <div style="display: block;">
+            <canvas baseChart width="200" height="50"
+                [datasets]="lineChartDataMinEstDiameterM"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType">
+            </canvas>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div style="display: block;">
+            <canvas baseChart width="200" height="50"
+                [datasets]="lineChartDataVelocityKms"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColorsDataVelocityKms"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>

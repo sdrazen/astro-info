@@ -1,0 +1,32 @@
+.top-50 {
+    margin-top: 50px
+}
+
+.panel-margin {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.margin-top-8 {
+    margin-top: 8px;
+}
+
+.inline-block {
+    display: inline-block;
+    padding-right: 2px;
+    padding-top: 2px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.heading-style {
+    padding: 0.5px 0.5px 0.5px 0.5px;
+    background-color: #66CCFF;
+    font-family: 'Abril Fatface', cursive;
+}
+
+.margin-left-10 {
+    margin-left: 10px;
+}

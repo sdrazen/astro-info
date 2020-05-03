@@ -1,0 +1,96 @@
+<div class="panel panel-primary top-50 panel-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_LocationsComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <div class="map">
+        <div class="row">
+            <div class="col-md-7">
+                <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="onMapClick($event)">
+                    <sebm-google-map-marker *ngFor="let location of locations; let i = index"
+                        [latitude]="location.locationmarker.markerlat"
+                        [longitude]="location.locationmarker.markerlng"
+                        [markerDraggable]="draggable"
+                        [iconUrl]="iconUrl"
+                        (markerClick)="onLocationClick(location, i)">
+                    </sebm-google-map-marker>
+                </sebm-google-map>
+            </div>
+            <div class="col-md-5" *ngIf="mode===0">
+                <h3>{{t_LocationsComponent_MapTitle}}</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Latitude}}: </b>&nbsp;{{selectedLocation ? selectedLocation.locationmarker.markerlat : ''}}</li>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Longitude}}: </b>&nbsp;{{selectedLocation ? selectedLocation.locationmarker.markerlng : ''}}</li>
+                    <br>
+                    <br>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Sqm}}: </b>&nbsp;{{selectedLocation ? selectedLocation.locationsqm : ''}}</li>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Country}}: </b>&nbsp;{{selectedLocation ? selectedLocation.locationcountry : ''}}</li>
+                    <li class="list-group-item" style="height:100px;"><b>{{t_LocationsComponent_Comment}}: </b>&nbsp;{{selectedLocation ? selectedLocation.locationcomment : ''}}</li>
+                    <div class="height-335">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary width-160" (click)="onAddClick()">{{t_LocationsComponent_AddNewLocation}}</button>
+                        <!-- <div class="pull-right" *ngIf="(selectedLocation && (selectedLocation.locationaddedbyemail === currentUser.email))">
+                            <button class="btn btn-primary width-160" (click)="onEditClick()">{{t_LocationsComponent_Edit}}...</button>
+                            <button class="btn btn-danger width-160" (click)="onDeleteClick(selectedLocation.key)">{{t_LocationsComponent_Delete}}</button>
+                        </div> -->
+                        <div class="pull-right" *ngIf="(selectedLocation)">
+                            <button class="btn btn-primary width-160" (click)="onEditClick()">{{t_LocationsComponent_Edit}}...</button>
+                            <button class="btn btn-danger width-160" (click)="onDeleteClick(selectedLocation.key)">{{t_LocationsComponent_Delete}}</button>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            <div class="col-md-5" *ngIf="mode===1">
+                <h3>{{t_LocationsComponent_MapTitle}}</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Latitude}}: </b><input type="text" class="form-control margin-left-30 width-300" name="newLocationLocationLat" [(ngModel)]="newLocationLocationLat"></li>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Longitude}}: </b><input type="text" class="form-control margin-left-30 width-300" name="newLocationLocationLng" [(ngModel)]="newLocationLocationLng"></li>
+                    <br>
+                    <br>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Sqm}}: </b><input type="text" class="form-control margin-left-30 width-300" name="newLocationLocationSqm" [(ngModel)]="newLocationLocationSqm"></li>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Country}}: </b><input type="text" class="form-control margin-left-30 width-120" name="newLocationLocationCountry" [(ngModel)]="newLocationLocationCountry"></li>
+                    <li class="list-group-item" style="height:100px;"><b>{{t_LocationsComponent_Comment}}: </b><input type="text" class="form-control margin-left-30 width-600 height-70" name="newLocationLocationComment" [(ngModel)]="newLocationLocationComment"></li>
+                    <div class="height-270">
+                        <br>
+                        <div class="alert alert-success" *ngIf="showLocationsAddedAlert">
+                            {{t_LocationsComponent_AddedAlert}}
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-success width-100" (click)="onSaveNewClick()">{{t_LocationsComponent_Save}}</button>
+                        <button class="btn btn-primary width-100" (click)="onCancelSavingNewClick()">{{t_LocationsComponent_Cancel}}</button>
+                    </div>
+                </ul>
+            </div>
+            <div class="col-md-5" *ngIf="mode===2">
+                <h3>{{t_LocationsComponent_MapTitle}}</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Latitude}}: </b><input type="text" class="form-control margin-left-30 width-300" name="updatedLocationLocationLat" [(ngModel)]="updatedLocationLocationLat"></li>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Longitude}}: </b><input type="text" class="form-control margin-left-30 width-300" name="updatedLocationLocationLng" [(ngModel)]="updatedLocationLocationLng"></li>
+                    <br>
+                    <br>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Sqm}}: </b><input type="text" class="form-control margin-left-30 width-300" name="updatedLocationLocationSqm" [(ngModel)]="updatedLocationLocationSqm"></li>
+                    <li class="list-group-item"><b>{{t_LocationsComponent_Country}}: </b><input type="text" class="form-control margin-left-30 width-120" name="updatedLocationLocationCountry" [(ngModel)]="updatedLocationLocationCountry"></li>
+                    <li class="list-group-item" style="height:100px;"><b>{{t_LocationsComponent_Comment}}: </b><input type="text" class="form-control margin-left-30 width-600 height-70" name="updatedLocationLocationComment" [(ngModel)]="updatedLocationLocationComment"></li>
+                    <div class="height-270">
+                        <br>
+                        <div class="alert alert-success" *ngIf="showLocationsUpdatedAlert">
+                            {{t_LocationsComponent_UpdatedAlert}}
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-success width-100" (click)="onUpdateExistingClick(selectedLocation.key)">{{t_LocationsComponent_Save}}</button>
+                        <button class="btn btn-primary width-100" (click)="onCancelEditingExistingClick()">{{t_LocationsComponent_Cancel}}</button>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  </div>
+</div>

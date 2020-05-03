@@ -1,0 +1,67 @@
+<div class="panel panel-primary top-50 panel-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_SettingsComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <div class="map">
+        <div class="row">
+            <div class="col-md-7">
+                <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="onMapClick($event)">
+                    <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable" [iconUrl]="iconUrl" (dragEnd)="onMarkerDragEnd($event)"></sebm-google-map-marker>
+                </sebm-google-map>
+            </div>
+            <div class="col-md-5">
+                <h3>{{t_SettingsComponent_MapTitle}}</h3>
+                <br>
+                <!--Error message Google Time Zone-->
+                <div class="alert alert-danger" *ngIf="errorMessageGoogleTimeZone != ''">
+                    {{errorMessageGoogleTimeZone}}
+                </div>
+                <!--No error, show data-->
+                <ul class="list-group">
+                    <li class="list-group-item"><b>{{t_SettingsComponent_Latitude}}: </b>&nbsp;{{lat}}</li>
+                    <li class="list-group-item"><b>{{t_SettingsComponent_Longitude}}: </b>&nbsp;{{lng}}</li>
+                    <li class="list-group-item"><b>{{t_SettingsComponent_DaylightSavingsOffset}}: </b>&nbsp;{{timeZone ? ((timeZone.status === 'OK') ? (timeZone.dstOffset / 3600) : '') : ''}}</li>
+                    <li class="list-group-item"><b>{{t_SettingsComponent_RawOffset}}: </b>&nbsp;{{timeZone ? ((timeZone.status === 'OK') ? (timeZone.rawOffset / 3600) : '') : ''}}</li>
+                    <li class="list-group-item"><b>{{t_SettingsComponent_TimeZoneId}}: </b>&nbsp;{{timeZone ? ((timeZone.status === 'OK') ? timeZone.timeZoneId : '') : ''}}</li>
+                    <li class="list-group-item"><b>{{t_SettingsComponent_TimeZoneName}}: </b>&nbsp;{{timeZone ? ((timeZone.status === 'OK') ? timeZone.timeZoneName : '') : ''}}</li>
+                </ul>
+                <br>
+                <h3>{{t_SettingsComponent_OtherSettingsTitle}}</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <b>{{t_SettingsComponent_PreferredLanguage}}: </b>
+                            </div>
+                            <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input name = "languageTitle" type="text" class="form-control" aria-label="..." [ngModel]="languageTitle" readonly>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_SettingsComponent_Choose}} <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li class="cursor-default" [ngClass]="(i===languageId)?'background-color-yellow':''" *ngFor="let language of languageList; let i = index" (click)="changeLanguage(i, language.languagetitle)"><a><span class="glyphicon glyphicon-ok" aria-hidden="true" *ngIf="i===languageId"></span> <img [src]="getFlagPath(language.languagetitle)"> {{language.languagetitle}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item"><b>{{t_SettingsComponent_ItemsPerPage}}: </b><input type="text" class="form-control margin-left-30 width-120" name="itemsPerPage" [(ngModel)]="itemsPerPage"></li>
+                    <li class="list-group-item"><b>{{t_SettingsComponent_PagesPerPageset}}: </b><input type="text" class="form-control margin-left-30 width-120" name="pagesPerPageset" [(ngModel)]="pagesPerPageset"></li>
+                </ul>
+                <div class="height-85">
+                  <div class="alert alert-success" *ngIf="showSettingsUpdatedAlert">
+                      {{t_SettingsComponent_SaveAlert}}
+                  </div>
+                </div>
+                <button class="btn btn-primary width-100 pull-right" (click)="onSettingsSaveClick()">{{t_SettingsComponent_Save}}</button>
+                <br>
+            </div>
+        </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="panel panel-primary top-50 panel-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_NeoDetailsComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <!--Error message NeoDetails-->
+    <div class="alert alert-danger" *ngIf="errorMessageNeoDetails != ''">
+        {{errorMessageNeoDetails}}
+    </div>
+    <!--No error, show data-->
+    <div>
+      <table class="table table-striped table-hover table-condensed" *ngIf="neoDetails">
+        <thead>
+          <tr>
+            <th>{{t_NeoDetailsComponent_CloseApproachDate}}</th>
+            <th>{{t_NeoDetailsComponent_VelocityKms}}</th>
+            <th>{{t_NeoDetailsComponent_VelocityKmh}}</th>
+            <th>{{t_NeoDetailsComponent_MissDistanceAstronomical}}</th>
+            <th>{{t_NeoDetailsComponent_MissDistanceLunar}}</th>
+            <th>{{t_NeoDetailsComponent_MissDistanceKilometers}}</th>
+            <th>{{t_NeoDetailsComponent_OrbitingBody}}</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let neoDetail of neoDetails[0]">
+          <tr>
+            <td>{{neoDetail.close_approach_date}}</td>
+            <td>{{neoDetail.relative_velocity.kilometers_per_second}}</td>
+            <td>{{neoDetail.relative_velocity.kilometers_per_hour}}</td>
+            <td>{{neoDetail.miss_distance.astronomical}}</td>
+            <td>{{neoDetail.miss_distance.lunar}}</td>
+            <td>{{neoDetail.miss_distance.kilometers}}</td>
+            <td>{{neoDetail.orbiting_body}}</td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+
+  </div>
+</div>

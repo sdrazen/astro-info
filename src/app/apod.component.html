@@ -1,0 +1,27 @@
+<div class="panel panel-primary top-50 panel-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_ApodComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+        <!--Error message Apod-->
+        <div class="alert alert-danger" *ngIf="errorMessageApod != ''">
+            {{errorMessageApod}}
+        </div>
+        <!--No error, show data-->
+        <div class="col-md-7">
+            <a href="https://apod.nasa.gov/apod/astropix.html" target="_blank"><img src="{{apod !== undefined ? apod.url : ''}}"></a>
+        </div>
+        <div class="col-md-5">
+            <ul class="list-group">
+                <li class="list-group-item"><b>{{t_ApodComponent_Title}}:</b>&nbsp;{{apod !== undefined ? apod.title : ''}}</li>
+                <li class="list-group-item"><b>{{t_ApodComponent_Explanation}}:</b>&nbsp;{{apod !== undefined ? apod.explanation : ''}}</li>
+                <li class="list-group-item"><b>{{t_ApodComponent_Date}}:</b>&nbsp;{{apod !== undefined ? apod.date : ''}}</li>
+                <li class="list-group-item"><b>{{t_ApodComponent_Copyright}}:</b>&nbsp;{{apod !== undefined ? apod.copyright : ''}}</li>
+                <li class="list-group-item"><b>HD URL:</b> <a href="{{apod !== undefined ? apod.hdurl : ''}}" target="_blank">&nbsp;{{apod !== undefined ? apod.hdurl : ''}}</a></li>
+            </ul>
+        </div>
+    </div>
+  </div>
+</div>
+

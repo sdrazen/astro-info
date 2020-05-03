@@ -1,0 +1,70 @@
+.top-50 {
+    margin-top: 50px
+}
+
+.panel-margin {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.color-blue {
+    color: rgba(37, 119, 245, 0.77);
+}
+
+.sebm-google-map-container {
+  height: 750px;
+}
+
+.width-100 {
+    width: 100px;
+}
+
+.margin-left-30 {
+    margin-left: 30px;
+}
+
+.height-215 {
+    height: 215px;
+}
+
+.background-color-yellow {
+    background-color: #FFFFCC;
+}
+
+.width-120 {
+    width: 120px;
+    display: inline-block;
+}
+
+.width-160 {
+    width: 160px;
+    display: inline-block;
+}
+
+.width-60 {
+    width: 60px;
+    display: inline-block;
+}
+
+.width-50 {
+    width: 50px;
+    display: inline-block;
+}
+
+.heading-style {
+    padding: 0.5px 0.5px 0.5px 0.5px;
+    background-color: #66CCFF;
+    font-family: 'Abril Fatface', cursive;
+}
+
+.margin-top-8 {
+    margin-top: 8px;
+}
+
+.margin-left-10 {
+    margin-left: 10px;
+}
+
+li {
+    list-style-type: none;
+}

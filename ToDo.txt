@@ -1,0 +1,5 @@
+
+ - Možda ubaciti favourite objects kao user setting...
+
+ - Riješiti problem sa securityjem kad se poziva http api (blocked loading mixed active content) - usno service
+ - Sort order na ObjectComponent

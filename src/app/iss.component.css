@@ -1,0 +1,37 @@
+.top-50 {
+    margin-top: 50px
+}
+
+.panel-margin {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.color-blue {
+    color: rgba(37, 119, 245, 0.77);
+}
+
+.sebm-google-map-container {
+  height: 750px;
+}
+
+.width-100 {
+    width: 100px;
+}
+
+.margin-left-30 {
+    margin-left: 30px;
+}
+
+.height-85 {
+    height: 85px;
+}
+
+.background-color-yellow {
+    background-color: #FFFFCC;
+}
+
+.width-120 {
+    width: 120px;
+    display: inline-block;
+}

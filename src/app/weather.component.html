@@ -1,0 +1,124 @@
+<div class="panel panel-primary top-50 panel-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t_WeatherComponent_PanelTitle}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <h3>{{t_WeatherComponent_MapTitle}}</h3>
+
+    <br>
+
+    <!--Error message Weather Service-->
+    <div class="alert alert-danger" *ngIf="errorMessageWeatherService != ''">
+        {{errorMessageWeatherService}}
+    </div>
+
+    <!--No error, show data-->
+    <div class="row">
+        <div class="col-md-3">
+            <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="onMapClick($event)">
+                <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable" (dragEnd)="onMarkerDragEnd($event)"></sebm-google-map-marker>
+            </sebm-google-map>
+        </div>
+        <div class="col-md-2">
+            <div *ngIf="location && currentConditions">
+                <div class="containter text-center box-shadow" [ngClass]="(currentConditions[0].IsDayTime==true)?'current-weather-display-day':'current-weather-display-night'" *ngIf="location && currentConditions">
+                    <h4 class="color-white"><b>{{location.LocalizedName}}</b></h4>
+                    <img [src]="getIconPath(currentConditions[0].WeatherIcon)">
+                    <h5>{{currentConditions[0].WeatherText}}</h5>
+                    <h1><b>{{convertInt(currentConditions[0].Temperature.Metric.Value)}}°C</b></h1>
+                    <h5 class="bottom-10 top-negative-10">{{convertTime(currentConditions[0].LocalObservationDateTime)}} {{location.TimeZone.Code}}</h5>
+                    <br>
+                    <h5 class="top-negative-10">{{t_WeatherComponent_Wind}}: {{convertInt(currentConditions[0].Wind.Speed.Metric.Value)}} {{currentConditions[0].Wind.Speed.Metric.Unit}} {{currentConditions[0].Wind.Direction.Localized}}</h5>
+                    <h5 class="top-negative-10">{{t_WeatherComponent_Visibility}}: {{convertInt(currentConditions[0].Visibility.Metric.Value)}} {{currentConditions[0].Visibility.Metric.Unit}}</h5>
+                    <h5 class="bottom-10 top-negative-10">{{t_WeatherComponent_CloudCover}}: {{convertInt(currentConditions[0].CloudCover)}}%</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="pull-right" *ngIf="location && dailyForecasts">
+                <div class="inline-block" *ngFor="let dailyForecast of dailyForecasts.DailyForecasts">
+                    <div class="containter text-center box-shadow daily-forecast-display-night">
+                        <h5 class="color-yellow"><b>{{getDayOfWeek(dailyForecast.Date)}} / {{convertDate(dailyForecast.Date)}}</b></h5>
+                        <img [src]="getIconPath(dailyForecast.Night.Icon)">
+                        <h5>{{dailyForecast.Night.IconPhrase}}</h5>
+                        <h3><b>{{convertInt(dailyForecast.Temperature.Minimum.Value)}}°C</b></h3>
+                        <br>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_Wind}}: {{convertInt(dailyForecast.Night.Wind.Speed.Value)}} {{dailyForecast.Night.Wind.Speed.Unit}} {{dailyForecast.Night.Wind.Direction.Localized}}</h5>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_RainProbability}}: {{convertInt(dailyForecast.Night.RainProbability)}}%</h5>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_SnowProbability}}: {{convertInt(dailyForecast.Night.SnowProbability)}}%</h5>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_IceProbability}}: {{convertInt(dailyForecast.Night.IceProbability)}}%</h5>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_CloudCover}}: {{convertInt(dailyForecast.Night.CloudCover)}}%</h5>
+                        <br>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_Sunrise}}: {{convertTime(dailyForecast.Sun.Rise)}}</h5>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_Sunset}}: {{convertTime(dailyForecast.Sun.Set)}}</h5>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_Moonrise}}: {{convertTime(dailyForecast.Moon.Rise)}}</h5>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_Moonset}}: {{convertTime(dailyForecast.Moon.Set)}}</h5>
+                        <h5 class="bottom-10 top-negative-10">{{t_WeatherComponent_MoonAge}}: {{dailyForecast.Moon.Age}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div *ngIf="location && hourlyForecasts">
+                <div class="inline-block" *ngFor="let hourlyForecast of hourlyForecasts">
+                    <div class="containter text-center box-shadow" [ngClass]="(hourlyForecast.IsDaylight==true)?'hourly-forecast-display-day':'hourly-forecast-display-night'" >
+                        <h5 class="color-yellow"><b>{{getDayOfWeek(hourlyForecast.DateTime)}} / {{convertTime(hourlyForecast.DateTime)}}</b></h5>
+                        <img [src]="getIconPath(hourlyForecast.WeatherIcon)">
+                        <h5>{{hourlyForecast.IconPhrase}}</h5>
+                        <h3><b>{{convertInt(hourlyForecast.Temperature.Value)}}°C</b></h3>
+                        <br>
+                        <h5 class="top-negative-10">{{t_WeatherComponent_Rain}}: {{convertInt(hourlyForecast.RainProbability)}}%</h5>
+                        <h5 class="bottom-10 top-negative-10">{{t_WeatherComponent_Clouds}}: {{convertInt(hourlyForecast.CloudCover)}}%</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <canvas baseChart
+                    class="chart"
+                    [datasets]="barChartDataDaily"
+                    [labels]="barChartLabelsDaily"
+                    [chartType]="barChartType">
+                </canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <canvas baseChart
+                    class="chart"
+                    [datasets]="barChartDataHourly"
+                    [labels]="barChartLabelsHourly"
+                    [chartType]="barChartType">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div class="containter text-center">
+                <img src="http://api.sat24.com/animated/EU/visual/2/Central%20European%20Standard%20Time/3937527" width=600 height=400>
+            </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+
+  </div>
+</div>
