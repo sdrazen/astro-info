@@ -6,7 +6,7 @@
 
     <!--Error message Neo-->
     <div class="alert alert-danger" *ngIf="errorMessageNeo != ''">
-        {{errorMessageNeo}}
+      {{errorMessageNeo}}
     </div>
     <!--No error, show data-->
     <div>
@@ -37,38 +37,11 @@
             <td>{{neo.close_approach_data[0].orbiting_body}}</td>
           </tr>
         </tbody>
-      </table> 
+      </table>
     </div>
 
     <br>
     <br>
-
-    <div class="row">
-        <div class="col-md-6">
-          <div style="display: block;">
-            <canvas baseChart width="200" height="50"
-                [datasets]="lineChartDataMinEstDiameterM"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType">
-            </canvas>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div style="display: block;">
-            <canvas baseChart width="200" height="50"
-                [datasets]="lineChartDataVelocityKms"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColorsDataVelocityKms"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType">
-            </canvas>
-          </div>
-        </div>
-      </div>
 
   </div>
 </div>

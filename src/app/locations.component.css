@@ -23,12 +23,16 @@
     width: 160px;
 }
 
+.margin-left-4 {
+    margin-left: 4px;
+}
+
 .margin-left-30 {
     margin-left: 30px;
 }
 
-.height-335 {
-    height: 335px;
+.height-305 {
+    height: 305px;
 }
 
 .height-270 {

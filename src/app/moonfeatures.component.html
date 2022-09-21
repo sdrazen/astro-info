@@ -1,5 +1,5 @@
-<div class="containter top-200"  *ngIf="showSpinner">
-    <button class="btn btn-default"><i class="fa fa-spinner fa-spin"></i> {{t_MoonfeaturesComponent_Loading}}</button>
+<div class="containter top-200" *ngIf="showSpinner">
+  <button class="btn btn-default"><i class="fa fa-spinner fa-spin"></i>&nbsp;&nbsp;{{t_MoonfeaturesComponent_Loading}}</button>
 </div>
 <div class="panel panel-primary top-50 panel-margin" *ngIf="showMain">
   <div class="panel-heading">
@@ -8,23 +8,23 @@
   <div class="panel-body">
 
     <div class="row row-padding">
-    <div class="col-lg-4">
+      <div class="col-lg-4">
         <div class="input-group">
-            <span class="input-group-btn">
+          <span class="input-group-btn">
             <button class="btn btn-default disabled" type="button">{{t_MoonfeaturesComponent_Filter}}: </button>
-            </span>
-            <input type="text" class="form-control" placeholder="{{t_MoonfeaturesComponent_TypeFilterText}}" [(ngModel)]="filterText">
+          </span>
+          <input type="text" class="form-control" placeholder="{{t_MoonfeaturesComponent_TypeFilterText}}" [(ngModel)]="filterText">
         </div>
-    </div>
-    <div class="col-lg-4">
+      </div>
+      <div class="col-lg-4">
         <div class="input-group">
-        <span class="input-group-addon">
+          <span class="input-group-addon">
             <input type="checkbox" [checked]="useCriteria" [(ngModel)]="useCriteria" aria-label="...">
-        </span>
-        <input type="text" class="form-control disabled" placeholder="{{t_MoonfeaturesComponent_UseAdditionalCriteria}}" aria-label="...">
+          </span>
+          <input type="text" class="form-control disabled" placeholder="{{t_MoonfeaturesComponent_UseAdditionalCriteria}}" aria-label="...">
         </div>
-    </div>
-    <div class="col-lg-4 pull-right">
+      </div>
+      <div class="col-lg-4 pull-right">
         <div class="input-group">
           <span class="input-group-btn">
             <button class="btn btn-default disabled" type="button">{{t_MoonfeaturesComponent_Search}}: </button>
@@ -69,12 +69,12 @@
             <td>{{moonfeature.origin}}</td>
             <td>{{moonfeature.lastUpdated}}</td>
             <div class="pull-right">
-                <td><button class="btn btn-primary margin-right-4" (click)="onMoonfeatureSelect(moonfeature)"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button></td>
-                <td><a href="{{moonfeature.quad.url}}" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></td>
+              <td><button class="btn btn-primary margin-right-4" (click)="onMoonfeatureSelect(moonfeature)"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button></td>
+              <td><a href="{{moonfeature.quad.url}}" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></td>
             </div>
           </tr>
         </tbody>
-      </table> 
+      </table>
     </div>
 
     <div class="row">
@@ -83,15 +83,15 @@
       </div>
       <div class="col-md-7">
         <nav aria-label="Page navigation">
-            <ul class="pagination pull-right cursor-pointer">
-              <li (click)="onFirstClick()"><span aria-hidden="true">&laquo;&laquo;</span></li>
-              <li (click)="onPreviousClick()"><span aria-hidden="true">&laquo;</span></li>
-              <li  *ngFor="let page of pages; let i = index;" [class]="((pages[i] === pageIndex) ? 'active' : '') + ((pages[i] > (countOfMoonfeatures / pagesPerPageset) + ((countOfMoonfeatures % pagesPerPageset) > 0 ? 1 : 0)) ? 'disabled' : '')" (click)="onPageClick(i + 1)">
-                <span aria-hidden="true">{{pages[i].toString()}}</span>
-              </li>
-              <li (click)="onNextClick()"><span aria-hidden="true">&raquo;</span></li>
-              <li (click)="onLastClick()"><span aria-hidden="true">&raquo;&raquo;</span></li>
-            </ul>
+          <ul class="pagination pull-right cursor-pointer">
+            <li (click)="onFirstClick()"><span aria-hidden="true">&laquo;&laquo;</span></li>
+            <li (click)="onPreviousClick()"><span aria-hidden="true">&laquo;</span></li>
+            <li *ngFor="let page of pages; let i = index;" [class]="((pages[i] === pageIndex) ? 'active' : '') + ((pages[i] > (countOfMoonfeatures / pagesPerPageset) + ((countOfMoonfeatures % pagesPerPageset) > 0 ? 1 : 0)) ? 'disabled' : '')" (click)="onPageClick(i + 1)">
+              <span aria-hidden="true">{{pages[i].toString()}}</span>
+            </li>
+            <li (click)="onNextClick()"><span aria-hidden="true">&raquo;</span></li>
+            <li (click)="onLastClick()"><span aria-hidden="true">&raquo;&raquo;</span></li>
+          </ul>
         </nav>
       </div>
     </div>
@@ -112,67 +112,67 @@
       <div class="col-md-4">
         <ul class="list-group">
           <li class="list-group-item">
-              <div class="row">
-                  <div class="col-md-4">
-                      <label class="margin-top-7"><b>{{t_MoonfeaturesComponent_FeatureType}}: </b></label>
-                  </div>
-                  <div class="col-md-8">
-                      <div class="input-group">
-                          <input name = "criteriaFeatureTypeText" type="text" class="form-control" aria-label="..." [(ngModel)]="criteriaFeatureTypeText" readonly>
-                          <div class="input-group-btn dropup">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_MoonfeaturesComponent_Choose}} <span class="caret"></span></button>
-                              <ul class="dropdown-menu scrollable-menu" role="menu">
-                                  <li class="cursor-default" *ngFor="let moonfeatureType of moonfeatureTypes" (click)="setMoonfeatureType(moonfeatureType)">&nbsp;&nbsp;{{moonfeatureType}}</li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label class="margin-top-7"><b>{{t_MoonfeaturesComponent_FeatureType}}: </b></label>
               </div>
-              <br>
-              <div class="row">
-                  <div class="col-md-4">
-                      <label class="margin-top-7"><b>{{t_MoonfeaturesComponent_ApprovalStatus}}: </b></label>
+              <div class="col-md-8">
+                <div class="input-group">
+                  <input name="criteriaFeatureTypeText" type="text" class="form-control" aria-label="..." [(ngModel)]="criteriaFeatureTypeText" readonly>
+                  <div class="input-group-btn dropup">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_MoonfeaturesComponent_Choose}} <span class="caret"></span></button>
+                    <ul class="dropdown-menu scrollable-menu" role="menu">
+                      <li class="cursor-default" *ngFor="let moonfeatureType of moonfeatureTypes" (click)="setMoonfeatureType(moonfeatureType)">&nbsp;&nbsp;{{moonfeatureType}}</li>
+                    </ul>
                   </div>
-                  <div class="col-md-8">
-                      <div class="input-group">
-                          <input name = "criteriaApprovalStatusText" type="text" class="form-control" aria-label="..." [(ngModel)]="criteriaApprovalStatusText" readonly>
-                          <div class="input-group-btn dropup">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_MoonfeaturesComponent_Choose}} <span class="caret"></span></button>
-                              <ul class="dropdown-menu scrollable-menu" role="menu">
-                                  <li class="cursor-default" *ngFor="let moonfeatureApprovalStatusText of moonfeatureApprovalStatusTexts" (click)="setMoonfeatureApprovalStatusText(moonfeatureApprovalStatusText)">&nbsp;&nbsp;{{moonfeatureApprovalStatusText}}</li>
-                              </ul>
-                          </div>
-                      </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-4">
+                <label class="margin-top-7"><b>{{t_MoonfeaturesComponent_ApprovalStatus}}: </b></label>
+              </div>
+              <div class="col-md-8">
+                <div class="input-group">
+                  <input name="criteriaApprovalStatusText" type="text" class="form-control" aria-label="..." [(ngModel)]="criteriaApprovalStatusText" readonly>
+                  <div class="input-group-btn dropup">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_MoonfeaturesComponent_Choose}} <span class="caret"></span></button>
+                    <ul class="dropdown-menu scrollable-menu" role="menu">
+                      <li class="cursor-default" *ngFor="let moonfeatureApprovalStatusText of moonfeatureApprovalStatusTexts" (click)="setMoonfeatureApprovalStatusText(moonfeatureApprovalStatusText)">&nbsp;&nbsp;{{moonfeatureApprovalStatusText}}</li>
+                    </ul>
                   </div>
-              </div>          
-            </li>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="col-md-2">
         <ul class="list-group">
           <li class="list-group-item">
-              <div class="row">
-                  <div class="col-md-5">
-                      <label class="margin-top-7"><b>{{t_MoonfeaturesComponent_Diameter}}: </b></label>
-                  </div>
-                  <div class="col-md-7">
-                      <div class="input-group">
-                          <input name = "criteriaDiameterMin" type="text" class="form-control width-50" maxlength="3" placeholder="min" [(ngModel)]="criteriaDiameterMin">
-                      </div>
-                  </div>
+            <div class="row">
+              <div class="col-md-5">
+                <label class="margin-top-7"><b>{{t_MoonfeaturesComponent_Diameter}}: </b></label>
               </div>
-              <br>
-              <div class="row">
-                  <div class="col-md-5">
-                      <label class="margin-top-7"><b>{{t_MoonfeaturesComponent_Diameter}}: </b></label>
-                  </div>
-                  <div class="col-md-7">
-                      <div class="input-group">
-                          <input name = "criteriaDiameterMax" type="text" class="form-control width-50" maxlength="3" placeholder="max" [(ngModel)]="criteriaDiameterMax">
-                      </div>
-                  </div>
-              </div>          
-            </li>
+              <div class="col-md-7">
+                <div class="input-group">
+                  <input name="criteriaDiameterMin" type="text" class="form-control width-50" maxlength="3" placeholder="min" [(ngModel)]="criteriaDiameterMin">
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-5">
+                <label class="margin-top-7"><b>{{t_MoonfeaturesComponent_Diameter}}: </b></label>
+              </div>
+              <div class="col-md-7">
+                <div class="input-group">
+                  <input name="criteriaDiameterMax" type="text" class="form-control width-50" maxlength="3" placeholder="max" [(ngModel)]="criteriaDiameterMax">
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="col-md-4">

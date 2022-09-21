@@ -1,65 +1,67 @@
 <div class="panel panel-primary top-50 panel-margin">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{t_AltAzCalculatorComponent_PanelTitle}}</h3>
-  </div>
-  <div class="panel-body">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{t_AltAzCalculatorComponent_PanelTitle}}</h3>
+    </div>
+    <div class="panel-body">
 
-    <div class="map">
-        <div class="row">
-            <div class="col-md-7">
-                <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="onMapClick($event)">
-                    <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable" [iconUrl]="iconUrl" (dragEnd)="onMarkerDragEnd($event)"></sebm-google-map-marker>
-                </sebm-google-map>
-            </div>
-            <div class="col-md-5">
-                <h3>{{t_AltAzCalculatorComponent_MapTitle}}</h3>
-                <br>
-                <ul class="list-group">
-                    <li class="list-group-item"><b>{{t_AltAzCalculatorComponent_Latitude}}: </b>&nbsp;{{lat}}</li>
-                    <li class="list-group-item"><b>{{t_AltAzCalculatorComponent_Longitude}}: </b>&nbsp;{{lng}}</li>
+        <div class="map">
+            <div class="row">
+                <div class="col-md-7">
+                    <google-map width="100%" height="720px" [zoom]="zoom" [center]="{lat: lat, lng: lng}" (mapClick)="onMapClick($event)">
+                        <map-marker [position]="{lat: lat, lng: lng}" [options]="{draggable: draggable}" [icon]="iconUrl" (mapDragend)="onMarkerDragEnd($event)"></map-marker>
+                    </google-map>
+                </div>
+                <div class="col-md-5">
+                    <h3>{{t_AltAzCalculatorComponent_MapTitle}}</h3>
                     <br>
-                    <li class="list-group-item">
-                        <b>{{t_AltAzCalculatorComponent_RA}}: </b><input type="text" class="form-control margin-left-30 width-120" name="ra"  (keyup)="onKeyUp()" [(ngModel)]="ra">
-                        <div class= "pull-right">
-                        <b>{{t_AltAzCalculatorComponent_DEC}}: </b><input type="text" class="form-control margin-left-30 width-120" name="dec"  (keyup)="onKeyUp()" [(ngModel)]="dec">
+                    <ul class="list-group">
+                        <li class="list-group-item"><b>{{t_AltAzCalculatorComponent_Latitude}}: </b>&nbsp;{{lat}}</li>
+                        <li class="list-group-item"><b>{{t_AltAzCalculatorComponent_Longitude}}: </b>&nbsp;{{lng}}</li>
+                        <br>
+                        <li class="list-group-item">
+                            <b>{{t_AltAzCalculatorComponent_RA}}: </b><input type="text" class="form-control margin-left-30 width-120" name="ra" (keyup)="onKeyUp()" [(ngModel)]="ra">
+                            <div class="pull-right">
+                                <b>{{t_AltAzCalculatorComponent_DEC}}: </b><input type="text" class="form-control margin-left-30 width-120" name="dec" (keyup)="onKeyUp()" [(ngModel)]="dec">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{t_AltAzCalculatorComponent_TimeUT}}: </b>
+                            <button class="btn btn-primary btn-xs margin-left-30" (click)="yearMinus()">&lt;</button><input type="text" class="form-control width-60" name="timeUtYYYY" maxlength="4" (keyup)="onKeyUp()" [(ngModel)]="timeUtYYYY"><button class="btn btn-primary btn-xs" (click)="yearPlus()">&gt;</button>
+                            <button class="btn btn-primary btn-xs margin-left-4" (click)="monthMinus()">&lt;</button><input type="text" class="form-control width-50" name="timeUtMM" maxlength="2" (keyup)="onKeyUp()" [(ngModel)]="timeUtMM"><button class="btn btn-primary btn-xs" (click)="monthPlus()">&gt;</button>
+                            <button class="btn btn-primary btn-xs margin-left-4" (click)="dayMinus()">&lt;</button><input type="text" class="form-control width-50" name="timeUtDD" maxlength="2" (keyup)="onKeyUp()" [(ngModel)]="timeUtDD"><button class="btn btn-primary btn-xs" (click)="dayPlus()">&gt;</button>
+                            <button class="btn btn-primary btn-xs margin-left-30" (click)="hourMinus()">&lt;</button><input type="text" class="form-control width-50" name="timeUtHH" maxlength="2" (keyup)="onKeyUp()" [(ngModel)]="timeUtHH"><button class="btn btn-primary btn-xs" (click)="hourPlus()">&gt;</button>
+                            <button class="btn btn-primary btn-xs margin-left-4" (click)="minuteMinus()">&lt;</button><input type="text" class="form-control width-50" name="timeUtMIN" maxlength="2" (keyup)="onKeyUp()" [(ngModel)]="timeUtMIN"><button class="btn btn-primary btn-xs" (click)="minutePlus()">&gt;</button>
+                        </li>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="heading-style">
+                                    <h4 class="margin-left-10"><i class="fa fa-binoculars" aria-hidden="true"></i>&nbsp;&nbsp;{{t_AltAzCalculatorComponent_ObjectsPosition}}</h4>
+                                </div>
+                            </div>
                         </div>
-                    </li>
-                    <li class="list-group-item">
-                        <b>{{t_AltAzCalculatorComponent_TimeUT}}: </b>
-                        <button class="btn btn-primary btn-xs margin-left-30" (click)="yearMinus()"><</button><input type="text" class="form-control width-60" name="timeUtYYYY" maxlength="4" (keyup)="onKeyUp()" [(ngModel)]="timeUtYYYY"><button class="btn btn-primary btn-xs" (click)="yearPlus()">></button>
-                        <button class="btn btn-primary btn-xs" (click)="monthMinus()"><</button><input type="text" class="form-control width-50" name="timeUtMM" maxlength="2"  (keyup)="onKeyUp()" [(ngModel)]="timeUtMM"><button class="btn btn-primary btn-xs" (click)="monthPlus()">></button>
-                        <button class="btn btn-primary btn-xs" (click)="dayMinus()"><</button><input type="text" class="form-control width-50" name="timeUtDD" maxlength="2"  (keyup)="onKeyUp()" [(ngModel)]="timeUtDD"><button class="btn btn-primary btn-xs" (click)="dayPlus()">></button>
-                        <button class="btn btn-primary btn-xs margin-left-30" (click)="hourMinus()"><</button><input type="text" class="form-control width-50" name="timeUtHH" maxlength="2"  (keyup)="onKeyUp()" [(ngModel)]="timeUtHH"><button class="btn btn-primary btn-xs" (click)="hourPlus()">></button>
-                        <button class="btn btn-primary btn-xs" (click)="minuteMinus()"><</button><input type="text" class="form-control width-50" name="timeUtMIN" maxlength="2"  (keyup)="onKeyUp()" [(ngModel)]="timeUtMIN"><button class="btn btn-primary btn-xs" (click)="minutePlus()">></button>
-                    </li>
-                    <br>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="heading-style"><h4 class="margin-left-10"><i class="fa fa-binoculars" aria-hidden="true"></i>&nbsp;&nbsp;{{t_AltAzCalculatorComponent_ObjectsPosition}}</h4></div>
+                        <div class="row">
+                            <div class="col-md-12 margin-top-8">
+                                <ul class="list-group">
+                                    <li><b>{{t_AltAzCalculatorComponent_Altitude}}:&nbsp;&nbsp;</b>{{altDMS ? altDMS[0] + "° " + altDMS[1] + "' " + altDMS[2] + "s" : ''}}</li>
+                                    <li><b>{{t_AltAzCalculatorComponent_Azimuth}}:&nbsp;&nbsp;</b>{{azDMS ? azDMS[0] + "° " + azDMS[1] + "' " + azDMS[2] + "s" : ''}}</li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 margin-top-8">
-                            <ul class="list-group">
-                                <li><b>{{t_AltAzCalculatorComponent_Altitude}}:&nbsp;&nbsp;</b>{{altDMS ? altDMS[0] + "° " + altDMS[1] + "' " + altDMS[2] + "s" : ''}}</li>
-                                <li><b>{{t_AltAzCalculatorComponent_Azimuth}}:&nbsp;&nbsp;</b>{{azDMS ? azDMS[0] + "° " + azDMS[1] + "' " + azDMS[2] + "s" : ''}}</li>
-                            </ul>
+                        <br>
+                        <div class="height-215">
+                            <div class="alert alert-info">
+                                {{t_AltAzCalculatorComponent_AlertText}}
+                            </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="height-215">
-                        <div class="alert alert-info">
-                            {{t_AltAzCalculatorComponent_AlertText}}
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <button class="btn btn-primary width-100 pull-right" (click)="onBackClick()" *ngIf="rightAscension!=='' && declination!==''"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {{t_AltAzCalculatorComponent_Back}}</button>
-                </ul>
+                        <br>
+                        <br>
+                        <button class="btn btn-primary width-100 pull-right" (click)="onBackClick()" *ngIf="rightAscension!=='' && declination!==''"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {{t_AltAzCalculatorComponent_Back}}</button>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-  </div>
+    </div>
 </div>

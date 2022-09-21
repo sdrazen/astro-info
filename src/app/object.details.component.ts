@@ -1,192 +1,175 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IDataObjectListModel } from './shared/data.objectlist.model';
 import { IObjectPositionModel } from './shared/object.position.model';
-import { FirebaseAuthService } from './shared/firebase.auth.service';
-import { FirebaseDataService } from './shared/firebase.data.service';
 import { WikipediaService } from './shared/wikipedia.service'
 import { FlickrService } from './shared/flickr.service'
 import { UserSettingsService } from './shared/user.settings.service';
 import { TranslationsService } from './shared/translations.service';
 import { CalculationsService } from './shared/calculations.service';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-object-details',
-  templateUrl: './object.details.component.html',
-  styleUrls: ['./object.details.component.css']
+    selector: 'app-object-details',
+    templateUrl: './object.details.component.html',
+    styleUrls: ['./object.details.component.css']
 })
 
 export class ObjectDetailsComponent implements OnInit {
 
-  isLoggedIn: boolean;
-  panelTitle: string = "Object details";
-  wikipediaTermCatalogueEntry: string = '';
-  wikipediaTermFamiliarName: string = '';
-  wikipediaTermAlternativeEntries: string = '';
-  wikipediaItems: Observable<Array<string>>;
-  flickrTags: string = '';
-  flickrItems: Observable<Array<any>>;
+    isLoggedIn: boolean;
+    panelTitle: string = "Object details";
+    wikipediaTermCatalogueEntry: string = '';
+    wikipediaTermFamiliarName: string = '';
+    wikipediaTermAlternativeEntries: string = '';
+    wikipediaItems: string[] = [];
+    flickrTags: string = '';
+    flickrItems: Observable<Array<any>>;
 
-  // Variables for various error messages
-  errorMessageFlickr: string = "";
-  errorMessageWikipedia: string = "";
+    // Variables for various error messages
+    errorMessageFlickr: string = "";
+    errorMessageWikipedia: string = "";
 
-  @Input() selectedObject: IDataObjectListModel;
-  @Output() public backButtonClicked = new EventEmitter();
+    @Input() selectedObject: IDataObjectListModel;
+    @Output() public backButtonClicked = new EventEmitter();
 
-  // Variables for charts
-  lineChartType:string = 'line';
-  lineChartLabels:Array<any> = [];
+    // Variables for translations
+    t_ObjectDetailsComponent_PanelTitle: string = "Object details";
+    t_ObjectDetailsComponent_ObjectsCurrentPosition: string = "Object's current position on the sky at Your location";
+    t_ObjectDetailsComponent_Altitude: string = "Altitude";
+    t_ObjectDetailsComponent_Azimuth: string = "Azimuth";
+    t_ObjectDetailsComponent_TimeUt: string = "Time (UT)";
+    t_ObjectDetailsComponent_ObjectsNextPositions: string = "Object's next positions on the sky at Your location";
+    t_ObjectDetailsComponent_Back: string = "Back";
 
-  lineChartData:Array<any> = [{data: [], label: ""}];
-  lineChartOptions:any = {
-    min: -90,
-    max: 90
-  };
+    // CaclulationsService current position
+    altAz: Array<number> = [];
+    altDMS: Array<number> = [];
+    azDMS: Array<number> = [];
 
-  lineChartLabelsTemp:Array<any> = [];
-  lineChartDataTemp:Array<any> = [{data: [], label: ""}];
+    // CaclulationsService position in next 12 hours
+    nextHoursPositions: Array<IObjectPositionModel>;
 
-  // Variables for translations
-  t_ObjectDetailsComponent_PanelTitle: string =  "Object details";
-  t_ObjectDetailsComponent_ObjectsCurrentPosition: string = "Object's current position on the sky at Your location";
-  t_ObjectDetailsComponent_Altitude: string = "Altitude";
-  t_ObjectDetailsComponent_Azimuth: string = "Azimuth";
-  t_ObjectDetailsComponent_TimeUt: string = "Time (UT)";
-  t_ObjectDetailsComponent_ObjectsNextPositions: string = "Object's next positions on the sky at Your location";
-  t_ObjectDetailsComponent_Back: string = "Back";
+    constructor(
+        private _wikipediaService: WikipediaService,
+        private _flickrService: FlickrService,
+        private _userSettingsService: UserSettingsService,
+        private _translationsService: TranslationsService,
+        private _calculationsService: CalculationsService
+    ) { }
 
-  // CaclulationsService current position
-  altAz: Array<number> = [];
-  altDMS: Array<number> = [];
-  azDMS: Array<number> = [];
+    ngOnInit() {
 
-  // CaclulationsService position in next 12 hours
-  nextHoursPositions: Array<IObjectPositionModel>;
+        //   var p = this._firebaseAuthService.listenForAuthStateChanges();
 
-  constructor(private _firebaseAuthService: FirebaseAuthService,
-              private _firebaseDataService: FirebaseDataService,
-              private _router: Router,
-              private _wikipediaService: WikipediaService,
-              private _flickrService: FlickrService,
-              private _userSettingsService: UserSettingsService,
-              private _translationsService: TranslationsService,
-              private _calculationsService: CalculationsService) { }
+        //   p.then(user => {
+        //     this.isLoggedIn = true;
 
-  ngOnInit() {
+        //         // Translations
+        //         this.translate();
 
-    //   var p = this._firebaseAuthService.listenForAuthStateChanges();
+        //         // Update panel title, object current position title and object next positions title
+        //         this.t_ObjectDetailsComponent_PanelTitle = this.t_ObjectDetailsComponent_PanelTitle + ((this.selectedObject.catalogueentry ? ": " + this.selectedObject.catalogueentry : (this.selectedObject.familiarname ? ": " + this.selectedObject.familiarname : "")));
+        //         this.t_ObjectDetailsComponent_ObjectsCurrentPosition = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsCurrentPosition
+        //         this.t_ObjectDetailsComponent_ObjectsNextPositions = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsNextPositions
 
-    //   p.then(user => {
-    //     this.isLoggedIn = true;
+        //         // Wikipedia term
+        //         this.wikipediaTermCatalogueEntry = this.selectedObject.catalogueentry;
+        //         this.wikipediaTermFamiliarName = this.selectedObject.familiarname;
+        //         this.wikipediaTermAlternativeEntries = this.selectedObject.alternativeentries;
 
-    //         // Translations
-    //         this.translate();
+        //         // Wikipedia search
+        //         let obsCatalogueEntry$ = this._wikipediaService.rawSearch(this.wikipediaTermCatalogueEntry);
+        //         let obsFamiliarName$ = this._wikipediaService.rawSearch(this.wikipediaTermFamiliarName);
+        //         let obsAlternativeEntries$ = this._wikipediaService.rawSearch(this.wikipediaTermAlternativeEntries);
+        //         let combined$ = Observable.forkJoin(obsCatalogueEntry$, obsFamiliarName$, obsAlternativeEntries$);
 
-    //         // Update panel title, object current position title and object next positions title
-    //         this.t_ObjectDetailsComponent_PanelTitle = this.t_ObjectDetailsComponent_PanelTitle + ((this.selectedObject.catalogueentry ? ": " + this.selectedObject.catalogueentry : (this.selectedObject.familiarname ? ": " + this.selectedObject.familiarname : "")));
-    //         this.t_ObjectDetailsComponent_ObjectsCurrentPosition = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsCurrentPosition
-    //         this.t_ObjectDetailsComponent_ObjectsNextPositions = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsNextPositions
+        //         combined$.subscribe(
+        //             (items) => {
+        //                 this.wikipediaItems = (items[0] !== undefined ? items[0] : []);
+        //                 this.wikipediaItems = (items[1] !== undefined ? this.wikipediaItems.concat(items[1]) : this.wikipediaItems);
+        //                 this.wikipediaItems = (items[2] !== undefined ? this.wikipediaItems.concat(items[2]) : this.wikipediaItems);
+        //             },
+        //             (err) => this.errorMessageWikipedia = err
+        //         )
 
-    //         // Wikipedia term
-    //         this.wikipediaTermCatalogueEntry = this.selectedObject.catalogueentry;
-    //         this.wikipediaTermFamiliarName = this.selectedObject.familiarname;
-    //         this.wikipediaTermAlternativeEntries = this.selectedObject.alternativeentries;
+        //         // Flickr tags
+        //         this.flickrTags = this.selectedObject.catalogueentry + ',' + this.selectedObject.familiarname;
 
-    //         // Wikipedia search
-    //         let obsCatalogueEntry$ = this._wikipediaService.rawSearch(this.wikipediaTermCatalogueEntry);
-    //         let obsFamiliarName$ = this._wikipediaService.rawSearch(this.wikipediaTermFamiliarName);
-    //         let obsAlternativeEntries$ = this._wikipediaService.rawSearch(this.wikipediaTermAlternativeEntries);
-    //         let combined$ = Observable.forkJoin(obsCatalogueEntry$, obsFamiliarName$, obsAlternativeEntries$);
+        //         // Flickr search
+        //         this._flickrService.getPhotos(this.flickrTags).subscribe(items => this.flickrItems = items.photos.photo, (err) => this.errorMessageFlickr = err);
 
-    //         combined$.subscribe(
-    //             (items) => {
-    //                 this.wikipediaItems = (items[0] !== undefined ? items[0] : []);
-    //                 this.wikipediaItems = (items[1] !== undefined ? this.wikipediaItems.concat(items[1]) : this.wikipediaItems);
-    //                 this.wikipediaItems = (items[2] !== undefined ? this.wikipediaItems.concat(items[2]) : this.wikipediaItems);
-    //             },
-    //             (err) => this.errorMessageWikipedia = err
-    //         )
+        //         // Object's current position on the sky for user's location
+        //         this.getObjectsCurrentPosition();
 
-    //         // Flickr tags
-    //         this.flickrTags = this.selectedObject.catalogueentry + ',' + this.selectedObject.familiarname;
+        //         // Object's next 12 hour positions on the sky for user's location
+        //         this.getObjectsNextPositions(12);
 
-    //         // Flickr search
-    //         this._flickrService.getPhotos(this.flickrTags).subscribe(items => this.flickrItems = items.photos.photo, (err) => this.errorMessageFlickr = err);
+        //         // Update chart's label and fill it's data with 100ms delay because of issues with chart.js
+        //         setTimeout(() => {
+        //             this.lineChartData[0].label = this.t_ObjectDetailsComponent_Altitude;
+        //             this.lineChartLabels = this.lineChartLabelsTemp;
+        //             this.lineChartData[0].data = this.lineChartDataTemp[0].data;
+        //         }, 100);
 
-    //         // Object's current position on the sky for user's location
-    //         this.getObjectsCurrentPosition();
-
-    //         // Object's next 12 hour positions on the sky for user's location
-    //         this.getObjectsNextPositions(12);
-
-    //         // Update chart's label and fill it's data with 100ms delay because of issues with chart.js
-    //         setTimeout(() => {
-    //             this.lineChartData[0].label = this.t_ObjectDetailsComponent_Altitude;
-    //             this.lineChartLabels = this.lineChartLabelsTemp;
-    //             this.lineChartData[0].data = this.lineChartDataTemp[0].data;
-    //         }, 100);
-
-    //   })
-    //   .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
+        //   })
+        //   .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
 
         this.isLoggedIn = true;
 
-            // Translations
-            this.translate();
+        // Translations
+        this.translate();
 
-            // Update panel title, object current position title and object next positions title
-            this.t_ObjectDetailsComponent_PanelTitle = this.t_ObjectDetailsComponent_PanelTitle + ((this.selectedObject.catalogueentry ? ": " + this.selectedObject.catalogueentry : (this.selectedObject.familiarname ? ": " + this.selectedObject.familiarname : "")));
-            this.t_ObjectDetailsComponent_ObjectsCurrentPosition = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsCurrentPosition
-            this.t_ObjectDetailsComponent_ObjectsNextPositions = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsNextPositions
+        // Update panel title, object current position title and object next positions title
+        this.t_ObjectDetailsComponent_PanelTitle = this.t_ObjectDetailsComponent_PanelTitle + ((this.selectedObject.catalogueentry ? ": " + this.selectedObject.catalogueentry : (this.selectedObject.familiarname ? ": " + this.selectedObject.familiarname : "")));
+        this.t_ObjectDetailsComponent_ObjectsCurrentPosition = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsCurrentPosition
+        this.t_ObjectDetailsComponent_ObjectsNextPositions = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsNextPositions
 
-            // Wikipedia term
-            this.wikipediaTermCatalogueEntry = this.selectedObject.catalogueentry;
-            this.wikipediaTermFamiliarName = this.selectedObject.familiarname;
-            this.wikipediaTermAlternativeEntries = this.selectedObject.alternativeentries;
+        // Wikipedia term
+        this.wikipediaTermCatalogueEntry = this.selectedObject.catalogueentry;
+        this.wikipediaTermFamiliarName = this.selectedObject.familiarname;
+        this.wikipediaTermAlternativeEntries = this.selectedObject.alternativeentries;
 
-            // Wikipedia search
-            let obsCatalogueEntry$ = this._wikipediaService.rawSearch(this.wikipediaTermCatalogueEntry);
-            let obsFamiliarName$ = this._wikipediaService.rawSearch(this.wikipediaTermFamiliarName);
-            let obsAlternativeEntries$ = this._wikipediaService.rawSearch(this.wikipediaTermAlternativeEntries);
-            let combined$ = Observable.forkJoin(obsCatalogueEntry$, obsFamiliarName$, obsAlternativeEntries$);
+        // Wikipedia search
+        if (this.wikipediaTermCatalogueEntry != "") {
+            this._wikipediaService.rawSearch(this.wikipediaTermCatalogueEntry)
+                .subscribe((items) => {
+                    items !== undefined ? this.wikipediaItems = this.wikipediaItems.concat(items) : this.wikipediaItems = this.wikipediaItems;
+                })
+        };
 
-            combined$.subscribe(
-                (items) => {
-                    this.wikipediaItems = (items[0] !== undefined ? items[0] : []);
-                    this.wikipediaItems = (items[1] !== undefined ? this.wikipediaItems.concat(items[1]) : this.wikipediaItems);
-                    this.wikipediaItems = (items[2] !== undefined ? this.wikipediaItems.concat(items[2]) : this.wikipediaItems);
-                },
-                (err) => this.errorMessageWikipedia = err
-            )
+        if (this.wikipediaTermFamiliarName != "") {
+            this._wikipediaService.rawSearch(this.wikipediaTermFamiliarName)
+                .subscribe((items) => {
+                    items !== undefined ? this.wikipediaItems = this.wikipediaItems.concat(items) : this.wikipediaItems = this.wikipediaItems;
+                })
+        };
 
-            // Flickr tags
-            this.flickrTags = this.selectedObject.catalogueentry + ',' + this.selectedObject.familiarname;
+        if (this.wikipediaTermAlternativeEntries != "") {
+            this._wikipediaService.rawSearch(this.wikipediaTermAlternativeEntries)
+                .subscribe((items) => {
+                    items !== undefined ? this.wikipediaItems = this.wikipediaItems.concat(items) : this.wikipediaItems = this.wikipediaItems;
+                })
+        };
 
-            // Flickr search
-            this._flickrService.getPhotos(this.flickrTags).subscribe(items => this.flickrItems = items.photos.photo, (err) => this.errorMessageFlickr = err);
+        // Flickr tags
+        this.flickrTags = this.selectedObject.catalogueentry + ',' + this.selectedObject.familiarname;
 
-            // Object's current position on the sky for user's location
-            this.getObjectsCurrentPosition();
+        // Flickr search
+        this._flickrService.getPhotos(this.flickrTags).subscribe(items => this.flickrItems = items.photos.photo, (err) => this.errorMessageFlickr = err);
 
-            // Object's next 12 hour positions on the sky for user's location
-            this.getObjectsNextPositions(12);
+        // Object's current position on the sky for user's location
+        this.getObjectsCurrentPosition();
 
-            // Update chart's label and fill it's data with 100ms delay because of issues with chart.js
-            setTimeout(() => {
-                this.lineChartData[0].label = this.t_ObjectDetailsComponent_Altitude;
-                this.lineChartLabels = this.lineChartLabelsTemp;
-                this.lineChartData[0].data = this.lineChartDataTemp[0].data;
-            }, 100);
+        // Object's next 12 hour positions on the sky for user's location
+        this.getObjectsNextPositions(12);
 
-  }
+    }
 
-  onBackClick() {
-      this.backButtonClicked.emit();
-  }
+    onBackClick() {
+        this.backButtonClicked.emit();
+    }
 
-  getObjectsCurrentPosition() {
+    getObjectsCurrentPosition() {
 
         let RA: Array<string> = this.selectedObject.rightascension.replace("h", "").replace("'", "").replace("s", "").split(" ");
         let RA_H: number = parseInt(RA[0]);
@@ -207,22 +190,22 @@ export class ObjectDetailsComponent implements OnInit {
         let min = utc_now.getMinutes();
 
         this.altAz = this._calculationsService.getAltAz(
-            this._calculationsService.convertToHours(RA_H, RA_M, RA_S), 
-            this._calculationsService.convertToDegreesDecimal(DEC_D, DEC_M, DEC_S), 
-            LAT, 
-            LON, 
-            yyyy, 
-            mm, 
-            dd, 
-            hh, 
+            this._calculationsService.convertToHours(RA_H, RA_M, RA_S),
+            this._calculationsService.convertToDegreesDecimal(DEC_D, DEC_M, DEC_S),
+            LAT,
+            LON,
+            yyyy,
+            mm,
+            dd,
+            hh,
             min
         );
         this.altDMS = this._calculationsService.convertDegreesDecimalToDegreesMinutesSeconds(this.altAz[0]);
         this.azDMS = this._calculationsService.convertDegreesDecimalToDegreesMinutesSeconds(this.altAz[1]);
 
-  }
+    }
 
-  getObjectsNextPositions(iterations: number) {
+    getObjectsNextPositions(iterations: number) {
 
         let RA: Array<string> = this.selectedObject.rightascension.replace("h", "").replace("'", "").replace("s", "").split(" ");
         let RA_H: number = parseInt(RA[0]);
@@ -254,14 +237,14 @@ export class ObjectDetailsComponent implements OnInit {
         for (let i = 1; i <= iterations; i++) {
 
             altAz = this._calculationsService.getAltAz(
-                this._calculationsService.convertToHours(RA_H, RA_M, RA_S), 
-                this._calculationsService.convertToDegreesDecimal(DEC_D, DEC_M, DEC_S), 
-                LAT, 
-                LON, 
-                yyyy, 
-                mm, 
-                (hh + i >= 24) ? dd + 1 : dd, 
-                hh + i >= 24 ? hh + i - 24 : hh + i, 
+                this._calculationsService.convertToHours(RA_H, RA_M, RA_S),
+                this._calculationsService.convertToDegreesDecimal(DEC_D, DEC_M, DEC_S),
+                LAT,
+                LON,
+                yyyy,
+                mm,
+                (hh + i >= 24) ? dd + 1 : dd,
+                hh + i >= 24 ? hh + i - 24 : hh + i,
                 min
             );
             alt = this._calculationsService.convertDegreesDecimalToDegreesMinutesSeconds(altAz[0]);
@@ -269,43 +252,41 @@ export class ObjectDetailsComponent implements OnInit {
             altDMS = alt[0].toString() + "° " + alt[1].toString() + "' " + alt[2].toString() + "s";
             azDMS = az[0].toString() + "° " + az[1].toString() + "' " + az[2].toString() + "s";
 
-            obj = {id: 0, hours: 0, altitude: "0", azimuth: "0"};
+            obj = { id: 0, hours: 0, altitude: "0", azimuth: "0" };
             obj.id = i;
             obj.hours = (hh + i >= 24 ? hh + i - 24 : hh + i);
             obj.altitude = altDMS;
             obj.azimuth = azDMS;
 
             this.nextHoursPositions.push(obj);
-            this.lineChartLabelsTemp.push(obj.hours < 10 ? '0' + obj.hours.toString() + "h" : obj.hours.toString() + "h");
-            this.lineChartDataTemp[0].data.push(alt[0].toString());
 
         }
 
-  }
+    }
 
-  translate() {
+    translate() {
 
-      if (this._translationsService.translationsSetToVariables === false) {
-          this._translationsService.setTranslationsForLanguage(this._userSettingsService.languageId)
-              .then(() => {
-                  this.t_ObjectDetailsComponent_PanelTitle = this._translationsService.t_ObjectDetailsComponent_PanelTitle;
-                  this.t_ObjectDetailsComponent_ObjectsCurrentPosition = this._translationsService.t_ObjectDetailsComponent_ObjectsCurrentPosition;
-                  this.t_ObjectDetailsComponent_Altitude = this._translationsService.t_ObjectDetailsComponent_Altitude;
-                  this.t_ObjectDetailsComponent_Azimuth = this._translationsService.t_ObjectDetailsComponent_Azimuth;
-                  this.t_ObjectDetailsComponent_TimeUt = this._translationsService.t_ObjectDetailsComponent_TimeUt;
-                  this.t_ObjectDetailsComponent_ObjectsNextPositions = this._translationsService.t_ObjectDetailsComponent_ObjectsNextPositions;
-                  this.t_ObjectDetailsComponent_Back = this._translationsService.t_ObjectDetailsComponent_Back;
-              });
-      } else {
-                  this.t_ObjectDetailsComponent_PanelTitle = this._translationsService.t_ObjectDetailsComponent_PanelTitle;
-                  this.t_ObjectDetailsComponent_ObjectsCurrentPosition = this._translationsService.t_ObjectDetailsComponent_ObjectsCurrentPosition;
-                  this.t_ObjectDetailsComponent_Altitude = this._translationsService.t_ObjectDetailsComponent_Altitude;
-                  this.t_ObjectDetailsComponent_Azimuth = this._translationsService.t_ObjectDetailsComponent_Azimuth;
-                  this.t_ObjectDetailsComponent_TimeUt = this._translationsService.t_ObjectDetailsComponent_TimeUt;
-                  this.t_ObjectDetailsComponent_ObjectsNextPositions = this._translationsService.t_ObjectDetailsComponent_ObjectsNextPositions;
-                  this.t_ObjectDetailsComponent_Back = this._translationsService.t_ObjectDetailsComponent_Back;
-      }
+        if (this._translationsService.translationsSetToVariables === false) {
+            this._translationsService.setTranslationsForLanguage(this._userSettingsService.languageId)
+                .then(() => {
+                    this.t_ObjectDetailsComponent_PanelTitle = this._translationsService.t_ObjectDetailsComponent_PanelTitle;
+                    this.t_ObjectDetailsComponent_ObjectsCurrentPosition = this._translationsService.t_ObjectDetailsComponent_ObjectsCurrentPosition;
+                    this.t_ObjectDetailsComponent_Altitude = this._translationsService.t_ObjectDetailsComponent_Altitude;
+                    this.t_ObjectDetailsComponent_Azimuth = this._translationsService.t_ObjectDetailsComponent_Azimuth;
+                    this.t_ObjectDetailsComponent_TimeUt = this._translationsService.t_ObjectDetailsComponent_TimeUt;
+                    this.t_ObjectDetailsComponent_ObjectsNextPositions = this._translationsService.t_ObjectDetailsComponent_ObjectsNextPositions;
+                    this.t_ObjectDetailsComponent_Back = this._translationsService.t_ObjectDetailsComponent_Back;
+                });
+        } else {
+            this.t_ObjectDetailsComponent_PanelTitle = this._translationsService.t_ObjectDetailsComponent_PanelTitle;
+            this.t_ObjectDetailsComponent_ObjectsCurrentPosition = this._translationsService.t_ObjectDetailsComponent_ObjectsCurrentPosition;
+            this.t_ObjectDetailsComponent_Altitude = this._translationsService.t_ObjectDetailsComponent_Altitude;
+            this.t_ObjectDetailsComponent_Azimuth = this._translationsService.t_ObjectDetailsComponent_Azimuth;
+            this.t_ObjectDetailsComponent_TimeUt = this._translationsService.t_ObjectDetailsComponent_TimeUt;
+            this.t_ObjectDetailsComponent_ObjectsNextPositions = this._translationsService.t_ObjectDetailsComponent_ObjectsNextPositions;
+            this.t_ObjectDetailsComponent_Back = this._translationsService.t_ObjectDetailsComponent_Back;
+        }
 
-  }
+    }
 
 }

@@ -1,35 +1,26 @@
-import {Injectable} from '@angular/core';
-import {URLSearchParams, Jsonp, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
- 
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map, catchError } from 'rxjs';
+
 @Injectable()
 export class WikipediaService {
-  constructor(private jsonp: Jsonp) {}
-  
-//   search(terms: Observable<string>, debounceDuration = 400) {
-//     return terms.debounceTime(debounceDuration)
-//                 .distinctUntilChanged()
-//                 .switchMap(term => this.rawSearch(term));
-//   }
-  
-  rawSearch (wikipediaTerm: string): Observable<any> {
-    var search = new URLSearchParams()
-    search.set('action', 'opensearch');
-    search.set('search', wikipediaTerm);
-    search.set('format', 'json');
-    return this.jsonp
-                .get('https://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK', { search })
-                .map((request) => request.json()[3])
-                .catch(this._serverError);
-  }
+  constructor(private http: HttpClient) { }
 
-  private _serverError(err: any) {
+  //   search(terms: Observable<string>, debounceDuration = 400) {
+  //     return terms.debounceTime(debounceDuration)
+  //                 .distinctUntilChanged()
+  //                 .switchMap(term => this.rawSearch(term));
+  //   }
 
-      if(err instanceof Response) {
-          return Observable.throw("Server error...");
-      }
-      return Observable.throw(err);
-
+  rawSearch(wikipediaTerm: string): Observable<string[]> {
+    return this.http.get(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&format=json&search=${wikipediaTerm}&namespace=`)
+      .pipe(
+        map((request) => request[3])
+      ).pipe(
+        catchError(err => {
+          throw ("Error fetching data from server: " + err)
+        })
+      )
   }
 
 }

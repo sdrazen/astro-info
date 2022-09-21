@@ -10,9 +10,7 @@ import { ISearchCriteriaMoonfeaturesModel } from '../shared/searchcriteriamoonfe
 import { ISearchCriteriaSolarEclipsesModel } from '../shared/searchcriteriasolareclipses.model';
 import { ISearchCriteriaLunarEclipsesModel } from '../shared/searchcriterialunareclipses.model';
 import { CalculationsService } from '../shared/calculations.service';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 declare var firebase: any;
 
 @Injectable()
@@ -54,11 +52,11 @@ export class FirebaseDataService {
     isInitialGetLunarEclipses: boolean = true;
     lunarEclipse: IDataLunarEclipseListModel;
 
-    constructor(private _http: Http, private _calculationsService: CalculationsService) { }
+    constructor(private _http: HttpClient, private _calculationsService: CalculationsService) { }
 
     getAllObjects(orderBy: string): Promise<any> {
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise<void>((resolve, reject) => {
 
             if (this.allObjects.length === 0) {
                 firebase.database().ref('/dsos').orderByChild(orderBy).on('child_added', (snapshot) => {
@@ -91,18 +89,18 @@ export class FirebaseDataService {
 
         this.objects = [];
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
 
             if (this.filteredObjects.length > 0) {
                 this.objects = filteredObjects.filter((value, index, array) => {
-                                    return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
-                                });
+                    return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
+                });
 
             } else {
                 if (this.isInitialGet) {
                     this.objects = allObjects.filter((value, index, array) => {
-                                        return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
-                                    });
+                        return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
+                    });
                 }
             }
 
@@ -140,51 +138,51 @@ export class FirebaseDataService {
         this.objects = [];
         this.filteredObjects = [];
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
 
             this.objects = allObjects.filter((value, index, array) => {
 
-                                let altAz: Array<number> = [];
-                                let altDMS: Array<number> = [];
-                                let azDMS: Array<number> = [];
+                let altAz: Array<number> = [];
+                let altDMS: Array<number> = [];
+                let azDMS: Array<number> = [];
 
-                                // If there is no criteria regarding object position (alt, az) at given time, don't calculate, otherwise do calculate
-                                if (
-                                    (searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAltMin !== "") ||
-                                    (searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAltMax !== "") ||
-                                    (searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAzMin !== "") ||
-                                    (searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAzMax !== "")
-                                    ) {
-                                        altAz = this.getObjectPosition(value.rightascension, value.declination, searchcriteria.criteriaLat, searchcriteria.criteriaLng, searchcriteria.criteriaTimeUt);
-                                        altDMS = this._calculationsService.convertDegreesDecimalToDegreesMinutesSeconds(altAz[0]);
-                                        azDMS = this._calculationsService.convertDegreesDecimalToDegreesMinutesSeconds(altAz[1]);
-                                    }
+                // If there is no criteria regarding object position (alt, az) at given time, don't calculate, otherwise do calculate
+                if (
+                    (searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAltMin !== "") ||
+                    (searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAltMax !== "") ||
+                    (searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAzMin !== "") ||
+                    (searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAzMax !== "")
+                ) {
+                    altAz = this.getObjectPosition(value.rightascension, value.declination, searchcriteria.criteriaLat, searchcriteria.criteriaLng, searchcriteria.criteriaTimeUt);
+                    altDMS = this._calculationsService.convertDegreesDecimalToDegreesMinutesSeconds(altAz[0]);
+                    azDMS = this._calculationsService.convertDegreesDecimalToDegreesMinutesSeconds(altAz[1]);
+                }
 
-                                return (
-                                    (
-                                        (value.catalogueentry.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1) ||
-                                        (value.catalogueentry.toLowerCase().replace(" ", "").indexOf(searchcriteria.searchText.toLowerCase()) !== -1) ||
-                                        (value.familiarname.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1) ||
-                                        (value.alternativeentries.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaType !== "" ) ? value.type.toLowerCase() === searchcriteria.criteriaType.toLowerCase() : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaConstellation !== "" ) ? value.constellation.toLowerCase() === searchcriteria.criteriaConstellation.toLowerCase() : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaMagnitudeMax !== "" ) ? parseFloat(value.magnitude) <= parseInt(searchcriteria.criteriaMagnitudeMax) : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaSizeMin !== "" ) ? this.isSizeGreaterOrEqualToValueInMinutes(value.size, parseInt(searchcriteria.criteriaSizeMin)) : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAltMin !== "" ) ? altDMS[0] >= parseInt(searchcriteria.criteriaAltMin) : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAltMax !== "" ) ? altDMS[0] <= parseInt(searchcriteria.criteriaAltMax) : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAzMin !== "" ) ? azDMS[0] >= parseInt(searchcriteria.criteriaAzMin) : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAzMax !== "" ) ? azDMS[0] <= parseInt(searchcriteria.criteriaAzMax) : true)
-                                    )
-                                );
-                            });
+                return (
+                    (
+                        (value.catalogueentry.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1) ||
+                        (value.catalogueentry.toLowerCase().replace(" ", "").indexOf(searchcriteria.searchText.toLowerCase()) !== -1) ||
+                        (value.familiarname.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1) ||
+                        (value.alternativeentries.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaType !== "") ? value.type.toLowerCase() === searchcriteria.criteriaType.toLowerCase() : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaConstellation !== "") ? value.constellation.toLowerCase() === searchcriteria.criteriaConstellation.toLowerCase() : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaMagnitudeMax !== "") ? parseFloat(value.magnitude) <= parseInt(searchcriteria.criteriaMagnitudeMax) : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaSizeMin !== "") ? this.isSizeGreaterOrEqualToValueInMinutes(value.size, parseInt(searchcriteria.criteriaSizeMin)) : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAltMin !== "") ? altDMS[0] >= parseInt(searchcriteria.criteriaAltMin) : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAltMax !== "") ? altDMS[0] <= parseInt(searchcriteria.criteriaAltMax) : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAzMin !== "") ? azDMS[0] >= parseInt(searchcriteria.criteriaAzMin) : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaAzMax !== "") ? azDMS[0] <= parseInt(searchcriteria.criteriaAzMax) : true)
+                    )
+                );
+            });
 
             this.filteredObjects = this.objects;
             this.isInitialGet = false;
@@ -200,7 +198,7 @@ export class FirebaseDataService {
 
     getAllStores(orderBy: string): Promise<any> {
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise<void>((resolve, reject) => {
 
             if (this.allStores.length === 0) {
                 firebase.database().ref('/stores').orderByChild(orderBy).on('child_added', (snapshot) => {
@@ -231,7 +229,7 @@ export class FirebaseDataService {
                     resolve(store);
                 })
                 .catch((error) => reject(error))
-            })
+        })
 
         return p;
 
@@ -247,7 +245,7 @@ export class FirebaseDataService {
                     resolve(store);
                 })
                 .catch((error) => reject(error))
-            })
+        })
 
         return p;
 
@@ -255,14 +253,14 @@ export class FirebaseDataService {
 
     deleteStore(storeKey: string): Promise<any> {
 
-        let p = new Promise((resolve, reject) => {
+        let p = new Promise<void>((resolve, reject) => {
 
             firebase.database().ref('/stores/' + storeKey).remove()
                 .then(() => {
                     resolve();
                 })
                 .catch((error) => reject(error))
-            })
+        })
 
         return p;
 
@@ -270,7 +268,7 @@ export class FirebaseDataService {
 
     getAllLocations(orderBy: string): Promise<any> {
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise<void>((resolve, reject) => {
 
             if (this.allLocations.length === 0) {
                 firebase.database().ref('/locations').orderByChild(orderBy).on('child_added', (snapshot) => {
@@ -301,7 +299,7 @@ export class FirebaseDataService {
                     resolve(location);
                 })
                 .catch((error) => reject(error))
-            })
+        })
 
         return p;
 
@@ -317,7 +315,7 @@ export class FirebaseDataService {
                     resolve(location);
                 })
                 .catch((error) => reject(error))
-            })
+        })
 
         return p;
 
@@ -325,14 +323,14 @@ export class FirebaseDataService {
 
     deleteLocation(locationKey: string): Promise<any> {
 
-        let p = new Promise((resolve, reject) => {
+        let p = new Promise<void>((resolve, reject) => {
 
             firebase.database().ref('/locations/' + locationKey).remove()
                 .then(() => {
                     resolve();
                 })
                 .catch((error) => reject(error))
-            })
+        })
 
         return p;
 
@@ -373,7 +371,7 @@ export class FirebaseDataService {
         return isOk;
     }
 
-  getObjectPosition(ra: string, dec: string, lat: number, lng: number, timeUt: string): Array<number> {
+    getObjectPosition(ra: string, dec: string, lat: number, lng: number, timeUt: string): Array<number> {
 
         let RA: Array<string> = ra.replace("h", "").replace("'", "").replace("s", "").split(" ");
         let RA_H: number = parseInt(RA[0]);
@@ -397,24 +395,24 @@ export class FirebaseDataService {
         let azDMS: Array<number> = [];
 
         altAz = this._calculationsService.getAltAz(
-            this._calculationsService.convertToHours(RA_H, RA_M, RA_S), 
-            this._calculationsService.convertToDegreesDecimal(DEC_D, DEC_M, DEC_S), 
-            LAT, 
-            LON, 
-            yyyy, 
-            mm, 
-            dd, 
-            hh, 
+            this._calculationsService.convertToHours(RA_H, RA_M, RA_S),
+            this._calculationsService.convertToDegreesDecimal(DEC_D, DEC_M, DEC_S),
+            LAT,
+            LON,
+            yyyy,
+            mm,
+            dd,
+            hh,
             min
         );
 
         return altAz;
 
-  }
+    }
 
     getAllMoonfeatures(orderBy: string): Promise<any> {
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise<void>((resolve, reject) => {
 
             if (this.allMoonfeatures.length === 0) {
                 firebase.database().ref('/moonfeatures').orderByChild(orderBy).on('child_added', (snapshot) => {
@@ -449,18 +447,18 @@ export class FirebaseDataService {
 
         this.moonfeatures = [];
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
 
             if (this.filteredMoonfeatures.length > 0) {
                 this.moonfeatures = filteredMoonfeatures.filter((value, index, array) => {
-                                    return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
-                                });
+                    return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
+                });
 
             } else {
                 if (this.isInitialGetMoonfeatures) {
                     this.moonfeatures = allMoonfeatures.filter((value, index, array) => {
-                                        return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
-                                    });
+                        return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
+                    });
                 }
             }
 
@@ -478,25 +476,25 @@ export class FirebaseDataService {
         this.moonfeatures = [];
         this.filteredMoonfeatures = [];
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
 
             this.moonfeatures = allMoonfeatures.filter((value, index, array) => {
 
-                                return (
-                                    (
-                                        (value.name.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1) ||
-                                        (value.origin.toLowerCase().replace(" ", "").indexOf(searchcriteria.searchText.toLowerCase()) !== -1)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaFeatureTypeText !== "" ) ? value.featuretypetext.toLowerCase() === searchcriteria.criteriaFeatureTypeText.toLowerCase() : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaApprovalStatusText !== "" ) ? value.approvalstatustext.toLowerCase() === searchcriteria.criteriaApprovalStatusText.toLowerCase() : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaDiameterMin !== "" ) ? parseFloat(value.diameter) >= parseInt(searchcriteria.criteriaDiameterMin) : true)
-                                    ) && (
-                                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaDiameterMax !== "" ) ? parseFloat(value.diameter) <= parseInt(searchcriteria.criteriaDiameterMax) : true)
-                                    )
-                                );
-                            });
+                return (
+                    (
+                        (value.name.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1) ||
+                        (value.origin.toLowerCase().replace(" ", "").indexOf(searchcriteria.searchText.toLowerCase()) !== -1)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaFeatureTypeText !== "") ? value.featuretypetext.toLowerCase() === searchcriteria.criteriaFeatureTypeText.toLowerCase() : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaApprovalStatusText !== "") ? value.approvalstatustext.toLowerCase() === searchcriteria.criteriaApprovalStatusText.toLowerCase() : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaDiameterMin !== "") ? parseFloat(value.diameter) >= parseInt(searchcriteria.criteriaDiameterMin) : true)
+                    ) && (
+                        ((searchcriteria.useAdditionalCriteria && searchcriteria.criteriaDiameterMax !== "") ? parseFloat(value.diameter) <= parseInt(searchcriteria.criteriaDiameterMax) : true)
+                    )
+                );
+            });
 
             this.filteredMoonfeatures = this.moonfeatures;
             this.isInitialGetMoonfeatures = false;
@@ -512,7 +510,7 @@ export class FirebaseDataService {
 
     getAllSolarEclipses(): Promise<any> {
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise<void>((resolve, reject) => {
 
             if (this.allSolarEclipses.length === 0) {
                 firebase.database().ref('/solareclipses').orderByKey().on('child_added', (snapshot) => {
@@ -538,18 +536,18 @@ export class FirebaseDataService {
 
         this.solarEclipses = [];
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
 
             if (this.filteredSolarEclipses.length > 0) {
                 this.solarEclipses = filteredSolarEclipses.filter((value, index, array) => {
-                                    return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
-                                });
+                    return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
+                });
 
             } else {
                 if (this.isInitialGetSolarEclipses) {
                     this.solarEclipses = allSolarEclipses.filter((value, index, array) => {
-                                        return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
-                                    });
+                        return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
+                    });
                 }
             }
 
@@ -567,16 +565,16 @@ export class FirebaseDataService {
         this.solarEclipses = [];
         this.filteredSolarEclipses = [];
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
 
             this.solarEclipses = allSolarEclipses.filter((value, index, array) => {
 
-                                return (
-                                    (
-                                        (value.calendardate.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1)
-                                    )
-                                );
-                            });
+                return (
+                    (
+                        (value.calendardate.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1)
+                    )
+                );
+            });
 
             this.filteredSolarEclipses = this.solarEclipses;
             this.isInitialGetSolarEclipses = false;
@@ -592,7 +590,7 @@ export class FirebaseDataService {
 
     getAllLunarEclipses(): Promise<any> {
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise<void>((resolve, reject) => {
 
             if (this.allLunarEclipses.length === 0) {
                 firebase.database().ref('/lunareclipses').orderByKey().on('child_added', (snapshot) => {
@@ -618,18 +616,18 @@ export class FirebaseDataService {
 
         this.lunarEclipses = [];
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
 
             if (this.filteredLunarEclipses.length > 0) {
                 this.lunarEclipses = filteredLunarEclipses.filter((value, index, array) => {
-                                    return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
-                                });
+                    return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
+                });
 
             } else {
                 if (this.isInitialGetLunarEclipses) {
                     this.lunarEclipses = allLunarEclipses.filter((value, index, array) => {
-                                        return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
-                                    });
+                        return (index >= (pageIndex - 1) * itemsPerPage && index <= (pageIndex - 1) * itemsPerPage + itemsPerPage - 1);
+                    });
                 }
             }
 
@@ -647,16 +645,16 @@ export class FirebaseDataService {
         this.lunarEclipses = [];
         this.filteredLunarEclipses = [];
 
-        let p = new Promise ((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
 
             this.lunarEclipses = allLunarEclipses.filter((value, index, array) => {
 
-                                return (
-                                    (
-                                        (value.calendardate.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1)
-                                    )
-                                );
-                            });
+                return (
+                    (
+                        (value.calendardate.toLowerCase().indexOf(searchcriteria.searchText.toLowerCase()) !== -1)
+                    )
+                );
+            });
 
             this.filteredLunarEclipses = this.lunarEclipses;
             this.isInitialGetLunarEclipses = false;

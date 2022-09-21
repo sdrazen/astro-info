@@ -17,38 +17,3 @@
     <br>
     <br>
 </div>
-
-<!--PayPal-->
-<div class="row top-50">
-    <div class="col-md-5">
-    </div>
-    <div class="col-md-2">
-        <form #form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="DUZL2KFTXZE7U">
-            <input type="hidden" name="lc" value="HR">
-            <input type="hidden" name="button_subtype" value="services">
-            <input type="hidden" name="currency_code" value="USD">
-            <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
-            <table>
-            <tr><td><input type="hidden" name="on0" value="Options"><b>{{t_AboutComponent_PleaseDonate}}:</b></td></tr><tr><td><select name="os0">
-                <option value="Option 1">{{t_AboutComponent_Option}} 1 $1.00 USD</option>
-                <option value="Option 2">{{t_AboutComponent_Option}} 2 $2.00 USD</option>
-                <option value="Option 3">{{t_AboutComponent_Option}} 3 $3.00 USD</option>
-            </select> </td></tr>
-            </table>
-            <input type="hidden" name="currency_code" value="USD">
-            <input type="hidden" name="option_select0" value="Option 1">
-            <input type="hidden" name="option_amount0" value="1.00">
-            <input type="hidden" name="option_select1" value="Option 2">
-            <input type="hidden" name="option_amount1" value="2.00">
-            <input type="hidden" name="option_select2" value="Option 3">
-            <input type="hidden" name="option_amount2" value="3.00">
-            <input type="hidden" name="option_index" value="0">
-            <input (click)="form.submit()" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-        </form>
-    </div>
-    <div class="col-md-5">
-    </div>
-</div>

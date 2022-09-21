@@ -3,6 +3,7 @@ export interface IUserSettingsModel {
     lng: number;
     timeZoneRawOffset: number;
     languageId: number;
+    dataSource: number;
     itemsPerPage: number
     pagesPerPageset: number;
 }

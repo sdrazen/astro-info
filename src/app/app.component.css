@@ -50,3 +50,11 @@
 .color-yellow {
     color: yellow;
 }
+
+.footer {
+    position: fixed;
+    left: 15px;
+    right: 25px;
+    bottom: 0;
+    margin-top: 50px;
+}

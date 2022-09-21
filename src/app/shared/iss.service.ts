@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
- 
+import { HttpClient } from '@angular/common/http';
+import { Observable, map, catchError } from 'rxjs';
+import { IIssModel } from './data.iss.model';
+
 @Injectable()
 export class IssService {
 
-  constructor(private _http: Http) {}
-  
-  getCurrentIssPosition(): Observable<any> {
+  constructor(private _http: HttpClient) { }
+
+  getCurrentIssPosition(): Observable<IIssModel> {
 
     return this._http
-                .get('https://api.wheretheiss.at/v1/satellites/25544')
-                .map((request) => request.json())
-                .catch(this._serverError);
-
-  }
-
-  private _serverError(err: any) {
-
-      if(err instanceof Response) {
-          return Observable.throw("Server error...");
-      }
-      return Observable.throw(err);
+      .get('https://api.wheretheiss.at/v1/satellites/25544')
+      .pipe(
+        map((request) => <IIssModel>request)
+      ).pipe(
+        catchError(err => {
+          throw ("Error fetching data from server: " + err)
+        })
+      )
 
   }
 

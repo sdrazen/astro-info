@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseAuthService } from './shared/firebase.auth.service';
 import { UserSettingsService } from './shared/user.settings.service';
 import { TranslationsService } from './shared/translations.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-about',
@@ -19,44 +17,44 @@ export class AboutComponent implements OnInit {
   t_AboutComponent_PleaseDonate: string = "Please donate (optional)";
   t_AboutComponent_Option: string = "Option";
 
-  constructor(private _firebaseAuthService: FirebaseAuthService, private _router: Router, private _userSettingsService: UserSettingsService, private _translationsService: TranslationsService) { }
+  constructor(private _userSettingsService: UserSettingsService, private _translationsService: TranslationsService) { }
 
   ngOnInit() {
 
-      // var p = this._firebaseAuthService.listenForAuthStateChanges();
+    // var p = this._firebaseAuthService.listenForAuthStateChanges();
 
-      // p.then(user => {
-      //   this.isLoggedIn = true;
+    // p.then(user => {
+    //   this.isLoggedIn = true;
 
-      //   // Translations
-      //   this.translate();
+    //   // Translations
+    //   this.translate();
 
-      // })
-      // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
+    // })
+    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
 
-        this.isLoggedIn = true;
+    this.isLoggedIn = true;
 
-        // Translations
-        this.translate();
+    // Translations
+    this.translate();
 
-    }
+  }
 
   translate() {
 
-      if (this._translationsService.translationsSetToVariables === false) {
-          this._translationsService.setTranslationsForLanguage(this._userSettingsService.languageId)
-              .then(() => {
-                  this.t_AboutComponent_PanelTitle = this._translationsService.t_AboutComponent_PanelTitle;
-                  this.t_AboutComponent_PanelContent = this._translationsService.t_AboutComponent_PanelContent;
-                  this.t_AboutComponent_PleaseDonate = this._translationsService.t_AboutComponent_PleaseDonate;
-                  this.t_AboutComponent_Option = this._translationsService.t_AboutComponent_Option;
-              });
-      } else {
-                  this.t_AboutComponent_PanelTitle = this._translationsService.t_AboutComponent_PanelTitle;
-                  this.t_AboutComponent_PanelContent = this._translationsService.t_AboutComponent_PanelContent;
-                  this.t_AboutComponent_PleaseDonate = this._translationsService.t_AboutComponent_PleaseDonate;
-                  this.t_AboutComponent_Option = this._translationsService.t_AboutComponent_Option;
-      }
+    if (this._translationsService.translationsSetToVariables === false) {
+      this._translationsService.setTranslationsForLanguage(this._userSettingsService.languageId)
+        .then(() => {
+          this.t_AboutComponent_PanelTitle = this._translationsService.t_AboutComponent_PanelTitle;
+          this.t_AboutComponent_PanelContent = this._translationsService.t_AboutComponent_PanelContent;
+          this.t_AboutComponent_PleaseDonate = this._translationsService.t_AboutComponent_PleaseDonate;
+          this.t_AboutComponent_Option = this._translationsService.t_AboutComponent_Option;
+        });
+    } else {
+      this.t_AboutComponent_PanelTitle = this._translationsService.t_AboutComponent_PanelTitle;
+      this.t_AboutComponent_PanelContent = this._translationsService.t_AboutComponent_PanelContent;
+      this.t_AboutComponent_PleaseDonate = this._translationsService.t_AboutComponent_PleaseDonate;
+      this.t_AboutComponent_Option = this._translationsService.t_AboutComponent_Option;
+    }
 
   }
 

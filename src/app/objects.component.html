@@ -1,5 +1,5 @@
-<div class="containter top-200"  *ngIf="showSpinner">
-    <button class="btn btn-default"><i class="fa fa-spinner fa-spin"></i> {{t_ObjectsComponent_Loading}}</button>
+<div class="containter top-200" *ngIf="showSpinner">
+  <button class="btn btn-default"><i class="fa fa-spinner fa-spin"></i>&nbsp;&nbsp;{{t_ObjectsComponent_Loading}}</button>
 </div>
 <div class="panel panel-primary top-50 panel-margin" *ngIf="showMain">
   <div class="panel-heading">
@@ -8,23 +8,23 @@
   <div class="panel-body">
 
     <div class="row row-padding">
-    <div class="col-lg-4">
+      <div class="col-lg-4">
         <div class="input-group">
-            <span class="input-group-btn">
+          <span class="input-group-btn">
             <button class="btn btn-default disabled" type="button">{{t_ObjectsComponent_Filter}}: </button>
-            </span>
-            <input type="text" class="form-control" placeholder="{{t_ObjectsComponent_TypeFilterText}}" [(ngModel)]="filterText">
+          </span>
+          <input type="text" class="form-control" placeholder="{{t_ObjectsComponent_TypeFilterText}}" [(ngModel)]="filterText">
         </div>
-    </div>
-    <div class="col-lg-4">
+      </div>
+      <div class="col-lg-4">
         <div class="input-group">
-        <span class="input-group-addon">
+          <span class="input-group-addon">
             <input type="checkbox" [checked]="useCriteria" [(ngModel)]="useCriteria" aria-label="...">
-        </span>
-        <input type="text" class="form-control disabled" placeholder="{{t_ObjectsComponent_UseAdditionalCriteria}}" aria-label="...">
+          </span>
+          <input type="text" class="form-control disabled" placeholder="{{t_ObjectsComponent_UseAdditionalCriteria}}" aria-label="...">
         </div>
-    </div>
-    <div class="col-lg-4 pull-right">
+      </div>
+      <div class="col-lg-4 pull-right">
         <div class="input-group">
           <span class="input-group-btn">
             <button class="btn btn-default disabled" type="button">{{t_ObjectsComponent_Search}}: </button>
@@ -67,12 +67,12 @@
             <td>{{object.size}}</td>
             <td>{{object.surfacebrightness}}</td>
             <div class="pull-right">
-                <td><button class="btn btn-primary margin-right-4" (click)="onObjectSelect(object)"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button></td>
-                <td><button class="btn btn-primary" (click)="onCalculatorClick(object)"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>
+              <td><button class="btn btn-primary margin-right-4" (click)="onObjectSelect(object)"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button></td>
+              <td><button class="btn btn-primary" (click)="onCalculatorClick(object)"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>
             </div>
           </tr>
         </tbody>
-      </table> 
+      </table>
     </div>
 
     <div class="row">
@@ -81,15 +81,15 @@
       </div>
       <div class="col-md-7">
         <nav aria-label="Page navigation">
-            <ul class="pagination pull-right cursor-pointer">
-              <li (click)="onFirstClick()"><span aria-hidden="true">&laquo;&laquo;</span></li>
-              <li (click)="onPreviousClick()"><span aria-hidden="true">&laquo;</span></li>
-              <li  *ngFor="let page of pages; let i = index;" [class]="((pages[i] === pageIndex) ? 'active' : '') + ((pages[i] > (countOfObjects / pagesPerPageset) + ((countOfObjects % pagesPerPageset) > 0 ? 1 : 0)) ? 'disabled' : '')" (click)="onPageClick(i + 1)">
-                <span aria-hidden="true">{{pages[i].toString()}}</span>
-              </li>
-              <li (click)="onNextClick()"><span aria-hidden="true">&raquo;</span></li>
-              <li (click)="onLastClick()"><span aria-hidden="true">&raquo;&raquo;</span></li>
-            </ul>
+          <ul class="pagination pull-right cursor-pointer">
+            <li (click)="onFirstClick()"><span aria-hidden="true">&laquo;&laquo;</span></li>
+            <li (click)="onPreviousClick()"><span aria-hidden="true">&laquo;</span></li>
+            <li *ngFor="let page of pages; let i = index;" [class]="((pages[i] === pageIndex) ? 'active' : '') + ((pages[i] > (countOfObjects / pagesPerPageset) + ((countOfObjects % pagesPerPageset) > 0 ? 1 : 0)) ? 'disabled' : '')" (click)="onPageClick(i + 1)">
+              <span aria-hidden="true">{{pages[i].toString()}}</span>
+            </li>
+            <li (click)="onNextClick()"><span aria-hidden="true">&raquo;</span></li>
+            <li (click)="onLastClick()"><span aria-hidden="true">&raquo;&raquo;</span></li>
+          </ul>
         </nav>
       </div>
     </div>
@@ -108,141 +108,141 @@
       <div class="col-md-3">
         <ul class="list-group">
           <li class="list-group-item">
-              <div class="row">
-                  <div class="col-md-3">
-                      <label class="margin-top-7"><b>{{t_ObjectsComponent_Type}}: </b></label>
-                  </div>
-                  <div class="col-md-9">
-                      <div class="input-group">
-                          <input name = "criteriaType" type="text" class="form-control" aria-label="..." [(ngModel)]="criteriaType" readonly>
-                          <div class="input-group-btn dropup">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_ObjectsComponent_Choose}} <span class="caret"></span></button>
-                              <ul class="dropdown-menu scrollable-menu" role="menu">
-                                  <li class="cursor-default" *ngFor="let objectType of objectTypes" (click)="setObjectType(objectType)">&nbsp;&nbsp;{{objectType}}</li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
+            <div class="row">
+              <div class="col-md-3">
+                <label class="margin-top-7"><b>{{t_ObjectsComponent_Type}}: </b></label>
               </div>
-              <br>
-              <div class="row">
-                  <div class="col-md-3">
-                      <label class="margin-top-7"><b>{{t_ObjectsComponent_Constellation}}: </b></label>
+              <div class="col-md-9">
+                <div class="input-group">
+                  <input name="criteriaType" type="text" class="form-control" aria-label="..." [(ngModel)]="criteriaType" readonly>
+                  <div class="input-group-btn dropup">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_ObjectsComponent_Choose}} <span class="caret"></span></button>
+                    <ul class="dropdown-menu scrollable-menu" role="menu">
+                      <li class="cursor-default" *ngFor="let objectType of objectTypes" (click)="setObjectType(objectType)">&nbsp;&nbsp;{{objectType}}</li>
+                    </ul>
                   </div>
-                  <div class="col-md-9">
-                      <div class="input-group">
-                          <input name = "criteriaConstellation" type="text" class="form-control" aria-label="..." [(ngModel)]="criteriaConstellation" readonly>
-                          <div class="input-group-btn dropup">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_ObjectsComponent_Choose}} <span class="caret"></span></button>
-                              <ul class="dropdown-menu scrollable-menu" role="menu">
-                                  <li class="cursor-default" *ngFor="let constellation of constellations" (click)="setConstellation(constellation)">&nbsp;&nbsp;{{constellation}}</li>
-                              </ul>
-                          </div>
-                      </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-3">
+                <label class="margin-top-7"><b>{{t_ObjectsComponent_Constellation}}: </b></label>
+              </div>
+              <div class="col-md-9">
+                <div class="input-group">
+                  <input name="criteriaConstellation" type="text" class="form-control" aria-label="..." [(ngModel)]="criteriaConstellation" readonly>
+                  <div class="input-group-btn dropup">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_ObjectsComponent_Choose}} <span class="caret"></span></button>
+                    <ul class="dropdown-menu scrollable-menu" role="menu">
+                      <li class="cursor-default" *ngFor="let constellation of constellations" (click)="setConstellation(constellation)">&nbsp;&nbsp;{{constellation}}</li>
+                    </ul>
                   </div>
-              </div>          
-            </li>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="col-md-1">
         <ul class="list-group">
           <li class="list-group-item">
-              <div class="row">
-                  <div class="col-md-5">
-                      <label class="margin-top-7"><b>{{t_ObjectsComponent_Magn}}: </b></label>
-                  </div>
-                  <div class="col-md-7">
-                      <div class="input-group">
-                          <input name = "criteriaMagnitudeMax" type="text" class="form-control width-50" maxlength="2" placeholder="max" [(ngModel)]="criteriaMagnitudeMax">
-                      </div>
-                  </div>
+            <div class="row">
+              <div class="col-md-5">
+                <label class="margin-top-7"><b>{{t_ObjectsComponent_Magn}}: </b></label>
               </div>
-              <br>
-              <div class="row">
-                  <div class="col-md-5">
-                      <label class="margin-top-7"><b>{{t_ObjectsComponent_SizeShortened}}: </b></label>
-                  </div>
-                  <div class="col-md-7">
-                      <div class="input-group">
-                          <input name = "criteriaSizeMin" type="text" class="form-control width-50" maxlength="2" placeholder="min" [(ngModel)]="criteriaSizeMin">
-                      </div>
-                  </div>
-              </div>          
-            </li>
+              <div class="col-md-7">
+                <div class="input-group">
+                  <input name="criteriaMagnitudeMax" type="text" class="form-control width-50" maxlength="2" placeholder="max" [(ngModel)]="criteriaMagnitudeMax">
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-5">
+                <label class="margin-top-7"><b>{{t_ObjectsComponent_SizeShortened}}: </b></label>
+              </div>
+              <div class="col-md-7">
+                <div class="input-group">
+                  <input name="criteriaSizeMin" type="text" class="form-control width-50" maxlength="2" placeholder="min" [(ngModel)]="criteriaSizeMin">
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="col-md-5">
         <ul class="list-group">
           <li class="list-group-item">
-              <div class="row">
-                  <div class="col-md-3">
-                      <label class="margin-top-7"><b>{{t_ObjectsComponent_AltitudeDegrees}}: </b></label>
-                  </div>
-                  <div class="col-md-1">
-                      <div class="input-group">
-                          <input name = "criteriaAltMin" type="text" class="form-control width-50" maxlength="3" placeholder="min" [(ngModel)]="criteriaAltMin">
-                      </div>
-                  </div>
-                  <div class="col-md-2">
-                      <div class="input-group">
-                          <input name = "criteriaAltMax" type="text" class="form-control width-50" maxlength="3" placeholder="max" [(ngModel)]="criteriaAltMax">
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <label class="margin-top-7"><b>{{t_ObjectsComponent_AzimuthDegrees}}: </b></label>
-                  </div>
-                  <div class="col-md-1">
-                      <div class="input-group">
-                          <input name = "criteriaAzMin" type="text" class="form-control width-50" maxlength="3" placeholder="min" [(ngModel)]="criteriaAzMin">
-                      </div>
-                  </div>
-                  <div class="col-md-1">
-                      <div class="input-group">
-                          <input name = "criteriaAzMax" type="text" class="form-control width-50" maxlength="3" placeholder="max" [(ngModel)]="criteriaAzMax">
-                      </div>
-                  </div>
+            <div class="row">
+              <div class="col-md-3">
+                <label class="margin-top-7"><b>{{t_ObjectsComponent_AltitudeDegrees}}: </b></label>
               </div>
-              <br>
-              <div class="row">
-                  <div class="col-md-12">
-                            <b>{{t_ObjectsComponent_TimeUT}}: </b>
-                            <button class="btn btn-default btn-xs margin-left-30" (click)="yearMinus()"><</button><input type="text" class="form-control width-60" name="criteriaTimeUtYYYY" maxlength="4" (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtYYYY"><button class="btn btn-default btn-xs" (click)="yearPlus()">></button>
-                            <button class="btn btn-default btn-xs" (click)="monthMinus()"><</button><input type="text" class="form-control width-50" name="criteriaTimeUtMM" maxlength="2"  (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtMM"><button class="btn btn-default btn-xs" (click)="monthPlus()">></button>
-                            <button class="btn btn-default btn-xs" (click)="dayMinus()"><</button><input type="text" class="form-control width-50" name="criteriaTimeUtDD" maxlength="2"  (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtDD"><button class="btn btn-default btn-xs" (click)="dayPlus()">></button>
-                            <button class="btn btn-default btn-xs margin-left-30" (click)="hourMinus()"><</button><input type="text" class="form-control width-50" name="criteriaTimeUtHH" maxlength="2"  (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtHH"><button class="btn btn-default btn-xs" (click)="hourPlus()">></button>
-                            <button class="btn btn-default btn-xs" (click)="minuteMinus()"><</button><input type="text" class="form-control width-50" name="criteriaTimeUtMIN" maxlength="2"  (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtMIN"><button class="btn btn-default btn-xs" (click)="minutePlus()">></button>
-                  </div>
-              </div>          
-            </li>
+              <div class="col-md-1">
+                <div class="input-group">
+                  <input name="criteriaAltMin" type="text" class="form-control width-50" maxlength="3" placeholder="min" [(ngModel)]="criteriaAltMin">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="input-group">
+                  <input name="criteriaAltMax" type="text" class="form-control width-50" maxlength="3" placeholder="max" [(ngModel)]="criteriaAltMax">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <label class="margin-top-7"><b>{{t_ObjectsComponent_AzimuthDegrees}}: </b></label>
+              </div>
+              <div class="col-md-1">
+                <div class="input-group">
+                  <input name="criteriaAzMin" type="text" class="form-control width-50" maxlength="3" placeholder="min" [(ngModel)]="criteriaAzMin">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="input-group">
+                  <input name="criteriaAzMax" type="text" class="form-control width-50" maxlength="3" placeholder="max" [(ngModel)]="criteriaAzMax">
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12">
+                <b>{{t_ObjectsComponent_TimeUT}}: </b>
+                <button class="btn btn-default btn-xs margin-left-30" (click)="yearMinus()">&lt;</button><input type="text" class="form-control width-60" name="criteriaTimeUtYYYY" maxlength="4" (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtYYYY"><button class="btn btn-default btn-xs" (click)="yearPlus()">&gt;</button>
+                <button class="btn btn-default btn-xs" (click)="monthMinus()">&lt;</button><input type="text" class="form-control width-50" name="criteriaTimeUtMM" maxlength="2" (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtMM"><button class="btn btn-default btn-xs" (click)="monthPlus()">&gt;</button>
+                <button class="btn btn-default btn-xs" (click)="dayMinus()">&lt;</button><input type="text" class="form-control width-50" name="criteriaTimeUtDD" maxlength="2" (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtDD"><button class="btn btn-default btn-xs" (click)="dayPlus()">&gt;</button>
+                <button class="btn btn-default btn-xs margin-left-30" (click)="hourMinus()">&lt;</button><input type="text" class="form-control width-50" name="criteriaTimeUtHH" maxlength="2" (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtHH"><button class="btn btn-default btn-xs" (click)="hourPlus()">&gt;</button>
+                <button class="btn btn-default btn-xs" (click)="minuteMinus()">&lt;</button><input type="text" class="form-control width-50" name="criteriaTimeUtMIN" maxlength="2" (keyup)="onKeyUp()" [(ngModel)]="criteriaTimeUtMIN"><button class="btn btn-default btn-xs" (click)="minutePlus()">&gt;</button>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="col-md-3">
         <ul class="list-group">
           <li class="list-group-item">
-              <div class="row">
-                  <div class="col-md-4">
-                      <label class="margin-top-7"><b>{{t_ObjectsComponent_Latitude}}: </b></label>
-                  </div>
-                  <div class="col-md-8">
-                      <div class="input-group">
-                          <input name = "criteriaLat" type="text" class="form-control" (change)="replaceDotInCriteriaLat()" [(ngModel)]="criteriaLat">
-                      </div>
-                  </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label class="margin-top-7"><b>{{t_ObjectsComponent_Latitude}}: </b></label>
               </div>
-              <br>
-              <div class="row">
-                  <div class="col-md-4">
-                      <label class="margin-top-7"><b>{{t_ObjectsComponent_Longitude}}: </b></label>
-                  </div>
-                  <div class="col-md-8">
-                      <div class="input-group">
-                          <input name = "criteriaLng" type="text" class="form-control" (change)="replaceDotInCriteriaLng()" [(ngModel)]="criteriaLng">
-                      </div>
-                  </div>
-              </div>          
-            </li>
+              <div class="col-md-8">
+                <div class="input-group">
+                  <input name="criteriaLat" type="text" class="form-control" (change)="replaceDotInCriteriaLat()" [(ngModel)]="criteriaLat">
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-4">
+                <label class="margin-top-7"><b>{{t_ObjectsComponent_Longitude}}: </b></label>
+              </div>
+              <div class="col-md-8">
+                <div class="input-group">
+                  <input name="criteriaLng" type="text" class="form-control" (change)="replaceDotInCriteriaLng()" [(ngModel)]="criteriaLng">
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
-      </div>      
+      </div>
     </div>
 
   </div>

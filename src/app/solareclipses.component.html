@@ -1,5 +1,5 @@
-<div class="containter top-200"  *ngIf="showSpinner">
-    <button class="btn btn-default"><i class="fa fa-spinner fa-spin"></i> {{t_SolarEclipsesComponent_Loading}}</button>
+<div class="containter top-200" *ngIf="showSpinner">
+  <button class="btn btn-default"><i class="fa fa-spinner fa-spin"></i>&nbsp;&nbsp;{{t_SolarEclipsesComponent_Loading}}</button>
 </div>
 <div class="panel panel-primary top-50 panel-margin" *ngIf="showMain">
   <div class="panel-heading">
@@ -8,15 +8,15 @@
   <div class="panel-body">
 
     <div class="row row-padding">
-    <div class="col-lg-4">
+      <div class="col-lg-4">
         <div class="input-group">
-            <span class="input-group-btn">
+          <span class="input-group-btn">
             <button class="btn btn-default disabled" type="button">{{t_SolarEclipsesComponent_Filter}}: </button>
-            </span>
-            <input type="text" class="form-control" placeholder="{{t_SolarEclipsesComponent_TypeFilterText}}" [(ngModel)]="filterText">
+          </span>
+          <input type="text" class="form-control" placeholder="{{t_SolarEclipsesComponent_TypeFilterText}}" [(ngModel)]="filterText">
         </div>
-    </div>
-    <div class="col-lg-4 pull-right">
+      </div>
+      <div class="col-lg-4 pull-right">
         <div class="input-group">
           <span class="input-group-btn">
             <button class="btn btn-default disabled" type="button">{{t_SolarEclipsesComponent_Search}}: </button>
@@ -57,11 +57,11 @@
             <td>{{solarEclipse.pathwidth}}</td>
             <td>{{solarEclipse.duration}}</td>
             <div class="pull-right">
-                <td><a href="{{solarEclipse.url}}" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></td>
+              <td><a href="{{solarEclipse.url}}" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></td>
             </div>
           </tr>
         </tbody>
-      </table> 
+      </table>
     </div>
 
     <div class="row">
@@ -70,15 +70,15 @@
       </div>
       <div class="col-md-7">
         <nav aria-label="Page navigation">
-            <ul class="pagination pull-right cursor-pointer">
-              <li (click)="onFirstClick()"><span aria-hidden="true">&laquo;&laquo;</span></li>
-              <li (click)="onPreviousClick()"><span aria-hidden="true">&laquo;</span></li>
-              <li  *ngFor="let page of pages; let i = index;" [class]="((pages[i] === pageIndex) ? 'active' : '') + ((pages[i] > (countOfSolarEclipses / pagesPerPageset) + ((countOfSolarEclipses % pagesPerPageset) > 0 ? 1 : 0)) ? 'disabled' : '')" (click)="onPageClick(i + 1)">
-                <span aria-hidden="true">{{pages[i].toString()}}</span>
-              </li>
-              <li (click)="onNextClick()"><span aria-hidden="true">&raquo;</span></li>
-              <li (click)="onLastClick()"><span aria-hidden="true">&raquo;&raquo;</span></li>
-            </ul>
+          <ul class="pagination pull-right cursor-pointer">
+            <li (click)="onFirstClick()"><span aria-hidden="true">&laquo;&laquo;</span></li>
+            <li (click)="onPreviousClick()"><span aria-hidden="true">&laquo;</span></li>
+            <li *ngFor="let page of pages; let i = index;" [class]="((pages[i] === pageIndex) ? 'active' : '') + ((pages[i] > (countOfSolarEclipses / pagesPerPageset) + ((countOfSolarEclipses % pagesPerPageset) > 0 ? 1 : 0)) ? 'disabled' : '')" (click)="onPageClick(i + 1)">
+              <span aria-hidden="true">{{pages[i].toString()}}</span>
+            </li>
+            <li (click)="onNextClick()"><span aria-hidden="true">&raquo;</span></li>
+            <li (click)="onLastClick()"><span aria-hidden="true">&raquo;&raquo;</span></li>
+          </ul>
         </nav>
       </div>
     </div>

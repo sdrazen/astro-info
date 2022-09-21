@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, JsonpModule } from '@angular/http';
-import { ChartsModule } from 'ng2-charts';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about.component';
@@ -17,17 +16,16 @@ import { SunmoonComponent } from './sunmoon.component';
 import { IssComponent } from './iss.component';
 import { StoresComponent } from './stores.component';
 import { LocationsComponent } from './locations.component';
-import { WeatherComponent } from './weather.component';
 import { UserSettingsComponent } from './user.settings.component';
 import { AltAzCalculatorComponent } from './altaz.calculator.component';
 import { MoonfeaturesComponent } from './moonfeatures.component';
 import { MoonfeatureDetailsComponent } from './moonfeature.details.component';
 import { SolarEclipsesComponent } from './solareclipses.component';
 import { LunarEclipsesComponent } from './lunareclipses.component';
-import { routes, routing } from './app.router';
+import { AppRoutingModule } from './app-routing.module';
+import { GoogleMapsModule } from '@angular/google-maps'
 
-import { FirebaseAuthService } from './shared/firebase.auth.service';
-import { FirebaseDataService } from './shared/firebase.data.service';
+import { BackendService } from './shared/backend.service';
 import { WikipediaService } from './shared/wikipedia.service';
 import { FlickrService } from './shared/flickr.service';
 import { NasaService } from './shared/nasa.service';
@@ -41,7 +39,6 @@ import { IssService } from './shared/iss.service';
 
 import { FilterArrayPipe } from './shared/filter.pipe';
 
-import { AgmCoreModule } from 'angular2-google-maps/core';
 
 @NgModule({
   declarations: [
@@ -59,7 +56,6 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
     IssComponent,
     StoresComponent,
     LocationsComponent,
-    WeatherComponent,
     UserSettingsComponent,
     FilterArrayPipe,
     NeoComponent,
@@ -71,17 +67,13 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
-    JsonpModule,
-    ChartsModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDDjDn2LFaQHk3P1Cqw8X654W8NX4SGx1U'
-    }),
-    routing
+    HttpClientModule,
+    HttpClientJsonpModule,
+    AppRoutingModule,
+    GoogleMapsModule
   ],
   providers: [
-    FirebaseAuthService,
-    FirebaseDataService,
+    BackendService,
     WikipediaService,
     FlickrService,
     NasaService,

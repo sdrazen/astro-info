@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseAuthService } from './shared/firebase.auth.service';
 import { NasaService } from './shared/nasa.service';
 import { UserSettingsService } from './shared/user.settings.service';
 import { TranslationsService } from './shared/translations.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-neodetails',
@@ -17,7 +15,7 @@ export class NeoDetailsComponent implements OnInit {
   isLoggedIn: boolean;
   neoId: number = 0;
   neoDetails: Array<any> = [];
-  
+
   // Variables for various error messages
   errorMessageNeoDetails: string = "";
 
@@ -31,74 +29,74 @@ export class NeoDetailsComponent implements OnInit {
   t_NeoDetailsComponent_MissDistanceKilometers: string = "Miss distance (km)";
   t_NeoDetailsComponent_OrbitingBody: string = "Orbiting body";
 
-  constructor(private _firebaseAuthService: FirebaseAuthService, private _nasaService: NasaService, private _router: Router, private _activatedRoute: ActivatedRoute, private _userSettingsService: UserSettingsService, private _translationsService: TranslationsService) { }
+  constructor(private _nasaService: NasaService, private _activatedRoute: ActivatedRoute, private _userSettingsService: UserSettingsService, private _translationsService: TranslationsService) { }
 
   ngOnInit() {
-  
-      // var p = this._firebaseAuthService.listenForAuthStateChanges();
 
-      // p.then(user => {
-      //   this.isLoggedIn = true;
+    // var p = this._firebaseAuthService.listenForAuthStateChanges();
 
-      //   // Activated route
-      //   this.neoId = parseInt(this._activatedRoute.snapshot.params['id']);
+    // p.then(user => {
+    //   this.isLoggedIn = true;
 
-      //   // Get data from Nasa service
-      //   this._nasaService.getNeoDetails(this.neoId).subscribe(value => {
-      //       this.neoDetails.push(value.close_approach_data);
-      //   }, (err) => this.errorMessageNeoDetails = err);
+    //   // Activated route
+    //   this.neoId = parseInt(this._activatedRoute.snapshot.params['id']);
 
-      //   // Translations
-      //   this.translate();
+    //   // Get data from Nasa service
+    //   this._nasaService.getNeoDetails(this.neoId).subscribe(value => {
+    //       this.neoDetails.push(value.close_approach_data);
+    //   }, (err) => this.errorMessageNeoDetails = err);
 
-      //   // Update panel title
-      //   this.t_NeoDetailsComponent_PanelTitle = this.t_NeoDetailsComponent_PanelTitle + ": " + this.neoId.toString();
+    //   // Translations
+    //   this.translate();
 
-      // })
-      // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
+    //   // Update panel title
+    //   this.t_NeoDetailsComponent_PanelTitle = this.t_NeoDetailsComponent_PanelTitle + ": " + this.neoId.toString();
 
-        this.isLoggedIn = true;
+    // })
+    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
 
-        // Activated route
-        this.neoId = parseInt(this._activatedRoute.snapshot.params['id']);
+    this.isLoggedIn = true;
 
-        // Get data from Nasa service
-        this._nasaService.getNeoDetails(this.neoId).subscribe(value => {
-            this.neoDetails.push(value.close_approach_data);
-        }, (err) => this.errorMessageNeoDetails = err);
+    // Activated route
+    this.neoId = parseInt(this._activatedRoute.snapshot.params['id']);
 
-        // Translations
-        this.translate();
+    // Get data from Nasa service
+    this._nasaService.getNeoDetails(this.neoId).subscribe(value => {
+      this.neoDetails.push(value.close_approach_data);
+    }, (err) => this.errorMessageNeoDetails = err);
 
-        // Update panel title
-        this.t_NeoDetailsComponent_PanelTitle = this.t_NeoDetailsComponent_PanelTitle + ": " + this.neoId.toString();
+    // Translations
+    this.translate();
+
+    // Update panel title
+    this.t_NeoDetailsComponent_PanelTitle = this.t_NeoDetailsComponent_PanelTitle + ": " + this.neoId.toString();
 
   }
 
   translate() {
 
-      if (this._translationsService.translationsSetToVariables === false) {
-          this._translationsService.setTranslationsForLanguage(this._userSettingsService.languageId)
-              .then(() => {
-                this.t_NeoDetailsComponent_PanelTitle = this._translationsService.t_NeoDetailsComponent_PanelTitle;
-                this.t_NeoDetailsComponent_CloseApproachDate = this._translationsService.t_NeoDetailsComponent_CloseApproachDate;
-                this.t_NeoDetailsComponent_VelocityKms = this._translationsService.t_NeoDetailsComponent_VelocityKms;
-                this.t_NeoDetailsComponent_VelocityKmh = this._translationsService.t_NeoDetailsComponent_VelocityKmh;
-                this.t_NeoDetailsComponent_MissDistanceAstronomical = this._translationsService.t_NeoDetailsComponent_MissDistanceAstronomical;
-                this.t_NeoDetailsComponent_MissDistanceLunar = this._translationsService.t_NeoDetailsComponent_MissDistanceLunar;
-                this.t_NeoDetailsComponent_MissDistanceKilometers = this._translationsService.t_NeoDetailsComponent_MissDistanceKilometers;
-                this.t_NeoDetailsComponent_OrbitingBody = this._translationsService.t_NeoDetailsComponent_OrbitingBody;
-              });
-      } else {
-                this.t_NeoDetailsComponent_PanelTitle = this._translationsService.t_NeoDetailsComponent_PanelTitle;
-                this.t_NeoDetailsComponent_CloseApproachDate = this._translationsService.t_NeoDetailsComponent_CloseApproachDate;
-                this.t_NeoDetailsComponent_VelocityKms = this._translationsService.t_NeoDetailsComponent_VelocityKms;
-                this.t_NeoDetailsComponent_VelocityKmh = this._translationsService.t_NeoDetailsComponent_VelocityKmh;
-                this.t_NeoDetailsComponent_MissDistanceAstronomical = this._translationsService.t_NeoDetailsComponent_MissDistanceAstronomical;
-                this.t_NeoDetailsComponent_MissDistanceLunar = this._translationsService.t_NeoDetailsComponent_MissDistanceLunar;
-                this.t_NeoDetailsComponent_MissDistanceKilometers = this._translationsService.t_NeoDetailsComponent_MissDistanceKilometers;
-                this.t_NeoDetailsComponent_OrbitingBody = this._translationsService.t_NeoDetailsComponent_OrbitingBody;
-      }
+    if (this._translationsService.translationsSetToVariables === false) {
+      this._translationsService.setTranslationsForLanguage(this._userSettingsService.languageId)
+        .then(() => {
+          this.t_NeoDetailsComponent_PanelTitle = this._translationsService.t_NeoDetailsComponent_PanelTitle;
+          this.t_NeoDetailsComponent_CloseApproachDate = this._translationsService.t_NeoDetailsComponent_CloseApproachDate;
+          this.t_NeoDetailsComponent_VelocityKms = this._translationsService.t_NeoDetailsComponent_VelocityKms;
+          this.t_NeoDetailsComponent_VelocityKmh = this._translationsService.t_NeoDetailsComponent_VelocityKmh;
+          this.t_NeoDetailsComponent_MissDistanceAstronomical = this._translationsService.t_NeoDetailsComponent_MissDistanceAstronomical;
+          this.t_NeoDetailsComponent_MissDistanceLunar = this._translationsService.t_NeoDetailsComponent_MissDistanceLunar;
+          this.t_NeoDetailsComponent_MissDistanceKilometers = this._translationsService.t_NeoDetailsComponent_MissDistanceKilometers;
+          this.t_NeoDetailsComponent_OrbitingBody = this._translationsService.t_NeoDetailsComponent_OrbitingBody;
+        });
+    } else {
+      this.t_NeoDetailsComponent_PanelTitle = this._translationsService.t_NeoDetailsComponent_PanelTitle;
+      this.t_NeoDetailsComponent_CloseApproachDate = this._translationsService.t_NeoDetailsComponent_CloseApproachDate;
+      this.t_NeoDetailsComponent_VelocityKms = this._translationsService.t_NeoDetailsComponent_VelocityKms;
+      this.t_NeoDetailsComponent_VelocityKmh = this._translationsService.t_NeoDetailsComponent_VelocityKmh;
+      this.t_NeoDetailsComponent_MissDistanceAstronomical = this._translationsService.t_NeoDetailsComponent_MissDistanceAstronomical;
+      this.t_NeoDetailsComponent_MissDistanceLunar = this._translationsService.t_NeoDetailsComponent_MissDistanceLunar;
+      this.t_NeoDetailsComponent_MissDistanceKilometers = this._translationsService.t_NeoDetailsComponent_MissDistanceKilometers;
+      this.t_NeoDetailsComponent_OrbitingBody = this._translationsService.t_NeoDetailsComponent_OrbitingBody;
+    }
 
   }
 

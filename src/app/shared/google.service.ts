@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
- 
+import { HttpClient } from '@angular/common/http';
+import { Observable, map, catchError } from 'rxjs';
+import { ITimezoneModel } from './data.timezone.model';
+import { Globals } from 'common/globals';
 @Injectable()
 export class GoogleService {
 
-  constructor(private _http: Http) {}
-  
-  getTimeZone(lat: string, lng: string, timestamp: number): Observable<any> {
+  constructor(private _http: HttpClient) { }
 
-    let api_key = 'AIzaSyBjpf1yPAcUToRRFLx9tTTXkiH-VLGSvps';
+  getTimeZone(lat: string, lng: string, timestamp: number): Observable<ITimezoneModel> {
+
+    let api_key = Globals.GOOGLE_MAPS_API_KEY;
 
     return this._http
-                .get('https://maps.googleapis.com/maps/api/timezone/json?location=' + lat + ',' + lng + '&timestamp=' + timestamp.toString() + '&key=' + api_key)
-                .map((request) => request.json())
-                .catch(this._serverError);
-
-  }
-
-  private _serverError(err: any) {
-
-      if(err instanceof Response) {
-          return Observable.throw("Server error...");
-      }
-      return Observable.throw(err);
+      .get('https://maps.googleapis.com/maps/api/timezone/json?location=' + lat + ',' + lng + '&timestamp=' + timestamp.toString() + '&key=' + api_key)
+      .pipe(
+        map((request) => <ITimezoneModel>request)
+      ).pipe(
+        catchError(err => {
+          throw ("Error fetching data from server: " + err)
+        })
+      )
 
   }
 

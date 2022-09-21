@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseAuthService } from './shared/firebase.auth.service';
 import { UserSettingsService } from './shared/user.settings.service';
 import { TranslationsService } from './shared/translations.service';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-welcome',
@@ -36,80 +33,80 @@ export class WelcomeComponent implements OnInit {
   t_WelcomeComponent_SettingsAdvise: string = "Before using this application it is advisable to first define Your";
   t_WelcomeComponent_SettingsAdviseAddendum: string = "for the application";
 
-  constructor(private _firebaseAuthService: FirebaseAuthService, private _router: Router, private _userSettingsService: UserSettingsService, private _translationsService: TranslationsService) { }
+  constructor(private _userSettingsService: UserSettingsService, private _translationsService: TranslationsService) { }
 
   ngOnInit() {
 
-      // var p = this._firebaseAuthService.listenForAuthStateChanges();
+    // var p = this._firebaseAuthService.listenForAuthStateChanges();
 
-      // p.then(user => {
-      //   this.isLoggedIn = true;
-      //   this.currentUser = user;
+    // p.then(user => {
+    //   this.isLoggedIn = true;
+    //   this.currentUser = user;
 
-      //   // Use user settings from UserSettingsService
-      //   this.lat = this._userSettingsService.lat;
-      //   this.lng = this._userSettingsService.lng;
-      //   this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
-      //   this.languageId = this._userSettingsService.languageId;
-      //   this.itemsPerPage = this._userSettingsService.itemsPerPage;
-      //   this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
+    //   // Use user settings from UserSettingsService
+    //   this.lat = this._userSettingsService.lat;
+    //   this.lng = this._userSettingsService.lng;
+    //   this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
+    //   this.languageId = this._userSettingsService.languageId;
+    //   this.itemsPerPage = this._userSettingsService.itemsPerPage;
+    //   this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
 
-      //   // Are user settings defined?
-      //   this.userSettingsDefined = this._userSettingsService.userSettingsDefined;
+    //   // Are user settings defined?
+    //   this.userSettingsDefined = this._userSettingsService.userSettingsDefined;
 
-      //   // Translations
-      //   this.translate();
+    //   // Translations
+    //   this.translate();
 
-      // })
-      // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
+    // })
+    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
 
-        this.isLoggedIn = true;
-        // this.currentUser = user;
+    this.isLoggedIn = true;
+    // this.currentUser = user;
 
-        // Use user settings from UserSettingsService
-        this.lat = this._userSettingsService.lat;
-        this.lng = this._userSettingsService.lng;
-        this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
-        this.languageId = this._userSettingsService.languageId;
-        this.itemsPerPage = this._userSettingsService.itemsPerPage;
-        this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
+    // Use user settings from UserSettingsService
+    this.lat = this._userSettingsService.lat;
+    this.lng = this._userSettingsService.lng;
+    this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
+    this.languageId = this._userSettingsService.languageId;
+    this.itemsPerPage = this._userSettingsService.itemsPerPage;
+    this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
 
-        // Are user settings defined?
-        this.userSettingsDefined = this._userSettingsService.userSettingsDefined;
+    // Are user settings defined?
+    this.userSettingsDefined = this._userSettingsService.userSettingsDefined;
 
-        // Translations
-        this.translate();
+    // Translations
+    this.translate();
 
-    }
+  }
 
   translate() {
 
-      if (this._translationsService.translationsSetToVariables === false) {
-          this._translationsService.setTranslationsForLanguage(this._userSettingsService.languageId)
-              .then(() => {
-                    this.t_WelcomeComponent_PanelTitle = this._translationsService.t_WelcomeComponent_PanelTitle;
-                    this.t_WelcomeComponent_Title = this._translationsService.t_WelcomeComponent_Title;
-                    this.t_WelcomeComponent_YouAreLoggedInWith = this._translationsService.t_WelcomeComponent_YouAreLoggedInWith;
-                    this.t_WelcomeComponent_YouAreLoggedInAs = this._translationsService.t_WelcomeComponent_YouAreLoggedInAs;
-                    this.t_WelcomeComponent_YourGeolocation = this._translationsService.t_WelcomeComponent_YourGeolocation;
-                    this.t_WelcomeComponent_Click = this._translationsService.t_WelcomeComponent_Click;
-                    this.t_WelcomeComponent_Settings = this._translationsService.t_WelcomeComponent_Settings;
-                    this.t_WelcomeComponent_ToChange = this._translationsService.t_WelcomeComponent_ToChange;
-                    this.t_WelcomeComponent_SettingsAdvise = this._translationsService.t_WelcomeComponent_SettingsAdvise;
-                    this.t_WelcomeComponent_SettingsAdviseAddendum = this._translationsService.t_WelcomeComponent_SettingsAdviseAddendum;
-              });
-      } else {
-                    this.t_WelcomeComponent_PanelTitle = this._translationsService.t_WelcomeComponent_PanelTitle;
-                    this.t_WelcomeComponent_Title = this._translationsService.t_WelcomeComponent_Title;
-                    this.t_WelcomeComponent_YouAreLoggedInWith = this._translationsService.t_WelcomeComponent_YouAreLoggedInWith;
-                    this.t_WelcomeComponent_YouAreLoggedInAs = this._translationsService.t_WelcomeComponent_YouAreLoggedInAs;
-                    this.t_WelcomeComponent_YourGeolocation = this._translationsService.t_WelcomeComponent_YourGeolocation;
-                    this.t_WelcomeComponent_Click = this._translationsService.t_WelcomeComponent_Click;
-                    this.t_WelcomeComponent_Settings = this._translationsService.t_WelcomeComponent_Settings;
-                    this.t_WelcomeComponent_ToChange = this._translationsService.t_WelcomeComponent_ToChange;
-                    this.t_WelcomeComponent_SettingsAdvise = this._translationsService.t_WelcomeComponent_SettingsAdvise;
-                    this.t_WelcomeComponent_SettingsAdviseAddendum = this._translationsService.t_WelcomeComponent_SettingsAdviseAddendum;
-      }
+    if (this._translationsService.translationsSetToVariables === false) {
+      this._translationsService.setTranslationsForLanguage(this._userSettingsService.languageId)
+        .then(() => {
+          this.t_WelcomeComponent_PanelTitle = this._translationsService.t_WelcomeComponent_PanelTitle;
+          this.t_WelcomeComponent_Title = this._translationsService.t_WelcomeComponent_Title;
+          this.t_WelcomeComponent_YouAreLoggedInWith = this._translationsService.t_WelcomeComponent_YouAreLoggedInWith;
+          this.t_WelcomeComponent_YouAreLoggedInAs = this._translationsService.t_WelcomeComponent_YouAreLoggedInAs;
+          this.t_WelcomeComponent_YourGeolocation = this._translationsService.t_WelcomeComponent_YourGeolocation;
+          this.t_WelcomeComponent_Click = this._translationsService.t_WelcomeComponent_Click;
+          this.t_WelcomeComponent_Settings = this._translationsService.t_WelcomeComponent_Settings;
+          this.t_WelcomeComponent_ToChange = this._translationsService.t_WelcomeComponent_ToChange;
+          this.t_WelcomeComponent_SettingsAdvise = this._translationsService.t_WelcomeComponent_SettingsAdvise;
+          this.t_WelcomeComponent_SettingsAdviseAddendum = this._translationsService.t_WelcomeComponent_SettingsAdviseAddendum;
+        });
+    } else {
+      this.t_WelcomeComponent_PanelTitle = this._translationsService.t_WelcomeComponent_PanelTitle;
+      this.t_WelcomeComponent_Title = this._translationsService.t_WelcomeComponent_Title;
+      this.t_WelcomeComponent_YouAreLoggedInWith = this._translationsService.t_WelcomeComponent_YouAreLoggedInWith;
+      this.t_WelcomeComponent_YouAreLoggedInAs = this._translationsService.t_WelcomeComponent_YouAreLoggedInAs;
+      this.t_WelcomeComponent_YourGeolocation = this._translationsService.t_WelcomeComponent_YourGeolocation;
+      this.t_WelcomeComponent_Click = this._translationsService.t_WelcomeComponent_Click;
+      this.t_WelcomeComponent_Settings = this._translationsService.t_WelcomeComponent_Settings;
+      this.t_WelcomeComponent_ToChange = this._translationsService.t_WelcomeComponent_ToChange;
+      this.t_WelcomeComponent_SettingsAdvise = this._translationsService.t_WelcomeComponent_SettingsAdvise;
+      this.t_WelcomeComponent_SettingsAdviseAddendum = this._translationsService.t_WelcomeComponent_SettingsAdviseAddendum;
+    }
 
   }
 

@@ -7,12 +7,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand navbar-brand-font" routerLink="welcome"><i class="fa fa-star-o color-yellow" aria-hidden="true"></i><font class="color-yellow"> AstroInfo</font></a>
+      <a class="navbar-brand navbar-brand-font" routerLink="welcome"><i class="fa fa-star-o color-yellow" aria-hidden="true"></i>
+        <font class="color-yellow"> AstroInfo</font>
+      </a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right" *ngIf="isUserLoggedIn()">
-      <!-- <ul class="nav navbar-nav navbar-right"> -->
+        <!-- <ul class="nav navbar-nav navbar-right"> -->
         <li><a routerLink="welcome">{{t_AppComponent_Home}}</a></li>
         <!--<li><a routerLink="objects">{{t_AppComponent_Objects}}</a></li>-->
         <li class="dropdown">
@@ -49,5 +51,10 @@
     </div>
   </div>
 </nav>
+
+<div class="footer">
+  <hr>
+  <p class="pull-right"> {{t_AppComponent_DataSource}}: {{ dataSourceTitle }} (on {{ dataSourceLocation }} called from {{ dataSourceCalledFrom }})</p>
+</div>
 
 <router-outlet></router-outlet>
