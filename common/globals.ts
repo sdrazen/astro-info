@@ -36,8 +36,8 @@ export class Globals {
   // here set his own API keys for Google Maps (Timezone), Flickr and NASA. By default user
   // does have to use any API keys as API calls go from backend in normal circumstances.
   // *
-  // public static GOOGLE_MAPS_API_KEY: string = "YOUR-GOOGLE-MAPS-API-KEY";
-  // public static FLICKR_API_KEY: string = "YOUR-FLICKR-API-KEY";
-  // public static NASA_API_KEY: string = "YOUR-NASA-API-KEY";
+  public static GOOGLE_MAPS_API_KEY: string = "YOUR-GOOGLE-MAPS-API-KEY";
+  public static FLICKR_API_KEY: string = "YOUR-FLICKR-API-KEY";
+  public static NASA_API_KEY: string = "YOUR-NASA-API-KEY";
 
 }
