@@ -61,48 +61,6 @@ export class AltAzCalculatorComponent implements OnInit {
 
     ngOnInit() {
 
-        //   var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-        //   p.then(user => {
-        //     this.isLoggedIn = true;
-        //     this.currentUser = user;
-
-        //     let now = new Date();
-        //     let utc_now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds());
-        //     let dd = utc_now.getDate();
-        //     let mm = utc_now.getMonth() + 1;
-        //     let yyyy = utc_now.getFullYear();
-        //     let hh = utc_now.getHours();
-        //     let min = utc_now.getMinutes();
-
-        //     // Use user settings from service
-        //     this.lat = this._userSettingsService.lat;
-        //     this.lng = this._userSettingsService.lng;
-        //     this.ra = this.rightAscension ? this.rightAscension : "00h 00' 00s";
-        //     this.dec = this.declination ? this.declination : "00° 00' 00s";
-        //     this.timeUt = yyyy.toString() + "-" + this.leadingZero(mm.toString()) + "-" + this.leadingZero(dd.toString()) + "T" + this.leadingZero(hh.toString()) + ":" + this.leadingZero(min.toString() + ":00");
-        //     this.timeUtYYYY = this.leadingZero(yyyy.toString());
-        //     this.timeUtMM = this.leadingZero(mm.toString());
-        //     this.timeUtDD = this.leadingZero(dd.toString());
-        //     this.timeUtHH = this.leadingZero(hh.toString());
-        //     this.timeUtMIN = this.leadingZero(min.toString());
-
-        //     // Calculate object's position
-        //     this.getObjectsPosition();
-
-        //     // Translations
-        //     this.translate();
-
-        //     // Update panel title and object position title
-        //     this.t_AltAzCalculatorComponent_PanelTitle = this.t_AltAzCalculatorComponent_PanelTitle + (this.catalogueEntry ? ": " + this.catalogueEntry : (this.familiarName ? ": " + this.familiarName : ""));
-        //     this.t_AltAzCalculatorComponent_ObjectsPosition = (this.catalogueEntry ? this.catalogueEntry + " - " : (this.familiarName ? this.familiarName + " - " : "")) + this.t_AltAzCalculatorComponent_ObjectsPosition;
-
-        //   })
-        //   .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-        this.isLoggedIn = true;
-        // this.currentUser = user;
-
         let now = new Date();
         let utc_now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds());
         let dd = utc_now.getDate();

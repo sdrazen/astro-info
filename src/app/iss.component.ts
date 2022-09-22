@@ -50,48 +50,6 @@ export class IssComponent implements OnInit {
 
     ngOnInit() {
 
-        //   var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-        //   p.then(user => {
-        //     this.isLoggedIn = true;
-        //     this.currentUser = user;
-
-        //     // Initial observable subsription
-        //     this._issService.getCurrentIssPosition()
-        //         .subscribe(data => {
-        //             this.currentIssPosition$ = data;
-        //             this.lat = data.latitude;
-        //             this.lng = data.longitude;
-        //             this.altitude = Math.round(data.altitude);
-        //             this.velocity = Math.round(data.velocity);
-        //             this.timestamp = data.timestamp;
-        //             this.dateTime = this.convertTimestampToDateTime(this.timestamp);
-        //         }, (err) => this.errorMessageIss = err);
-
-        //     // Use data from iss service periodically
-        //     this.intervalObservableSubscription$ = IntervalObservable.create(this.refreshPeriod)
-        //         .switchMap(() => {
-        //             return this._issService.getCurrentIssPosition();
-        //         })
-        //         .subscribe(data => {
-        //             this.currentIssPosition$ = data;
-        //             this.lat = data.latitude;
-        //             this.lng = data.longitude;
-        //             this.altitude = Math.round(data.altitude);
-        //             this.velocity = Math.round(data.velocity);
-        //             this.timestamp = data.timestamp;
-        //             this.dateTime = this.convertTimestampToDateTime(this.timestamp);
-        //         }, (err) => this.errorMessageIss = err);
-
-        //     // Translations
-        //     this.translate();
-
-        //   })
-        //   .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-        this.isLoggedIn = true;
-        // this.currentUser = user;
-
         // Initial observable subsription
         this._issService.getCurrentIssPosition()
             .subscribe(data => {

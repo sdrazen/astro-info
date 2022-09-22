@@ -28,9 +28,11 @@ export class MoonfeaturesComponent implements OnInit {
   lng: number = 0;
   timeZoneRawOffset: number = 0;
   languageId: number = 0;
+  dataSource: number = 0;
+  apiSource: number = 1;
   itemsPerPage: number = 0;
   pagesPerPageset: number = 0;
-  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, itemsPerPage: 0, pagesPerPageset: 0 };
+  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, apiSource: 1, itemsPerPage: 0, pagesPerPageset: 0 };
 
   // Variable which will help determine which components to show and which of them not to show
   showSpinner: boolean = true;
@@ -87,45 +89,6 @@ export class MoonfeaturesComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-
-    //   // Use user settings from service
-    //   this.lat = this._userSettingsService.lat;
-    //   this.lng = this._userSettingsService.lng;
-    //   this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
-    //   this.languageId = this._userSettingsService.languageId;
-    //   this.itemsPerPage = this._userSettingsService.itemsPerPage;
-    //   this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
-
-    //   // Calculate initial pages Array
-    //   this.pages = this.getArrayOfNumbers(1, this.pagesPerPageset);
-
-    //   // Get data from Data service
-    //   this.moonfeatures = [];
-    //   this._backendService.getAllMoonfeatures("name")
-    //     .then(() => {
-    //         this.showSpinner = false;
-    //         this.showMain = true;
-    //         this._backendService.filteredMoonfeatures = [];
-    //         this._backendService.isInitialGetMoonfeatures = true;
-    //         this.countOfMoonfeatures = this._backendService.allMoonfeatures.length;
-    //         this.moonfeatureTypes = this._backendService.allMoonfeatureTypes.sort();
-    //         this.moonfeatureApprovalStatusTexts = this._backendService.allMoonfeatureApprovalStatusTexts.sort();
-    //         this._backendService.getMoonfeatures(this.pageIndex, this.itemsPerPage, this._backendService.allMoonfeatures, this._backendService.filteredMoonfeatures)
-    //           .then(value => this.moonfeatures = value);
-    //       });
-
-    //   // Translations
-    //   this.translate();
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-
     // Use user settings from service
     this.lat = this._userSettingsService.lat;
     this.lng = this._userSettingsService.lng;
@@ -150,8 +113,8 @@ export class MoonfeaturesComponent implements OnInit {
         this.moonfeatureApprovalStatusTexts = this._backendService.allMoonfeatureApprovalStatusTexts.sort();
         this._backendService.getMoonfeatures(this.pageIndex, this.itemsPerPage, this._backendService.allMoonfeatures, this._backendService.filteredMoonfeatures)
           .then(value => this.moonfeatures = value)
-          .catch(error => console.log(error));
-      });
+      })
+      .catch(error => console.log(error));
 
     // Translations
     this.translate();

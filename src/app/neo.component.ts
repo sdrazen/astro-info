@@ -34,45 +34,6 @@ export class NeoComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-
-    //   // Get data from Nasa service
-    //   let today = new Date();
-    //   let start_date = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString() + '-' + today.getDate().toString();
-    //   let end_date = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString() + '-' + today.getDate().toString();
-
-    //   this._nasaService.getNeo(start_date, end_date).subscribe(
-    //     (value) => {
-    //       this.neos.push(value.near_earth_objects[Object.keys(value.near_earth_objects)[0]]);
-    //       // Get data for charts
-    //       let arr: Array<any> = value.near_earth_objects[Object.keys(value.near_earth_objects)[0]];
-    //       let labels: Array<string> = arr.map(el => el.name);
-    //       this.lineChartLabels = labels;
-    //       // Data - Min est. diam. (m)
-    //       let dataMinEstDiameterM: Array<number> = arr.map(el => Math.round(parseFloat(el.estimated_diameter.meters.estimated_diameter_min)));
-    //       this.lineChartDataMinEstDiameterM[0].data = dataMinEstDiameterM;
-    //       // Data - Velocity km/s
-    //       let dataVelocityKms: Array<number> = arr.map(el => Math.round(parseFloat(el.close_approach_data[0].relative_velocity.kilometers_per_second)));
-    //       this.lineChartDataVelocityKms[0].data = dataVelocityKms;
-    //     },
-    //     (err) => {this.errorMessageNeo = err}
-    //   );
-
-    //   // Translations
-    //   this.translate();
-
-    //   // Update chart labels
-    //   this.lineChartDataMinEstDiameterM[0].label = this.t_NeoComponent_MinEstimatedDiameterM;
-    //   this.lineChartDataVelocityKms[0].label = this.t_NeoComponent_VelocityKms;
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-
     // Get data from Nasa service
     let today = new Date();
     let start_date = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString() + '-' + today.getDate().toString();

@@ -29,22 +29,6 @@ export class ApodComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-
-    //   // Get data from Nasa service
-    //   this._nasaService.getApod().subscribe(value => {this.apod = value; console.log(value)}, (err) => this.errorMessageApod = err);
-
-    //   // Translations
-    //   this.translate();
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-
     // Get data from Nasa service
     this._nasaService.getApod().subscribe(value => { this.apod = value; }, (err) => this.errorMessageApod = err);
 

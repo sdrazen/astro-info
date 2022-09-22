@@ -5,14 +5,12 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about.component';
-import { LoginComponent } from './login.component';
 import { WelcomeComponent } from './welcome.component';
 import { ObjectsComponent } from './objects.component';
 import { ObjectDetailsComponent } from './object.details.component';
 import { ApodComponent } from './apod.component';
 import { NeoComponent } from './neo.component';
 import { NeoDetailsComponent } from './neo.details.component';
-import { SunmoonComponent } from './sunmoon.component';
 import { IssComponent } from './iss.component';
 import { StoresComponent } from './stores.component';
 import { LocationsComponent } from './locations.component';
@@ -29,8 +27,6 @@ import { BackendService } from './shared/backend.service';
 import { WikipediaService } from './shared/wikipedia.service';
 import { FlickrService } from './shared/flickr.service';
 import { NasaService } from './shared/nasa.service';
-import { WeatherService } from './shared/weather.service';
-import { UsnoService } from './shared/usno.service';
 import { GoogleService } from './shared/google.service';
 import { UserSettingsService } from './shared/user.settings.service';
 import { TranslationsService } from './shared/translations.service';
@@ -44,7 +40,6 @@ import { FilterArrayPipe } from './shared/filter.pipe';
   declarations: [
     AppComponent,
     AboutComponent,
-    LoginComponent,
     WelcomeComponent,
     ObjectsComponent,
     ObjectDetailsComponent,
@@ -52,7 +47,6 @@ import { FilterArrayPipe } from './shared/filter.pipe';
     ApodComponent,
     NeoComponent,
     NeoDetailsComponent,
-    SunmoonComponent,
     IssComponent,
     StoresComponent,
     LocationsComponent,
@@ -77,8 +71,6 @@ import { FilterArrayPipe } from './shared/filter.pipe';
     WikipediaService,
     FlickrService,
     NasaService,
-    WeatherService,
-    UsnoService,
     GoogleService,
     UserSettingsService,
     TranslationsService,

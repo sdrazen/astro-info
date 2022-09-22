@@ -59,63 +59,6 @@ export class ObjectDetailsComponent implements OnInit {
 
     ngOnInit() {
 
-        //   var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-        //   p.then(user => {
-        //     this.isLoggedIn = true;
-
-        //         // Translations
-        //         this.translate();
-
-        //         // Update panel title, object current position title and object next positions title
-        //         this.t_ObjectDetailsComponent_PanelTitle = this.t_ObjectDetailsComponent_PanelTitle + ((this.selectedObject.catalogueentry ? ": " + this.selectedObject.catalogueentry : (this.selectedObject.familiarname ? ": " + this.selectedObject.familiarname : "")));
-        //         this.t_ObjectDetailsComponent_ObjectsCurrentPosition = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsCurrentPosition
-        //         this.t_ObjectDetailsComponent_ObjectsNextPositions = ((this.selectedObject.catalogueentry ? this.selectedObject.catalogueentry + " - " : (this.selectedObject.familiarname ? this.selectedObject.familiarname + " - " : ""))) + this.t_ObjectDetailsComponent_ObjectsNextPositions
-
-        //         // Wikipedia term
-        //         this.wikipediaTermCatalogueEntry = this.selectedObject.catalogueentry;
-        //         this.wikipediaTermFamiliarName = this.selectedObject.familiarname;
-        //         this.wikipediaTermAlternativeEntries = this.selectedObject.alternativeentries;
-
-        //         // Wikipedia search
-        //         let obsCatalogueEntry$ = this._wikipediaService.rawSearch(this.wikipediaTermCatalogueEntry);
-        //         let obsFamiliarName$ = this._wikipediaService.rawSearch(this.wikipediaTermFamiliarName);
-        //         let obsAlternativeEntries$ = this._wikipediaService.rawSearch(this.wikipediaTermAlternativeEntries);
-        //         let combined$ = Observable.forkJoin(obsCatalogueEntry$, obsFamiliarName$, obsAlternativeEntries$);
-
-        //         combined$.subscribe(
-        //             (items) => {
-        //                 this.wikipediaItems = (items[0] !== undefined ? items[0] : []);
-        //                 this.wikipediaItems = (items[1] !== undefined ? this.wikipediaItems.concat(items[1]) : this.wikipediaItems);
-        //                 this.wikipediaItems = (items[2] !== undefined ? this.wikipediaItems.concat(items[2]) : this.wikipediaItems);
-        //             },
-        //             (err) => this.errorMessageWikipedia = err
-        //         )
-
-        //         // Flickr tags
-        //         this.flickrTags = this.selectedObject.catalogueentry + ',' + this.selectedObject.familiarname;
-
-        //         // Flickr search
-        //         this._flickrService.getPhotos(this.flickrTags).subscribe(items => this.flickrItems = items.photos.photo, (err) => this.errorMessageFlickr = err);
-
-        //         // Object's current position on the sky for user's location
-        //         this.getObjectsCurrentPosition();
-
-        //         // Object's next 12 hour positions on the sky for user's location
-        //         this.getObjectsNextPositions(12);
-
-        //         // Update chart's label and fill it's data with 100ms delay because of issues with chart.js
-        //         setTimeout(() => {
-        //             this.lineChartData[0].label = this.t_ObjectDetailsComponent_Altitude;
-        //             this.lineChartLabels = this.lineChartLabelsTemp;
-        //             this.lineChartData[0].data = this.lineChartDataTemp[0].data;
-        //         }, 100);
-
-        //   })
-        //   .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-        this.isLoggedIn = true;
-
         // Translations
         this.translate();
 

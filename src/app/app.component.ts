@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserSettingsService } from './shared/user.settings.service';
 import { TranslationsService } from './shared/translations.service';
 import { Globals } from 'common/globals';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -39,6 +38,11 @@ export class AppComponent implements OnInit {
   dataSourceLocation: string = "";
   dataSourceCalledFrom: string = "";
 
+  // Variables for api source
+  apiSource: number = 1;
+  apiSourceTitle: string = "";
+  apiSourceCalledFrom: string = "";
+
   constructor(private _userSettingsService: UserSettingsService, private _translationsService: TranslationsService) { }
 
   ngOnInit() {
@@ -71,18 +75,16 @@ export class AppComponent implements OnInit {
     this.dataSourceLocation = this._userSettingsService.getDataSourceLocation();
     this.dataSourceCalledFrom = this._userSettingsService.getDataSourceCalledFrom();
 
-  }
+    // Api source
+    this.apiSource = this._userSettingsService.apiSource;
 
-  onLogOff() {
-    // if (this._firebaseAuthService.isLoggedIn == true) {
-    //   this._firebaseAuthService.userSignOut();
-    //   // this._router.navigate (['/']);
-    // }
-  }
+    // Set global variable
+    Globals.API_SOURCE = this.apiSource;
 
-  isUserLoggedIn(): boolean {
-    // return this._firebaseAuthService.isLoggedIn;
-    return true;
+    // Get additional data (titles) about the api source
+    this.apiSourceTitle = this._userSettingsService.getApiSourceTitle();
+    this.apiSourceCalledFrom = this._userSettingsService.getApiSourceCalledFrom();
+
   }
 
   translate() {

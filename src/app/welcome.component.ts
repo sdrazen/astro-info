@@ -37,32 +37,6 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-    //   this.currentUser = user;
-
-    //   // Use user settings from UserSettingsService
-    //   this.lat = this._userSettingsService.lat;
-    //   this.lng = this._userSettingsService.lng;
-    //   this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
-    //   this.languageId = this._userSettingsService.languageId;
-    //   this.itemsPerPage = this._userSettingsService.itemsPerPage;
-    //   this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
-
-    //   // Are user settings defined?
-    //   this.userSettingsDefined = this._userSettingsService.userSettingsDefined;
-
-    //   // Translations
-    //   this.translate();
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-    // this.currentUser = user;
-
     // Use user settings from UserSettingsService
     this.lat = this._userSettingsService.lat;
     this.lng = this._userSettingsService.lng;

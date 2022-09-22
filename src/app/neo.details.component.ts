@@ -33,30 +33,6 @@ export class NeoDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-
-    //   // Activated route
-    //   this.neoId = parseInt(this._activatedRoute.snapshot.params['id']);
-
-    //   // Get data from Nasa service
-    //   this._nasaService.getNeoDetails(this.neoId).subscribe(value => {
-    //       this.neoDetails.push(value.close_approach_data);
-    //   }, (err) => this.errorMessageNeoDetails = err);
-
-    //   // Translations
-    //   this.translate();
-
-    //   // Update panel title
-    //   this.t_NeoDetailsComponent_PanelTitle = this.t_NeoDetailsComponent_PanelTitle + ": " + this.neoId.toString();
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-
     // Activated route
     this.neoId = parseInt(this._activatedRoute.snapshot.params['id']);
 

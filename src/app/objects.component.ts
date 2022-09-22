@@ -29,9 +29,11 @@ export class ObjectsComponent implements OnInit {
   lng: number = 0;
   timeZoneRawOffset: number = 0;
   languageId: number = 0;
+  dataSource: number = 0;
+  apiSource: number = 1;
   itemsPerPage: number = 0;
   pagesPerPageset: number = 0;
-  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, itemsPerPage: 0, pagesPerPageset: 0 };
+  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, apiSource: 1, itemsPerPage: 0, pagesPerPageset: 0 };
 
   // Variable which will help determine which components to show and which of them not to show
   showSpinner: boolean = true;
@@ -120,63 +122,6 @@ export class ObjectsComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-
-    //   // Use user settings from service
-    //   this.lat = this._userSettingsService.lat;
-    //   this.lng = this._userSettingsService.lng;
-    //   this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
-    //   this.languageId = this._userSettingsService.languageId;
-    //   this.itemsPerPage = this._userSettingsService.itemsPerPage;
-    //   this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
-
-    //   let now = new Date();
-    //   let utc_now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds());
-    //   let dd = utc_now.getDate();
-    //   let mm = utc_now.getMonth() + 1;
-    //   let yyyy = utc_now.getFullYear();
-    //   let hh = utc_now.getHours();
-    //   let min = utc_now.getMinutes();
-
-    //   // Use user settings from service
-    //   this.criteriaLat = this._userSettingsService.lat;
-    //   this.criteriaLng = this._userSettingsService.lng;
-    //   this.criteriaTimeUt = yyyy.toString() + "-" + this.leadingZero(mm.toString()) + "-" + this.leadingZero(dd.toString()) + "T" + this.leadingZero(hh.toString()) + ":" + this.leadingZero(min.toString() + ":00");
-    //   this.criteriaTimeUtYYYY = this.leadingZero(yyyy.toString());
-    //   this.criteriaTimeUtMM = this.leadingZero(mm.toString());
-    //   this.criteriaTimeUtDD = this.leadingZero(dd.toString());
-    //   this.criteriaTimeUtHH = this.leadingZero(hh.toString());
-    //   this.criteriaTimeUtMIN = this.leadingZero(min.toString());
-
-    //   // Calculate initial pages Array
-    //   this.pages = this.getArrayOfNumbers(1, this.pagesPerPageset);
-
-    //   // Get data from Data service
-    //   this.objects = [];
-    //   this._backendService.getAllObjects("catalogueentry")
-    //     .then(() => {
-    //         this.showSpinner = false;
-    //         this.showMain = true;
-    //         this._backendService.filteredObjects = [];
-    //         this._backendService.isInitialGet = true;
-    //         this.countOfObjects = this._backendService.allObjects.length;
-    //         this.objectTypes = this._backendService.allObjectTypes.sort();
-    //         this.constellations = this._backendService.allConstellations.sort();
-    //         this._backendService.getObjects(this.pageIndex, this.itemsPerPage, this._backendService.allObjects, this._backendService.filteredObjects)
-    //           .then(value => this.objects = value);
-    //       });
-
-    //   // Translations
-    //   this.translate();
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-
     // Use user settings from service
     this.lat = this._userSettingsService.lat;
     this.lng = this._userSettingsService.lng;
@@ -219,7 +164,8 @@ export class ObjectsComponent implements OnInit {
         this.constellations = this._backendService.allConstellations.sort();
         this._backendService.getObjects(this.pageIndex, this.itemsPerPage, this._backendService.allObjects, this._backendService.filteredObjects)
           .then(value => this.objects = value);
-      });
+      })
+      .catch(error => console.log(error));
 
     // Translations
     this.translate();

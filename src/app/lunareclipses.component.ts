@@ -5,7 +5,6 @@ import { TranslationsService } from './shared/translations.service';
 import { IDataLunarEclipseListModel } from './shared/data.lunareclipselist.model';
 import { ISearchCriteriaLunarEclipsesModel } from './shared/searchcriterialunareclipses.model'
 import { IUserSettingsModel } from './shared/user.settings.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lunareclipses',
@@ -29,9 +28,11 @@ export class LunarEclipsesComponent implements OnInit {
   lng: number = 0;
   timeZoneRawOffset: number = 0;
   languageId: number = 0;
+  dataSource: number = 0;
+  apiSource: number = 1;
   itemsPerPage: number = 0;
   pagesPerPageset: number = 0;
-  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, itemsPerPage: 0, pagesPerPageset: 0 };
+  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, apiSource: 1, itemsPerPage: 0, pagesPerPageset: 0 };
 
   // Variable which will help determine which components to show and which of them not to show
   showSpinner: boolean = true;
@@ -68,43 +69,6 @@ export class LunarEclipsesComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-
-    //   // Use user settings from service
-    //   this.lat = this._userSettingsService.lat;
-    //   this.lng = this._userSettingsService.lng;
-    //   this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
-    //   this.languageId = this._userSettingsService.languageId;
-    //   this.itemsPerPage = this._userSettingsService.itemsPerPage;
-    //   this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
-
-    //   // Calculate initial pages Array
-    //   this.pages = this.getArrayOfNumbers(1, this.pagesPerPageset);
-
-    //   // Get data from Data service
-    //   this.lunarEclipses = [];
-    //   this._backendService.getAllLunarEclipses()
-    //     .then(() => {
-    //         this.showSpinner = false;
-    //         this.showMain = true;
-    //         this._backendService.filteredLunarEclipses = [];
-    //         this._backendService.isInitialGetLunarEclipses = true;
-    //         this.countOfLunarEclipses = this._backendService.allLunarEclipses.length;
-    //         this._backendService.getLunarEclipses(this.pageIndex, this.itemsPerPage, this._backendService.allLunarEclipses, this._backendService.filteredLunarEclipses)
-    //           .then(value => this.lunarEclipses = value);
-    //       });
-
-    //   // Translations
-    //   this.translate();
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-
     // Use user settings from service
     this.lat = this._userSettingsService.lat;
     this.lng = this._userSettingsService.lng;
@@ -127,7 +91,8 @@ export class LunarEclipsesComponent implements OnInit {
         this.countOfLunarEclipses = this._backendService.allLunarEclipses.length;
         this._backendService.getLunarEclipses(this.pageIndex, this.itemsPerPage, this._backendService.allLunarEclipses, this._backendService.filteredLunarEclipses)
           .then(value => this.lunarEclipses = value);
-      });
+      })
+      .catch(error => console.log(error));
 
     // Translations
     this.translate();

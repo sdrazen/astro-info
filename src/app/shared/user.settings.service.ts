@@ -11,9 +11,10 @@ export class UserSettingsService {
   timeZoneRawOffset: number = 0;
   languageId: number = 0;
   dataSource: number = 0;
+  apiSource: number = 1;
   itemsPerPage: number = 0;
   pagesPerPageset: number = 0;
-  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, itemsPerPage: 0, pagesPerPageset: 0 };
+  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, apiSource: 1, itemsPerPage: 0, pagesPerPageset: 0 };
   userSettingsDefined: boolean = false;
   userSettingsSetToVariables: boolean = false;
 
@@ -23,23 +24,43 @@ export class UserSettingsService {
   dataSourceLocation: string = "";
   dataSourceCalledFrom: string = "";
 
+  // Variables for api source
+  apiSourceList: Array<any> = [{ "apisource": 0, "apisourcetitle": "frontend" }, { "apisource": 1, "apisourcetitle": "backend" }];
+  apiSourceTitle: string = "backend";
+  apiSourceCalledFrom: string = "backend";
+
   constructor() { }
 
   getUserSettings(): void {
 
     // Are user settings defined?
     if (localStorage.getItem('astro-info-usersettings') !== null && localStorage.getItem('astro-info-usersettings') !== undefined) {
-      // Get user settings from localStorage if available
-      this.userSettings = JSON.parse(localStorage.getItem('astro-info-usersettings'));
-      this.lat = parseFloat((this.userSettings.lat).toString());
-      this.lng = parseFloat((this.userSettings.lng).toString());
-      this.timeZoneRawOffset = this.userSettings.timeZoneRawOffset == null ? 0 : parseInt((this.userSettings.timeZoneRawOffset).toString());
-      this.languageId = parseInt((this.userSettings.languageId).toString());
-      this.dataSource = parseInt((this.userSettings.dataSource).toString());
-      this.itemsPerPage = parseInt((this.userSettings.itemsPerPage).toString());
-      this.pagesPerPageset = parseInt((this.userSettings.pagesPerPageset).toString());
-      this.userSettingsDefined = true;
-      this.userSettingsSetToVariables = true;
+      if (Object.keys(JSON.parse(localStorage.getItem('astro-info-usersettings'))).length == 8) {
+        // Get user settings from localStorage if available
+        this.userSettings = JSON.parse(localStorage.getItem('astro-info-usersettings'));
+        this.lat = parseFloat((this.userSettings.lat).toString());
+        this.lng = parseFloat((this.userSettings.lng).toString());
+        this.timeZoneRawOffset = this.userSettings.timeZoneRawOffset == null ? 0 : parseInt((this.userSettings.timeZoneRawOffset).toString());
+        this.languageId = parseInt((this.userSettings.languageId).toString());
+        this.dataSource = parseInt((this.userSettings.dataSource).toString());
+        this.apiSource = parseInt((this.userSettings.apiSource).toString());
+        this.itemsPerPage = parseInt((this.userSettings.itemsPerPage).toString());
+        this.pagesPerPageset = parseInt((this.userSettings.pagesPerPageset).toString());
+        this.userSettingsDefined = true;
+        this.userSettingsSetToVariables = true;
+      } else {
+        // Some of the user settings are missing, set default values
+        this.lat = 45.814440;
+        this.lng = 15.977980;
+        this.timeZoneRawOffset = 0;
+        this.languageId = 0;
+        this.dataSource = 0;
+        this.apiSource = 1;
+        this.itemsPerPage = 10;
+        this.pagesPerPageset = 10;
+        this.userSettingsDefined = false;
+        this.userSettingsSetToVariables = true;
+      }
     } else {
       // No user settings defined, set default values
       this.lat = 45.814440;
@@ -47,6 +68,7 @@ export class UserSettingsService {
       this.timeZoneRawOffset = 0;
       this.languageId = 0;
       this.dataSource = 0;
+      this.apiSource = 1;
       this.itemsPerPage = 10;
       this.pagesPerPageset = 10;
       this.userSettingsDefined = false;
@@ -65,6 +87,7 @@ export class UserSettingsService {
     this.timeZoneRawOffset = userSettings.timeZoneRawOffset;
     this.languageId = userSettings.languageId;
     this.dataSource = userSettings.dataSource;
+    this.apiSource = userSettings.apiSource;
     this.itemsPerPage = userSettings.itemsPerPage;
     this.pagesPerPageset = userSettings.pagesPerPageset;
     this.userSettings = userSettings;
@@ -129,6 +152,37 @@ export class UserSettingsService {
     }
 
     this.dataSourceCalledFrom = ret;
+
+    return ret;
+
+  }
+
+  getApiSourceTitle(): string {
+
+    // Get correct api source title
+    let selectedApiSourceObj = this.apiSourceList.find(el => el.apisource == this.apiSource);
+    this.apiSourceTitle = selectedApiSourceObj.apisourcetitle;
+
+    return this.apiSourceTitle;
+
+  }
+
+  getApiSourceCalledFrom(): string {
+
+    // Get correct api source for additional info in title
+    let ret: string = "";
+
+    if (Globals.API_SOURCE == 0) {
+      // frontend
+      ret = "frontend";
+    }
+
+    if (Globals.API_SOURCE == 1) {
+      // backend
+      ret = "backend";
+    }
+
+    this.apiSourceCalledFrom = ret;
 
     return ret;
 

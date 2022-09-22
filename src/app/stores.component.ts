@@ -77,32 +77,6 @@ export class StoresComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-    //   this.currentUser = user;
-
-    //   // Use user settings from service
-    //   this.lat = this._userSettingsService.lat;
-    //   this.lng = this._userSettingsService.lng;
-
-    //   // Get all stores from data service
-    //   this.stores = [];
-    //   this._backendService.getAllStores("storecountry")
-    //     .then(() => {
-    //           this.stores = this._backendService.allStores;
-    //       });
-
-    //   // Translations
-    //   this.translate();
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-    // this.currentUser = user;
-
     // Use user settings from service
     this.lat = this._userSettingsService.lat;
     this.lng = this._userSettingsService.lng;
@@ -112,7 +86,8 @@ export class StoresComponent implements OnInit {
     this._backendService.getAllStores("storecountry")
       .then(() => {
         this.stores = this._backendService.allStores;
-      });
+      })
+      .catch(error => console.log(error));
 
     // Translations
     this.translate();

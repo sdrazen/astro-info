@@ -10,7 +10,6 @@ import { NeoComponent } from './neo.component';
 import { NeoDetailsComponent } from './neo.details.component';
 import { SolarEclipsesComponent } from './solareclipses.component';
 import { LunarEclipsesComponent } from './lunareclipses.component';
-import { SunmoonComponent } from './sunmoon.component';
 import { IssComponent } from './iss.component';
 import { MoonfeaturesComponent } from './moonfeatures.component';
 import { StoresComponent } from './stores.component';
@@ -30,7 +29,6 @@ const routes: Routes = [
     { path: 'neo/:id', component: NeoDetailsComponent },
     { path: 'solareclipses', component: SolarEclipsesComponent },
     { path: 'lunareclipses', component: LunarEclipsesComponent },
-    { path: 'sunmoon', component: SunmoonComponent },
     { path: 'iss', component: IssComponent },
     { path: 'moonfeatures', component: MoonfeaturesComponent },
     { path: 'stores', component: StoresComponent },

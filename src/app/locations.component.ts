@@ -68,32 +68,6 @@ export class LocationsComponent implements OnInit {
 
   ngOnInit() {
 
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-    //   this.currentUser = user;
-
-    //   // Use user settings from service
-    //   this.lat = this._userSettingsService.lat;
-    //   this.lng = this._userSettingsService.lng;
-
-    //   // Get all locations from data service
-    //   this.locations = [];
-    //   this._backendService.getAllLocations("locationcountry")
-    //     .then(() => {
-    //           this.locations = this._backendService.allLocations;
-    //       });
-
-    //   // Translations
-    //   this.translate();
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-    // this.currentUser = user;
-
     // Use user settings from service
     this.lat = this._userSettingsService.lat;
     this.lng = this._userSettingsService.lng;
@@ -103,7 +77,8 @@ export class LocationsComponent implements OnInit {
     this._backendService.getAllLocations("locationcountry")
       .then(() => {
         this.locations = this._backendService.allLocations;
-      });
+      })
+      .catch(error => console.log(error));
 
     // Translations
     this.translate();

@@ -31,10 +31,6 @@
                         </div>
                         <div>
                             <button class="btn btn-primary width-160" (click)="onAddClick()">{{t_LocationsComponent_AddNewLocation}}</button>
-                            <!-- <div class="pull-right" *ngIf="(selectedLocation && (selectedLocation.locationaddedbyemail === currentUser.email))">
-                            <button class="btn btn-primary width-160" (click)="onEditClick()">{{t_LocationsComponent_Edit}}...</button>
-                            <button class="btn btn-danger width-160" (click)="onDeleteClick(selectedLocation.key)">{{t_LocationsComponent_Delete}}</button>
-                        </div> -->
                             <div class="pull-right" *ngIf="(selectedLocation)">
                                 <button class="btn btn-primary width-160" (click)="onEditClick()">{{t_LocationsComponent_Edit}}...</button>
                                 <button class="btn btn-danger width-160 margin-left-4" (click)="onDeleteClick(selectedLocation.key)">{{t_LocationsComponent_Delete}}</button>

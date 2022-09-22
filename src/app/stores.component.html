@@ -34,10 +34,6 @@
                         </div>
                         <div>
                             <button class="btn btn-primary width-160" (click)="onAddClick()">{{t_StoresComponent_AddNewStore}}</button>
-                            <!-- <div class="pull-right" *ngIf="(selectedStore && (selectedStore.storeaddedbyemail === currentUser.email))">
-                            <button class="btn btn-primary width-160" (click)="onEditClick()">{{t_StoresComponent_Edit}}...</button>
-                            <button class="btn btn-danger width-160" (click)="onDeleteClick(selectedStore.key)">{{t_StoresComponent_Delete}}</button>
-                        </div> -->
                             <div class="pull-right" *ngIf="(selectedStore)">
                                 <button class="btn btn-primary width-160" (click)="onEditClick()">{{t_StoresComponent_Edit}}...</button>
                                 <button class="btn btn-danger width-160 margin-left-4" (click)="onDeleteClick(selectedStore.key)">{{t_StoresComponent_Delete}}</button>

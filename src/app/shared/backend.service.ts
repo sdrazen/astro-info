@@ -12,7 +12,18 @@ import { ISearchCriteriaLunarEclipsesModel } from '../shared/searchcriterialunar
 import { CalculationsService } from '../shared/calculations.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Globals } from 'common/globals'
-import { Observable, map } from 'rxjs'
+import { map } from 'rxjs';
+
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyCUw3vpmS_KlTUTtKfyXFvNzYa8pM5Vb0k",
+  authDomain: "astroinfo-59d91.firebaseapp.com",
+  databaseURL: "https://astroinfo-59d91.firebaseio.com",
+  storageBucket: "astroinfo-59d91.appspot.com",
+  messagingSenderId: "162775545478"
+};
+firebase.initializeApp(config);
+
 declare var firebase: any;
 
 @Injectable()
@@ -113,7 +124,7 @@ export class BackendService {
             }
             // Resolve
             resolve();
-          })
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -147,7 +158,7 @@ export class BackendService {
             })
             // Resolve
             resolve();
-          });
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -283,7 +294,7 @@ export class BackendService {
             store["key"] = snapshot.key;
             this.allStores.push(store);
             resolve();
-          })
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -309,7 +320,7 @@ export class BackendService {
             })
             // Resolve
             resolve();
-          });
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -425,7 +436,7 @@ export class BackendService {
             location["key"] = snapshot.key;
             this.allLocations.push(location);
             resolve();
-          })
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -451,7 +462,7 @@ export class BackendService {
             })
             // Resolve
             resolve();
-          });
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -652,7 +663,7 @@ export class BackendService {
             }
             // Resolve
             resolve();
-          })
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -663,30 +674,81 @@ export class BackendService {
         if (this.allMoonfeatures.length === 0) {
 
           let dataFromMongoDb;
-          this._http.get(Globals.MONGODB_API_URL + "/moonfeatures").pipe(map(data => <IDataMoonfeatureListModel[]>data)).subscribe(arr => {
-            dataFromMongoDb = arr;
-            // Sort data
-            dataFromMongoDb.sort(function (x, y) {
-              let a = x[orderBy].toUpperCase(), b = y[orderBy].toUpperCase();
-              return a == b ? 0 : a > b ? 1 : -1;
-            });
-            dataFromMongoDb.forEach(item => {
-              var moonfeature;
-              moonfeature = item;
-              moonfeature["key"] = item["_id"];
-              this.allMoonfeatures.push(moonfeature);
-              // Feature Types
-              if (this.allMoonfeatureTypes.indexOf(moonfeature.featuretypetext) === -1) {
-                this.allMoonfeatureTypes.push(moonfeature.featuretypetext);
-              }
-              // Approval status texts
-              if (this.allMoonfeatureApprovalStatusTexts.indexOf(moonfeature.approvalstatustext) === -1) {
-                this.allMoonfeatureApprovalStatusTexts.push(moonfeature.approvalstatustext);
-              }
+
+          // Part one
+          let p_part_one = new Promise<void>((resolve, reject) => {
+            this._http.get(Globals.MONGODB_API_URL + "/moonfeatures1").pipe(map(data => <IDataMoonfeatureListModel[]>data)).subscribe(arr => {
+              dataFromMongoDb = arr;
+              // Sort data
+              dataFromMongoDb.sort(function (x, y) {
+                let a = x[orderBy].toUpperCase(), b = y[orderBy].toUpperCase();
+                return a == b ? 0 : a > b ? 1 : -1;
+              });
+              dataFromMongoDb.forEach(item => {
+                var moonfeature;
+                moonfeature = item;
+                moonfeature["key"] = item["_id"];
+                moonfeature["featuretypetext"] = item.featuretype.text;
+                moonfeature["approvalstatustext"] = item.approvalstatus.text;
+                this.allMoonfeatures.push(moonfeature);
+                // Feature Types
+                if (this.allMoonfeatureTypes.indexOf(moonfeature.featuretypetext) === -1) {
+                  this.allMoonfeatureTypes.push(moonfeature.featuretypetext);
+                }
+                // Approval status texts
+                if (this.allMoonfeatureApprovalStatusTexts.indexOf(moonfeature.approvalstatustext) === -1) {
+                  this.allMoonfeatureApprovalStatusTexts.push(moonfeature.approvalstatustext);
+                }
+              })
+              // Resolve
+              resolve();
+            }, (error) => { reject(error) });
+          })
+
+          // Part two
+          let p_part_two = new Promise<void>((resolve, reject) => {
+            this._http.get(Globals.MONGODB_API_URL + "/moonfeatures2").pipe(map(data => <IDataMoonfeatureListModel[]>data)).subscribe(arr => {
+              dataFromMongoDb = arr;
+              // Sort data
+              dataFromMongoDb.sort(function (x, y) {
+                let a = x[orderBy].toUpperCase(), b = y[orderBy].toUpperCase();
+                return a == b ? 0 : a > b ? 1 : -1;
+              });
+              dataFromMongoDb.forEach(item => {
+                var moonfeature;
+                moonfeature = item;
+                moonfeature["key"] = item["_id"];
+                moonfeature["featuretypetext"] = item.featuretype.text;
+                moonfeature["approvalstatustext"] = item.approvalstatus.text;
+                this.allMoonfeatures.push(moonfeature);
+                // Feature Types
+                if (this.allMoonfeatureTypes.indexOf(moonfeature.featuretypetext) === -1) {
+                  this.allMoonfeatureTypes.push(moonfeature.featuretypetext);
+                }
+                // Approval status texts
+                if (this.allMoonfeatureApprovalStatusTexts.indexOf(moonfeature.approvalstatustext) === -1) {
+                  this.allMoonfeatureApprovalStatusTexts.push(moonfeature.approvalstatustext);
+                }
+              })
+              // Resolve
+              resolve();
+            }, (error) => { reject(error) });
+          })
+
+          p_part_one
+            .then(() => {
+              p_part_two
+                .then(() => {
+                  // Sort data
+                  this.allMoonfeatures.sort(function (x, y) {
+                    let a = x[orderBy].toUpperCase(), b = y[orderBy].toUpperCase();
+                    return a == b ? 0 : a > b ? 1 : -1;
+                  });
+                  // Resolve
+                  resolve();
+                })
             })
-            // Resolve
-            resolve();
-          }, (error) => { reject(error) });
+
         } else {
           resolve();
         }
@@ -778,7 +840,7 @@ export class BackendService {
             this.allSolarEclipses.push(solareclipse);
             // Resolve
             resolve();
-          })
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -799,7 +861,7 @@ export class BackendService {
             })
             // Resolve
             resolve();
-          });
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -882,7 +944,7 @@ export class BackendService {
             this.allLunarEclipses.push(lunareclipse);
             // Resolve
             resolve();
-          })
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }
@@ -903,7 +965,7 @@ export class BackendService {
             })
             // Resolve
             resolve();
-          });
+          }, (error) => { reject(error) });
         } else {
           resolve();
         }

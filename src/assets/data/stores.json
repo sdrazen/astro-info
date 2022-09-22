@@ -1,0 +1,93 @@
+{
+	"-KfbR4FRx30scoBnEtr9": {
+		"storeaddedbyemail": "sdrazen757@gmail.com",
+		"storeaddress": "Tuškanova 31",
+		"storecity": "Zagreb",
+		"storecomment": "",
+		"storecountry": "Croatia",
+		"storemarker": {
+			"markerlat": 45.80973355638282,
+			"markerlng": 15.998285114765167
+		},
+		"storename": "Teleskop centar",
+		"storepostalcode": "10000"
+	},
+	"-KfbSUhmEt1DUNLq2jRb": {
+		"storeaddedbyemail": "sdrazen757@gmail.com",
+		"storeaddress": "Schönbrunner Str. 96",
+		"storecity": "Vienna",
+		"storecomment": "",
+		"storecountry": "Austria",
+		"storemarker": {
+			"markerlat": 48.18884312870446,
+			"markerlng": 16.349034905433655
+		},
+		"storename": "Teleskop & Mikroskop Zentrum Wien (LACERTA GmbH)",
+		"storepostalcode": "1050"
+	},
+	"-KgmiY6Pidl8VGgV2Qa7": {
+		"storeaddedbyemail": "sdrazen757@gmail.com",
+		"storeaddress": "Von-Myra-Straße 8",
+		"storecity": "Parsdorf",
+		"storecomment": "Geschäftsführer: Wolfgang Ransburg, Wolfgang Eppensteiner, Konstantinos Chronopoulos",
+		"storecountry": "Germany",
+		"storemarker": {
+			"markerlat": 48.14578741171892,
+			"markerlng": 11.791301965713501
+		},
+		"storename": "Teleskop-Service Ransburg GmbH",
+		"storepostalcode": "D-85599"
+	},
+	"-Kgmk2_z9nEp3TPkLWhx": {
+		"storeaddedbyemail": "sdrazen757@gmail.com",
+		"storeaddress": "Vid Ivanuševa ulica 18",
+		"storecity": "Rogaška Slatina",
+		"storecomment": "",
+		"storecountry": "Slovenia",
+		"storemarker": {
+			"markerlat": 46.24098587174146,
+			"markerlng": 15.621507167816162
+		},
+		"storename": "Astro Center, trgovina in storitve d.o.o.",
+		"storepostalcode": "3250"
+	},
+	"-KgmlP57D085W7cP8N8j": {
+		"storeaddedbyemail": "sdrazen757@gmail.com",
+		"storeaddress": "Talanyijeva ulica 4",
+		"storecity": "Murska Sobota",
+		"storecomment": "",
+		"storecountry": "Slovenia",
+		"storemarker": {
+			"markerlat": 46.65460609047354,
+			"markerlng": 16.16112470626831
+		},
+		"storename": "V commerce d.o.o.",
+		"storepostalcode": "9000"
+	},
+	"-KgmnZr6_4dZ_RnRsU_J": {
+		"storeaddedbyemail": "sdrazen757@gmail.com",
+		"storeaddress": "Thaly Kálmán utca 34",
+		"storecity": "Budapest",
+		"storecomment": "",
+		"storecountry": "Hungary",
+		"storemarker": {
+			"markerlat": 47.48024073518934,
+			"markerlng": 19.076675176620483
+		},
+		"storename": "Makszutov.hu",
+		"storepostalcode": "1096"
+	},
+	"-KgmoZgsIaChXQJpuGJn": {
+		"storeaddedbyemail": "sdrazen757@gmail.com",
+		"storeaddress": "Gärtner Str. 16",
+		"storecity": "Linz",
+		"storecomment": "",
+		"storecountry": "Austria",
+		"storemarker": {
+			"markerlat": 48.29510732598906,
+			"markerlng": 14.287848472595215
+		},
+		"storename": "Teleskop & Mikroskop Zentrum in Linz",
+		"storepostalcode": "4020"
+	}
+}

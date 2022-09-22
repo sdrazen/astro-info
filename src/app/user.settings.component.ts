@@ -24,9 +24,10 @@ export class UserSettingsComponent implements OnInit {
   timeZoneRawOffset: number = 0;
   languageId: number = 0;
   dataSource: number = 0;
+  apiSource: number = 1;
   itemsPerPage: number = 0;
   pagesPerPageset: number = 0;
-  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, itemsPerPage: 0, pagesPerPageset: 0 };
+  userSettings: IUserSettingsModel = { lat: 0, lng: 0, timeZoneRawOffset: 0, languageId: 0, dataSource: 0, apiSource: 1, itemsPerPage: 0, pagesPerPageset: 0 };
 
   // Variables for Google Maps
   zoom: number = 10;
@@ -55,6 +56,13 @@ export class UserSettingsComponent implements OnInit {
   dataSourceLocation: string = "";
   dataSourceCalledFrom: string = "";
 
+  // Api source list
+  apiSourceList: Array<any> = [];
+
+  // Current api source title
+  apiSourceTitle: string = "";
+  apiSourceCalledFrom: string = "";
+
   // Variables for translations
   t_SettingsComponent_PanelTitle: string = "Application settings";
   t_SettingsComponent_MapTitle: string = "Click on map or drag marker to update Your location";
@@ -72,37 +80,11 @@ export class UserSettingsComponent implements OnInit {
   t_SettingsComponent_SaveAlert: string = "Your settings are updated and saved!";
   t_SettingsComponent_Save: string = "Save";
   t_SettingsComponent_Choose: string = "Choose";
+  t_SettingsComponent_From: string = "from";
 
   constructor(private _googleService: GoogleService, private _userSettingsService: UserSettingsService, private _translationsService: TranslationsService, private _appComponent: AppComponent, private _backendService: BackendService) { }
 
   ngOnInit() {
-
-    // var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    // p.then(user => {
-    //   this.isLoggedIn = true;
-    //   this.currentUser = user;
-
-    //   // Use user settings from service
-    //   this.lat = this._userSettingsService.lat;
-    //   this.lng = this._userSettingsService.lng;
-    //   this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
-    //   this.languageId = this._userSettingsService.languageId;
-    //   this.itemsPerPage = this._userSettingsService.itemsPerPage;
-    //   this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
-
-    //   // Get time zone from Google Time Zone API
-    //   this.timestamp = Math.round(new Date().getTime()/1000.0);
-    //   this._googleService.getTimeZone(this.lat.toString(), this.lng.toString(), this.timestamp).subscribe(timeZone => {this.timeZone = timeZone; this.timeZoneRawOffset = timeZone.rawOffset/3600;}, (err) => this.errorMessageGoogleTimeZone = err);
-
-    //   // Translations
-    //   this.translate(false);
-
-    // })
-    // .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-    // this.currentUser = user;
 
     // Use user settings from service
     this.lat = this._userSettingsService.lat;
@@ -110,6 +92,7 @@ export class UserSettingsComponent implements OnInit {
     this.timeZoneRawOffset = this._userSettingsService.timeZoneRawOffset;
     this.languageId = this._userSettingsService.languageId;
     this.dataSource = this._userSettingsService.dataSource;
+    this.apiSource = this._userSettingsService.apiSource;
     this.itemsPerPage = this._userSettingsService.itemsPerPage;
     this.pagesPerPageset = this._userSettingsService.pagesPerPageset;
 
@@ -121,6 +104,14 @@ export class UserSettingsComponent implements OnInit {
     this.dataSourceTitle = this._userSettingsService.getDataSourceTitle();
     this.dataSourceLocation = this._userSettingsService.getDataSourceLocation();
     this.dataSourceCalledFrom = this._userSettingsService.getDataSourceCalledFrom();
+
+    // Set api source in Globals to correct value
+    Globals.API_SOURCE = this.apiSource;
+
+    // Get correct api source title
+    this.apiSourceList = this._userSettingsService.apiSourceList;
+    this.apiSourceTitle = this._userSettingsService.getApiSourceTitle();
+    this.apiSourceCalledFrom = this._userSettingsService.getApiSourceCalledFrom();
 
     // Get time zone from Google Time Zone API
     this.timestamp = Math.round(new Date().getTime() / 1000.0);
@@ -154,6 +145,7 @@ export class UserSettingsComponent implements OnInit {
     this.userSettings.timeZoneRawOffset = parseInt(this.timeZoneRawOffset.toString());
     this.userSettings.languageId = parseInt(this.languageId.toString());
     this.userSettings.dataSource = parseInt(this.dataSource.toString());
+    this.userSettings.apiSource = parseInt(this.apiSource.toString());
     this.userSettings.itemsPerPage = parseInt(this.itemsPerPage.toString());
     this.userSettings.pagesPerPageset = parseInt(this.pagesPerPageset.toString());
     // Save settings
@@ -200,6 +192,24 @@ export class UserSettingsComponent implements OnInit {
 
   }
 
+  changeApiSource(apiSource: number, apiSourceTitle: string): void {
+
+    this.apiSource = apiSource;
+    this.apiSourceTitle = apiSourceTitle;
+
+    // Set global variable to correct value
+    Globals.API_SOURCE = apiSource;
+
+    // Get additional data (titles) about the data source
+    this.apiSourceCalledFrom = this._userSettingsService.getApiSourceCalledFrom();
+
+    // Let AppComponent know about the change so it can display the correct api source and additional info
+    this._appComponent.apiSource = apiSource;
+    this._appComponent.apiSourceTitle = apiSourceTitle;
+    this._appComponent.apiSourceCalledFrom = this.apiSourceCalledFrom;
+
+  }
+
   getFlagPath(languageTitle: string): string {
     return "/assets/flags/" + languageTitle + ".png";
   }
@@ -230,6 +240,7 @@ export class UserSettingsComponent implements OnInit {
           this.t_SettingsComponent_SaveAlert = this._translationsService.t_SettingsComponent_SaveAlert;
           this.t_SettingsComponent_Save = this._translationsService.t_SettingsComponent_Save;
           this.t_SettingsComponent_Choose = this._translationsService.t_SettingsComponent_Choose;
+          this.t_SettingsComponent_From = this._translationsService.t_SettingsComponent_From;
           // If user just saved new user settings (forceTranslation = true), then take care of AppComponent's menus, show changes right away if user changed language
           if (forceTranslation === true) {
             this._appComponent.languageId = this._userSettingsService.languageId;
@@ -277,6 +288,7 @@ export class UserSettingsComponent implements OnInit {
       this.t_SettingsComponent_SaveAlert = this._translationsService.t_SettingsComponent_SaveAlert;
       this.t_SettingsComponent_Save = this._translationsService.t_SettingsComponent_Save;
       this.t_SettingsComponent_Choose = this._translationsService.t_SettingsComponent_Choose;
+      this.t_SettingsComponent_From = this._translationsService.t_SettingsComponent_From;
     }
 
   }

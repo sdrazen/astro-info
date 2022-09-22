@@ -1,31 +1,30 @@
-# AstroInfo
+# Astro Info
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.24.
+This is frontend of the Astro Info web application. It's a web app for amateur astronomers, astrophotographers and other night sky lovers. If you want to develop your own astronomy web app, you can use and modify this code however you like. Furthermore, if you also want to make your own backend, it can be found [here](https://github.com/sdrazen/astro-info-backend). In `src/assets/data` you can find all data necessary to make your own database which currently consists of 6 collections (tables). Data provided in the `src/assets/data` folder is in JSON format which is more than suitable to make your own **MongoDb** database, for example.
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Installing
 
-## Code scaffolding
+```bash
+npm install
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+## Features
 
-## Build
+-   more than 8.000 deep-sky objects and their details
+-   more than 9.000 moon features and their details
+-   info on past and future lunar and solar eclipses
+-   traslated to English, Croatian and German language
+-   ability to add more languages quickly and easily
+-   data currently on Firebase and MongoDb (user switchable)
+-   insertable user data about astronomy stores and best astronomy locations
+-   astro calulator (RA, DEC, Alt/Az, object positions at given time etc.)
+-   new APOD (Astronomy Picture of the Day) every day
+-   ISS position shown on a map which refreshes at user given intervals
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Specifics
 
-## Running unit tests
+This application is designed in a way that it can run in two ways: by default it uses its backend for fetching data (from MongoDb database) and API results. However, if something happens to the backend for any reason, this app can also work stand-alone and switch to fetching data (from Firebase database) and API results directly from frontend. So, **by default you don't need any API keys** to use or develop this application. But if You for any reason decide to switch to the stand-alone mode (you can do it in User Settings), you will have to provide two API keys of your own for the app to be able to provide its full functionality: **Flickr API key** and **NASA API key**. In that kind of scenario you can enter your API keys in the `common/globals.ts` file.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Live application
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+This application is live on the cloud and can be seen [here](https://astroinfo-59d91.web.app/).

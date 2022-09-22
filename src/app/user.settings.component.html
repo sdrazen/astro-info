@@ -48,16 +48,30 @@
                                 </div>
                             </div>
                             <div class="row top-10">
-                                <div class="col-md-7">
+                                <div class="col-md-3 top-6">
                                     <b>{{t_SettingsComponent_PreferredDataSource}}: </b>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <div class="input-group">
                                         <input name="dataSourceTitle" type="text" class="form-control" aria-label="..." [ngModel]="dataSourceTitle" readonly>
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_SettingsComponent_Choose}} <span class="caret"></span></button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li class="cursor-default" [ngClass]="(i===dataSource)?'background-color-yellow':''" *ngFor="let datasource of dataSourceList; let i = index" (click)="changeDataSource(i, datasource.datasourcetitle)"><a><span class="glyphicon glyphicon-ok" aria-hidden="true" *ngIf="i===dataSource"></span> {{datasource.datasourcetitle}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center col-md-1 top-6">
+                                    <b>API:</b>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <input name="apiSourceTitle" type="text" class="form-control" aria-label="..." [ngModel]="apiSourceTitle" readonly>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{t_SettingsComponent_Choose}} <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li class="cursor-default" [ngClass]="(i===apiSource)?'background-color-yellow':''" *ngFor="let apisource of apiSourceList; let i = index" (click)="changeApiSource(i, apisource.apisourcetitle)"><a><span class="glyphicon glyphicon-ok" aria-hidden="true" *ngIf="i===apiSource"></span> {{apisource.apisourcetitle}}</a></li>
                                             </ul>
                                         </div>
                                     </div>

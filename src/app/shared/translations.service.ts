@@ -322,6 +322,7 @@ export class TranslationsService {
   t_SettingsComponent_SaveAlert: string = "Your settings are updated and saved!";
   t_SettingsComponent_Save: string = "Save";
   t_SettingsComponent_Choose: string = "Choose";
+  t_SettingsComponent_From: string = "from";
 
   // AboutComponent
   t_AboutComponent_PanelTitle: string = "About";
@@ -641,6 +642,7 @@ export class TranslationsService {
           this.t_SettingsComponent_SaveAlert = this.languages[languageId].t_SettingsComponent_SaveAlert;
           this.t_SettingsComponent_Save = this.languages[languageId].t_SettingsComponent_Save;
           this.t_SettingsComponent_Choose = this.languages[languageId].t_SettingsComponent_Choose;
+          this.t_SettingsComponent_From = this.languages[languageId].t_SettingsComponent_From;
           // AboutComponent
           this.t_AboutComponent_PanelTitle = this.languages[languageId].t_AboutComponent_PanelTitle;
           this.t_AboutComponent_PanelContent = this.languages[languageId].t_AboutComponent_PanelContent;

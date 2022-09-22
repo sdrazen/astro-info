@@ -40,34 +40,6 @@ export class MoonfeatureDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    //   var p = this._firebaseAuthService.listenForAuthStateChanges();
-
-    //   p.then(user => {
-    //     this.isLoggedIn = true;
-
-    //         // Translations
-    //         this.translate();
-
-    //         // Update panel title
-    //         this.t_MoonfeatureDetailsComponent_PanelTitle = this.t_MoonfeatureDetailsComponent_PanelTitle + ((this.selectedMoonfeature.name ? ": " + this.selectedMoonfeature.name : ""));
-
-    //         // Wikipedia term
-    //         this.wikipediaTermName = this.selectedMoonfeature.name;
-
-    //         // Wikipedia search
-    //         this._wikipediaService.rawSearch(this.wikipediaTermName).subscribe(items => this.wikipediaItems = items, (err) => this.errorMessageWikipedia = err);
-
-    //         // Flickr tags
-    //         this.flickrTags = this.selectedMoonfeature.name;
-
-    //         // Flickr search
-    //         this._flickrService.getPhotos(this.flickrTags).subscribe(items => this.flickrItems = items.photos.photo, (err) => this.errorMessageFlickr = err);
-
-    //   })
-    //   .catch(value => {this.isLoggedIn = false; this._router.navigate (['/']);})
-
-    this.isLoggedIn = true;
-
     // Translations
     this.translate();
 

@@ -1,0 +1,32 @@
+{
+	"-KfhLKvKpb9HljNYkwtS": {
+		"locationaddedbyemail": "sdrazen757@gmail.com",
+		"locationcomment": "Petrova gora",
+		"locationcountry": "Croatia",
+		"locationmarker": {
+			"markerlat": 45.3135,
+			"markerlng": 15.80667
+		},
+		"locationsqm": 21.43
+	},
+	"-KfhQiF9QC_9Ija3JEsk": {
+		"locationaddedbyemail": "sdrazen757@gmail.com",
+		"locationcomment": "Gornje Taborište",
+		"locationcountry": "Croatia",
+		"locationmarker": {
+			"markerlat": 45.44349,
+			"markerlng": 16.00544
+		},
+		"locationsqm": 21.2
+	},
+	"-KfhSL7-SmKlLWdlYC1W": {
+		"locationaddedbyemail": "sdrazen757@gmail.com",
+		"locationcomment": "Average of 3 measurements at zenith.",
+		"locationcountry": "Croatia",
+		"locationmarker": {
+			"markerlat": 45.56289,
+			"markerlng": 16.03237
+		},
+		"locationsqm": 21.1
+	}
+}

@@ -15,15 +15,31 @@ export class FlickrService {
     let per_page = '21'
     let tag_mode = 'all' // any = OR, all = AND
 
-    return this._http
-      .get('https://api.flickr.com/services/rest/?format=json&sort=random&method=' + method + '&tags=' + tags + '&per_page=' + per_page + '&tag_mode=' + tag_mode + '&api_key=' + api_key + '&nojsoncallback=1')
-      .pipe(
-        map((request) => request)
-      ).pipe(
-        catchError(err => {
-          throw ("Error fetching data from server: " + err)
-        })
-      )
+    if (Globals.API_SOURCE == 0) {
+      // Frontend
+      return this._http
+        .get('https://api.flickr.com/services/rest/?format=json&sort=random&method=' + method + '&tags=' + tags + '&per_page=' + per_page + '&tag_mode=' + tag_mode + '&api_key=' + api_key + '&nojsoncallback=1')
+        .pipe(
+          map((request) => request)
+        ).pipe(
+          catchError(err => {
+            throw ("Error fetching data from server: " + err)
+          })
+        )
+    }
+
+    if (Globals.API_SOURCE == 1) {
+      // Backend
+      return this._http
+        .get(Globals.MONGODB_API_URL + '/flickr?tags=' + tags)
+        .pipe(
+          map((request) => request)
+        ).pipe(
+          catchError(err => {
+            throw ("Error fetching data from server: " + err)
+          })
+        )
+    }
 
   }
 

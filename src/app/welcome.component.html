@@ -5,23 +5,18 @@
   <div class="panel-body">
 
     <div class="alert alert-info">
-        <div class="row">
-            <div class="col-md-10">
-                <h4><strong>{{t_WelcomeComponent_Title}}</strong></h4>
-                <!-- <br>
-                {{t_WelcomeComponent_YouAreLoggedInWith}} <b>{{currentUser !== undefined ? currentUser.providerData[0].providerId : ''}}</b> {{t_WelcomeComponent_YouAreLoggedInAs}} <b>{{currentUser !== undefined ? currentUser.displayName : ''}}</b> -->
-                <br><br>
-                <div *ngIf="!userSettingsDefined">
-                    {{t_WelcomeComponent_SettingsAdvise}} <a routerLink="/settings" class="alert-link color-blue">{{t_WelcomeComponent_Settings}}</a> {{t_WelcomeComponent_SettingsAdviseAddendum}}.
-                </div>                
-                <div *ngIf="userSettingsDefined">
-                    {{t_WelcomeComponent_YourGeolocation}}: {{lat}}, {{lng}} ({{t_WelcomeComponent_Click}} <a routerLink="/settings" class="alert-link color-blue">{{t_WelcomeComponent_Settings}}</a> {{t_WelcomeComponent_ToChange}})
-                </div>                
-            </div>
-            <!-- <div class="col-md-2" *ngIf="currentUser !== undefined && currentUser.photoURL != ''">
-                <img src="{{currentUser !== undefined ? currentUser.photoURL : ''}}" class="pull-right">
-            </div> -->
+      <div class="row">
+        <div class="col-md-10">
+          <h4><strong>{{t_WelcomeComponent_Title}}</strong></h4>
+          <br><br>
+          <div *ngIf="!userSettingsDefined">
+            {{t_WelcomeComponent_SettingsAdvise}} <a routerLink="/settings" class="alert-link color-blue">{{t_WelcomeComponent_Settings}}</a> {{t_WelcomeComponent_SettingsAdviseAddendum}}.
+          </div>
+          <div *ngIf="userSettingsDefined">
+            {{t_WelcomeComponent_YourGeolocation}}: {{lat}}, {{lng}} ({{t_WelcomeComponent_Click}} <a routerLink="/settings" class="alert-link color-blue">{{t_WelcomeComponent_Settings}}</a> {{t_WelcomeComponent_ToChange}})
+          </div>
         </div>
+      </div>
     </div>
 
   </div>
