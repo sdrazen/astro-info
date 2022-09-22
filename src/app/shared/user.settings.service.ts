@@ -19,10 +19,10 @@ export class UserSettingsService {
   userSettingsSetToVariables: boolean = false;
 
   // Variables for data source
-  dataSourceList: Array<any> = [{ "datasource": 0, "datasourcetitle": "Firebase" }, { "datasource": 1, "datasourcetitle": "MongoDb" }];
-  dataSourceTitle: string = "Firebase";
-  dataSourceLocation: string = "";
-  dataSourceCalledFrom: string = "";
+  dataSourceList: Array<any> = [{ "datasource": 0, "datasourcetitle": "MongoDb" }];
+  dataSourceTitle: string = "MongoDb";
+  dataSourceLocation: string = "Atlas";
+  dataSourceCalledFrom: string = "Vercel";
 
   // Variables for api source
   apiSourceList: Array<any> = [{ "apisource": 0, "apisourcetitle": "frontend" }, { "apisource": 1, "apisourcetitle": "backend" }];
@@ -121,11 +121,6 @@ export class UserSettingsService {
     let ret: string = "";
 
     if (Globals.DATA_SOURCE == 0) {
-      // Firebase
-      ret = `${Globals.FIREBASE_LOCATION}`;
-    }
-
-    if (Globals.DATA_SOURCE == 1) {
       // MongoDb
       ret = `${Globals.MONGODB_LOCATION}`;
     }
@@ -142,11 +137,6 @@ export class UserSettingsService {
     let ret: string = "";
 
     if (Globals.DATA_SOURCE == 0) {
-      // Firebase
-      ret = `${Globals.FIREBASE_CALLED_FROM}`;
-    }
-
-    if (Globals.DATA_SOURCE == 1) {
       // MongoDb
       ret = `${Globals.MONGODB_CALLED_FROM}`;
     }

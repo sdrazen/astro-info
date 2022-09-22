@@ -15,7 +15,7 @@ npm install
 -   info on past and future lunar and solar eclipses
 -   traslated to English, Croatian and German language
 -   ability to add more languages quickly and easily
--   data currently on Firebase and MongoDb (user switchable)
+-   data currently in MongoDb database
 -   insertable user data about astronomy stores and best astronomy locations
 -   astro calulator (RA, DEC, Alt/Az, object positions at given time etc.)
 -   new APOD (Astronomy Picture of the Day) every day
@@ -23,7 +23,7 @@ npm install
 
 ## Specifics
 
-This application is designed in a way that it can run in two ways: by default it uses its backend for fetching data (from MongoDb database) and API results. However, if something happens to the backend for any reason, this app can also work stand-alone and switch to fetching data (from Firebase database) and API results directly from frontend. So, **by default you don't need any API keys** to use or develop this application. But if You for any reason decide to switch to the stand-alone mode (you can do it in User Settings), you will have to provide two API keys of your own for the app to be able to provide its full functionality: **Flickr API key** and **NASA API key**. In that kind of scenario you can enter your API keys in the `common/globals.ts` file.
+This application is designed in a way that it can run in two ways: by default it uses its backend for fetching data (from MongoDb database) and API results. However, if something happens to the backend for any reason, this app can also call API results directly from frontend. In that case data from database will not be available but API call will still be fully functional (Google Maps API, Flickr API and NASA API). So, **by default you don't need any API keys** to use or develop this application. But if You for any reason decide to switch to the frontend mode for API calls (you can do it in user settings), you will have to provide three API keys of your own for the app to be able to provide its full functionality: **Google Maps API key**, **Flickr API key** and **NASA API key**. In that kind of scenario you can enter your API keys in the `common/globals.ts` file.
 
 ## Live application
 

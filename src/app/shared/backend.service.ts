@@ -14,18 +14,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Globals } from 'common/globals'
 import { map } from 'rxjs';
 
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyCUw3vpmS_KlTUTtKfyXFvNzYa8pM5Vb0k",
-  authDomain: "astroinfo-59d91.firebaseapp.com",
-  databaseURL: "https://astroinfo-59d91.firebaseio.com",
-  storageBucket: "astroinfo-59d91.appspot.com",
-  messagingSenderId: "162775545478"
-};
-firebase.initializeApp(config);
-
-declare var firebase: any;
-
 @Injectable()
 export class BackendService {
 
@@ -107,30 +95,6 @@ export class BackendService {
     let p = new Promise<void>((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        if (this.allObjects.length === 0) {
-          firebase.database().ref('/dsos').orderByChild(orderBy).on('child_added', (snapshot) => {
-            var object;
-            object = snapshot.val();
-            object["key"] = snapshot.key;
-            this.allObjects.push(object);
-            // Types
-            if (this.allObjectTypes.indexOf(object.type) === -1) {
-              this.allObjectTypes.push(object.type);
-            }
-            // Constellations
-            if (this.allConstellations.indexOf(object.constellation) === -1) {
-              this.allConstellations.push(object.constellation);
-            }
-            // Resolve
-            resolve();
-          }, (error) => { reject(error) });
-        } else {
-          resolve();
-        }
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         if (this.allObjects.length === 0) {
           let dataFromMongoDb;
@@ -197,26 +161,6 @@ export class BackendService {
     return p;
 
   }
-
-  // getObjectByKey(key: number, allObjects: Array<IDataObjectListModel>): Promise<any> {
-
-  //     this.objects = [];
-
-  //     let p = new Promise ((resolve, reject) => {
-
-  //         this.objects = allObjects.filter((value, index, array) => {
-  //                             return (
-  //                                 (parseInt(value.key) == key)
-  //                             );
-  //                         });
-
-  //         resolve(this.objects);
-
-  //     })
-
-  //     return p;
-
-  // }
 
   getObjectsBySearchCriteria(searchcriteria: ISearchCriteriaModel, itemsPerPage: number, allObjects: Array<IDataObjectListModel>): Promise<any> {
 
@@ -286,21 +230,6 @@ export class BackendService {
     let p = new Promise<void>((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        if (this.allStores.length === 0) {
-          firebase.database().ref('/stores').orderByChild(orderBy).on('child_added', (snapshot) => {
-            var store;
-            store = snapshot.val();
-            store["key"] = snapshot.key;
-            this.allStores.push(store);
-            resolve();
-          }, (error) => { reject(error) });
-        } else {
-          resolve();
-        }
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         if (this.allStores.length === 0) {
           let dataFromMongoDb;
@@ -337,17 +266,6 @@ export class BackendService {
     let p = new Promise((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        firebase.database().ref('/stores').push(store)
-          .then((snapshot) => {
-            store["key"] = snapshot.key;
-            this.allStores.push(store);
-            resolve(store);
-          })
-          .catch((error) => reject(error))
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json');
@@ -370,16 +288,6 @@ export class BackendService {
     let p = new Promise((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        firebase.database().ref('/stores/' + storeKey).set(store)
-          .then(() => {
-            store["key"] = storeKey;
-            resolve(store);
-          })
-          .catch((error) => reject(error))
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json');
@@ -401,15 +309,6 @@ export class BackendService {
     let p = new Promise<void>((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // firebase
-        firebase.database().ref('/stores/' + storeKey).remove()
-          .then(() => {
-            resolve();
-          })
-          .catch((error) => reject(error))
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         this._http.delete(Globals.MONGODB_API_URL + "/store/" + storeKey).subscribe(item => {
           // Resolve
@@ -428,21 +327,6 @@ export class BackendService {
     let p = new Promise<void>((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        if (this.allLocations.length === 0) {
-          firebase.database().ref('/locations').orderByChild(orderBy).on('child_added', (snapshot) => {
-            var location;
-            location = snapshot.val();
-            location["key"] = snapshot.key;
-            this.allLocations.push(location);
-            resolve();
-          }, (error) => { reject(error) });
-        } else {
-          resolve();
-        }
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         if (this.allLocations.length === 0) {
           let dataFromMongoDb;
@@ -479,17 +363,6 @@ export class BackendService {
     let p = new Promise((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        firebase.database().ref('/locations').push(location)
-          .then((snapshot) => {
-            location["key"] = snapshot.key;
-            this.allLocations.push(location);
-            resolve(location);
-          })
-          .catch((error) => reject(error))
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json');
@@ -512,16 +385,6 @@ export class BackendService {
     let p = new Promise((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        firebase.database().ref('/locations/' + locationKey).set(location)
-          .then(() => {
-            location["key"] = locationKey;
-            resolve(location);
-          })
-          .catch((error) => reject(error))
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json');
@@ -543,15 +406,6 @@ export class BackendService {
     let p = new Promise<void>((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        firebase.database().ref('/locations/' + locationKey).remove()
-          .then(() => {
-            resolve();
-          })
-          .catch((error) => reject(error))
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         this._http.delete(Globals.MONGODB_API_URL + "/location/" + locationKey).subscribe(item => {
           // Resolve
@@ -644,32 +498,6 @@ export class BackendService {
     let p = new Promise<void>((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        if (this.allMoonfeatures.length === 0) {
-          firebase.database().ref('/moonfeatures').orderByChild(orderBy).on('child_added', (snapshot) => {
-            var moonfeature;
-            moonfeature = snapshot.val();
-            moonfeature["key"] = snapshot.key;
-            moonfeature["featuretypetext"] = snapshot.val().featuretype.text;
-            moonfeature["approvalstatustext"] = snapshot.val().approvalstatus.text;
-            this.allMoonfeatures.push(moonfeature);
-            // Feature Types
-            if (this.allMoonfeatureTypes.indexOf(moonfeature.featuretypetext) === -1) {
-              this.allMoonfeatureTypes.push(moonfeature.featuretypetext);
-            }
-            // Approval status texts
-            if (this.allMoonfeatureApprovalStatusTexts.indexOf(moonfeature.approvalstatustext) === -1) {
-              this.allMoonfeatureApprovalStatusTexts.push(moonfeature.approvalstatustext);
-            }
-            // Resolve
-            resolve();
-          }, (error) => { reject(error) });
-        } else {
-          resolve();
-        }
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         if (this.allMoonfeatures.length === 0) {
 
@@ -830,23 +658,6 @@ export class BackendService {
     let p = new Promise<void>((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        if (this.allSolarEclipses.length === 0) {
-          firebase.database().ref('/solareclipses').orderByKey().on('child_added', (snapshot) => {
-            var solareclipse;
-            solareclipse = snapshot.val();
-            solareclipse["key"] = snapshot.key;
-            solareclipse["url"] = "https://eclipse.gsfc.nasa.gov/SEplot/SEplot" + (parseInt(snapshot.val().calendardate.substring(0, 4).toString()) <= 2050 ? "2001" : "2051") + "/" + "SE" + snapshot.val().calendardate.replace(/ /g, "") + snapshot.val().eclipsetype.substring(0, 1) + ".GIF";
-            this.allSolarEclipses.push(solareclipse);
-            // Resolve
-            resolve();
-          }, (error) => { reject(error) });
-        } else {
-          resolve();
-        }
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         if (this.allSolarEclipses.length === 0) {
           let dataFromMongoDb;
@@ -934,23 +745,6 @@ export class BackendService {
     let p = new Promise<void>((resolve, reject) => {
 
       if (Globals.DATA_SOURCE == 0) {
-        // Firebase
-        if (this.allLunarEclipses.length === 0) {
-          firebase.database().ref('/lunareclipses').orderByKey().on('child_added', (snapshot) => {
-            var lunareclipse;
-            lunareclipse = snapshot.val();
-            lunareclipse["key"] = snapshot.key;
-            lunareclipse["url"] = "https://eclipse.gsfc.nasa.gov/LEplot/LEplot" + (parseInt(snapshot.val().calendardate.substring(0, 4).toString()) <= 2050 ? "2001" : "2051") + "/" + "LE" + snapshot.val().calendardate.replace(/ /g, "") + snapshot.val().eclipsetype.substring(0, 1) + ".pdf";
-            this.allLunarEclipses.push(lunareclipse);
-            // Resolve
-            resolve();
-          }, (error) => { reject(error) });
-        } else {
-          resolve();
-        }
-      }
-
-      if (Globals.DATA_SOURCE == 1) {
         // MongoDb
         if (this.allLunarEclipses.length === 0) {
           let dataFromMongoDb;
